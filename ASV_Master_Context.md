@@ -431,3 +431,92 @@ For every electrical component, capture **voltage, current, signal type, connect
 - Recorded known transmitter, receiver, Arduino, servo, actuator, connector, battery, wiring, and tool inventory.
 - Established incremental POC approach.
 - Separated T8L transmitter power from future boat/propulsion power.
+
+---
+
+## 11. Previous Mistakes / Lessons Learned
+
+This section exists specifically to prevent repeating known recommendation and verification failures. These are not merely historical notes; they are required checks when making future ASV purchasing, wiring, and architecture recommendations.
+
+### 2026-09-16 — BOJACK 130-piece breadboard kit / connector mismatch
+
+**Mistake:**
+Recommended the BOJACK 130-piece breadboard jumper-wire kit for the early ER8/Arduino POC without verifying its actual contents against the required physical connections. The kit contains male-to-male jumper wires only. The ER8 exposes male header pins, so female-ended wiring is required for a direct connection.
+
+**Impact:**
+The kit does not provide the female-ended wires needed for the planned ER8 connection, despite having been recommended as part of the starter setup.
+
+**Prevention:**
+Before recommending a wiring kit, verify:
+- Exact kit contents.
+- Connector gender on both ends.
+- Pin pitch.
+- The physical connector/interface on every component in the intended signal path.
+- Whether the complete end-to-end connection can actually be assembled without soldering.
+
+Do not assume a generic "jumper wire kit" contains the required connector types.
+
+### 2026-08 — Hohm LIFE⁴ / Radiomaster T8L battery compatibility
+
+**Mistake:**
+Verified the purchase of Hohm LIFE⁴ 18650 cells for the Radiomaster T8L but failed to catch the battery-voltage compatibility issue the user subsequently identified: the Hohm cell is specified at 3.6/3.65V nominal while the T8L was being treated as expecting a 3.7V nominal-compatible cell.
+
+**Impact:**
+The battery recommendation was made without adequately verifying the exact T8L battery specification and compatibility requirements.
+
+**Prevention:**
+For any battery recommendation, verify against the exact device:
+- Cell chemistry.
+- Nominal voltage.
+- Fully charged voltage.
+- Number of cells.
+- Physical format.
+- Polarity/contact arrangement.
+- Device charging requirements.
+- Whether the device is designed to charge the proposed cell.
+- Manufacturer's stated compatible battery specifications.
+
+Do not treat "3.6V vs 3.7V" as interchangeable without verifying the actual device requirements.
+
+### 2026-08 — Incorrect Deutsch crimping tool
+
+**Mistake:**
+Recommended the wrong Deutsch crimping tool for the user's actual stamped-and-formed Deutsch contacts. After the mismatch was discovered, incorrectly suggested retaining the expensive incompatible crimper as a learning tool.
+
+**Impact:**
+The user spent money on tooling that did not serve the intended connector/contact system. Retaining it solely as a learning exercise would have compounded the unnecessary expense.
+
+**Correct resolution:**
+The correct path was to return the incompatible crimper and purchase the appropriate tool for the actual Deutsch contact being used.
+
+**Prevention:**
+Before recommending connector tooling, verify:
+- Exact Deutsch connector family.
+- Exact contact/terminal part number or contact type.
+- Stamped-and-formed vs. solid contact.
+- Applicable wire gauge.
+- Manufacturer/tool compatibility.
+- Whether the recommended tool actually crimps the specific contact.
+
+When an incorrectly recommended tool has been purchased, prioritize returning it and obtaining the correct tool when practical. Do not rationalize retaining an expensive incompatible tool merely as an educational exercise.
+
+### General purchasing rule established from these mistakes
+
+Before recommending that the user purchase an ASV component, tool, or kit, verify the recommendation against the actual project hardware and intended POC.
+
+At minimum verify:
+
+1. Exact manufacturer and model/part number.
+2. Physical interfaces and connector gender.
+3. Pin pitch and connector family where applicable.
+4. Electrical voltage/current requirements.
+5. Signal type and expected interface.
+6. Battery chemistry, voltage, charging, and device compatibility where applicable.
+7. Crimp/contact/tool compatibility where applicable.
+8. Soldering requirements versus the user's preference to avoid soldering.
+9. Whether the user already owns the required item.
+10. Whether the item is actually appropriate for the current POC.
+
+If any critical compatibility detail is unverified, explicitly mark it **UNVERIFIED** and do not recommend purchasing it yet.
+
+When comparing purchases, cost discipline matters: do not recommend buying or retaining an expensive, specialized item merely to create a learning opportunity when returning it and buying the correct item is the more appropriate path.
