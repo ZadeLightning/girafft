@@ -15,6 +15,8 @@ Chronological history of notable changes, discoveries, decisions, and project mi
 - Added `01_blink.ino` to establish basic Arduino program structure and digital output.
 - Added `02_serial_test.ino` to establish basic Serial communication.
 - Added `03_servo_sweep.ino` to establish basic servo output using the Arduino Servo library.
+- Corrected the Arduino sketch layout so each `.ino` file is inside a same-named sketch folder, as required by Arduino IDE.
+- Current Arduino sketch paths are `01_blink/01_blink.ino`, `02_serial_test/02_serial_test.ino`, and `03_servo_sweep/03_servo_sweep.ino` under `sketches/01_basics/`.
 - These sketches are intentionally hardware-light and can be written before the USB-C-to-USB-B cable and female-ended connectors arrive.
 
 ## 2026-09-16
