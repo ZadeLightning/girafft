@@ -421,21 +421,11 @@ For every electrical component, capture **voltage, current, signal type, connect
 
 ---
 
-## 10. Change Log
+## 10. Project History
 
-### 2026-09-17
-- Created a dedicated **`sketches/`** directory in the repository for Arduino/ASV POC sketches.
-- Added **`sketches/README.md`** documenting the intended organization and incremental POC approach.
-- Began the transition from development-environment setup into the first actual Arduino sketch.
+Detailed chronological history is maintained in **[`ASV_CHANGELOG.md`](./ASV_CHANGELOG.md)**.
 
-### 2026-09-16
-- Created initial ASV Master Context.
-- Established the document as the working source of truth for the project.
-- Recorded known hull specifications.
-- Recorded current RC/Arduino architecture.
-- Recorded known transmitter, receiver, Arduino, servo, actuator, connector, battery, wiring, and tool inventory.
-- Established incremental POC approach.
-- Separated T8L transmitter power from future boat/propulsion power.
+The Master Context intentionally does not retain a detailed chronological change log so that it remains focused on the current project state.
 
 ---
 
@@ -464,19 +454,20 @@ Do not assume a generic "jumper wire kit" contains the required connector types.
 ### 2026-08 — Hohm LIFE⁴ / Radiomaster T8L battery compatibility
 
 **Mistake:**
-Verified the purchase of Hohm LIFE⁴ 18650 cells for the Radiomaster T8L but failed to catch the battery-voltage compatibility issue the user subsequently identified: the Hohm cell is specified at 3.6/3.65V nominal while the T8L was being treated as expecting a 3.7V nominal-compatible cell.
+Verified the purchase of Hohm LIFE⁴ 18650 cells for the Radiomaster T8L but failed to catch the battery-voltage compatibility issue the user subsequently identified: the Hohm cell is specified at 3.6/3.65 V nominal, and the T8L was treated as though a generic 3.7 V nominal specification established compatibility without verifying the transmitter's actual supported cell and charging requirements.
 
 **Impact:**
-The battery recommendation was made without adequately verifying the exact T8L battery specification and compatibility requirements.
+The battery recommendation was made without sufficient verification of the complete battery/device compatibility requirements.
 
 **Prevention:**
-For any battery recommendation, verify against the exact device:
-- Cell chemistry.
+For battery recommendations, verify:
+- Chemistry.
 - Nominal voltage.
 - Full-charge voltage.
 - Physical dimensions.
-- Protection/cell configuration requirements.
-- Manufacturer's stated supported battery types.
-- Connector/polarity or battery-holder requirements.
+- Protection/configuration.
+- Manufacturer-supported battery types.
+- Connector and polarity.
+- Device charging architecture.
 
-Do not treat nominal voltages such as 3.6V and 3.7V as interchangeable without checking the device specification and charging architecture.
+Do not assume 3.6 V and 3.7 V nominal cells are interchangeable without checking the device requirements.
