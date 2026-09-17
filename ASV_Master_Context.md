@@ -300,15 +300,22 @@ Exact ER8 channel numbers and T8L control assignments should be recorded after t
 
 ### POC 1 — Arduino basics
 
-Goal: establish the development environment.
+Goal: establish the development environment and basic Arduino programming concepts.
 
 - Install/open Arduino IDE 2.3.10.
 - Connect Arduino Uno Rev3 via USB-B.
 - Confirm board/port selection.
 - Upload a basic sketch.
 - Confirm serial output / basic I/O.
+- Work through small independent sketches before introducing the T8L/ER8 signal chain.
 
-**Status:** In progress / setup phase.
+Current sketches in `sketches/01_basics/`:
+
+- `01_blink.ino` — basic digital output.
+- `02_serial_test.ino` — basic Serial output.
+- `03_servo_sweep.ino` — basic servo output using the Servo library.
+
+**Status:** Code written; awaiting USB-C-to-USB-B cable for physical upload/testing.
 
 ### POC 2 — Receiver signal visibility
 
@@ -316,7 +323,7 @@ Goal: prove the ER8 is receiving the T8L commands.
 
 - Power ER8 from an appropriate bench supply.
 - Bind ER8 to T8L.
-- Connect one PWM output to an Arduino input.
+- Connect one PWM output to an Arduino input using appropriate female-ended wiring.
 - Read pulse width.
 - Print pulse width over Serial Monitor.
 - Move the assigned transmitter control and confirm the measured signal changes.
@@ -380,13 +387,15 @@ Autonomous navigation/control should be treated as a later phase after reliable 
 - Use the user's actual hardware inventory as the design baseline.
 - Use the bench power supply during early electronics prototyping.
 - Keep T8L battery power separate from boat power discussions.
+- Develop code incrementally, starting with simple standalone sketches before integrating T8L/ER8/servo control.
 
 ### Avoid
 
 - Designing around unidentified components without first confirming their specifications.
 - Assuming a connector is electrically compatible solely because it physically mates.
 - Assuming the legacy hull electronics represent the desired architecture.
-- Jumping directly to high-power propulsion testing before validating the signal chain.
+- Jumping to high-power propulsion testing before validating the signal chain.
+- Introducing unnecessary software complexity before the basic signal path works.
 
 ---
 
@@ -406,6 +415,7 @@ Autonomous navigation/control should be treated as a later phase after reliable 
 12. Final fuse ratings and power-distribution architecture.
 13. Boat-side battery chemistry, voltage, capacity, and BMS/protection requirements.
 14. Exact connector gender/pinout for every component before integration.
+15. Exact electrical requirements of the chosen servo before connecting it to external power.
 
 ---
 
