@@ -10,8 +10,12 @@ Chronological history of notable changes, discoveries, decisions, and project mi
 
 - Created a dedicated **`sketches/`** directory in the repository for Arduino/ASV POC sketches.
 - Added **`sketches/README.md`** documenting the intended organization and incremental POC approach.
-- Began the transition from development-environment setup into the first actual Arduino sketch.
 - Restructured project documentation so the Master Context remains focused on current state while historical changes are maintained separately in this changelog.
+- Created **`sketches/01_basics/`** as the first Arduino sketch group.
+- Added `01_blink.ino` to establish basic Arduino program structure and digital output.
+- Added `02_serial_test.ino` to establish basic Serial communication.
+- Added `03_servo_sweep.ino` to establish basic servo output using the Arduino Servo library.
+- These sketches are intentionally hardware-light and can be written before the USB-C-to-USB-B cable and female-ended connectors arrive.
 
 ## 2026-09-16
 
