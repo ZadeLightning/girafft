@@ -423,6 +423,11 @@ For every electrical component, capture **voltage, current, signal type, connect
 
 ## 10. Change Log
 
+### 2026-09-17
+- Created a dedicated **`sketches/`** directory in the repository for Arduino/ASV POC sketches.
+- Added **`sketches/README.md`** documenting the intended organization and incremental POC approach.
+- Began the transition from development-environment setup into the first actual Arduino sketch.
+
 ### 2026-09-16
 - Created initial ASV Master Context.
 - Established the document as the working source of truth for the project.
@@ -468,55 +473,10 @@ The battery recommendation was made without adequately verifying the exact T8L b
 For any battery recommendation, verify against the exact device:
 - Cell chemistry.
 - Nominal voltage.
-- Fully charged voltage.
-- Number of cells.
-- Physical format.
-- Polarity/contact arrangement.
-- Device charging requirements.
-- Whether the device is designed to charge the proposed cell.
-- Manufacturer's stated compatible battery specifications.
+- Full-charge voltage.
+- Physical dimensions.
+- Protection/cell configuration requirements.
+- Manufacturer's stated supported battery types.
+- Connector/polarity or battery-holder requirements.
 
-Do not treat "3.6V vs 3.7V" as interchangeable without verifying the actual device requirements.
-
-### 2026-08 — Incorrect Deutsch crimping tool
-
-**Mistake:**
-Recommended the wrong Deutsch crimping tool for the user's actual stamped-and-formed Deutsch contacts. After the mismatch was discovered, incorrectly suggested retaining the expensive incompatible crimper as a learning tool.
-
-**Impact:**
-The user spent money on tooling that did not serve the intended connector/contact system. Retaining it solely as a learning exercise would have compounded the unnecessary expense.
-
-**Correct resolution:**
-The correct path was to return the incompatible crimper and purchase the appropriate tool for the actual Deutsch contact being used.
-
-**Prevention:**
-Before recommending connector tooling, verify:
-- Exact Deutsch connector family.
-- Exact contact/terminal part number or contact type.
-- Stamped-and-formed vs. solid contact.
-- Applicable wire gauge.
-- Manufacturer/tool compatibility.
-- Whether the recommended tool actually crimps the specific contact.
-
-When an incorrectly recommended tool has been purchased, prioritize returning it and obtaining the correct tool when practical. Do not rationalize retaining an expensive incompatible tool merely as an educational exercise.
-
-### General purchasing rule established from these mistakes
-
-Before recommending that the user purchase an ASV component, tool, or kit, verify the recommendation against the actual project hardware and intended POC.
-
-At minimum verify:
-
-1. Exact manufacturer and model/part number.
-2. Physical interfaces and connector gender.
-3. Pin pitch and connector family where applicable.
-4. Electrical voltage/current requirements.
-5. Signal type and expected interface.
-6. Battery chemistry, voltage, charging, and device compatibility where applicable.
-7. Crimp/contact/tool compatibility where applicable.
-8. Soldering requirements versus the user's preference to avoid soldering.
-9. Whether the user already owns the required item.
-10. Whether the item is actually appropriate for the current POC.
-
-If any critical compatibility detail is unverified, explicitly mark it **UNVERIFIED** and do not recommend purchasing it yet.
-
-When comparing purchases, cost discipline matters: do not recommend buying or retaining an expensive, specialized item merely to create a learning opportunity when returning it and buying the correct item is the more appropriate path.
+Do not treat nominal voltages such as 3.6V and 3.7V as interchangeable without checking the device specification and charging architecture.
