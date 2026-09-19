@@ -3,6 +3,7 @@
 
 void setup() {
   Serial.begin(9600);
+  Serial.println("Booted this shit up!");
 }
 
 void loop() {

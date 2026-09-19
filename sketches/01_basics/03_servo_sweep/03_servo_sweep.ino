@@ -8,7 +8,11 @@ Servo testServo;
 const int SERVO_PIN = 9;
 
 void setup() {
+  Serial.begin(9600);
+  Serial.println("Booted this shit up!");
   testServo.attach(SERVO_PIN);
+  Serial.println("Servo Attatched at Pin:");
+  Serial.println(SERVO_PIN);
 }
 
 void loop() {
