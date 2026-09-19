@@ -120,13 +120,18 @@ Do not assume these batteries are for the Arduino or boat power system. The curr
 
 ### 3.3 Servos
 
-#### High-torque waterproof servos
+#### High-torque waterproof servo
 
 **HiTec D646WP**
 
 - High torque
-- 32-bit
+- 32-bit digital
 - IP67
+- Operating voltage: **3.5–8.4 V DC**
+- Idle current: **30 mA @ 7.4 V**
+- No-load operating current: **330 mA @ 7.4 V**
+- Stall current: **2,200 mA @ 7.4 V**
+- Connector wire gauge: **22 AWG / 60 strand**
 - Intended use: control/actuation prototype and potentially steering/control mechanisms.
 - Exact quantity to be confirmed.
 
@@ -226,7 +231,18 @@ These are legacy/inventory batteries and are **not currently the planned power s
 
 ---
 
-### 3.8 Wire / electrical tools
+### 3.8 Bench power / electrical tools
+
+#### Bench power supply
+
+**NANKADF GC3010H**
+
+- Variable DC bench power supply
+- Output: **0–30 V DC**
+- Maximum current: **0–10 A**
+- Intended use: Arduino/receiver/servo and other early electronics prototyping.
+- Has adjustable voltage/current and output enable/disable functionality.
+- Model identification/specification should be treated as the current inventory baseline; verify against the physical label/manual if a future wiring decision depends on a detail not recorded here.
 
 #### Wire
 
@@ -257,7 +273,7 @@ These are legacy/inventory batteries and are **not currently the planned power s
 
 ## 4. Bench / Prototype Power
 
-The user has a **bench power supply** available.
+The user has a **NANKADF GC3010H 0–30 V / 0–10 A variable DC bench power supply** available.
 
 Current intended prototype approach:
 
@@ -302,20 +318,13 @@ Exact ER8 channel numbers and T8L control assignments should be recorded after t
 
 Goal: establish the development environment and basic Arduino programming concepts.
 
-- Install/open Arduino IDE 2.3.10.
-- Connect Arduino Uno Rev3 via USB-B.
-- Confirm board/port selection.
-- Upload a basic sketch.
-- Confirm serial output / basic I/O.
-- Work through small independent sketches before introducing the T8L/ER8 signal chain.
-
 Current sketches in `sketches/01_basics/`:
 
-- `01_blink.ino` — basic digital output.
-- `02_serial_test.ino` — basic Serial output.
-- `03_servo_sweep.ino` — basic servo output using the Servo library.
+- `01_blink/01_blink.ino` — basic digital output.
+- `02_serial_test/02_serial_test.ino` — basic Serial output.
+- `03_servo_sweep/03_servo_sweep.ino` — basic servo output using the Servo library.
 
-**Status:** Code written; awaiting USB-C-to-USB-B cable for physical upload/testing.
+**Status:** User successfully ran POC 1 and POC 2. Physical Arduino/Serial testing is working.
 
 ### POC 2 — Receiver signal visibility
 
@@ -328,17 +337,29 @@ Goal: prove the ER8 is receiving the T8L commands.
 - Print pulse width over Serial Monitor.
 - Move the assigned transmitter control and confirm the measured signal changes.
 
-### POC 3 — Receiver → servo
+**Status:** User successfully ran POC 2.
+
+### POC 3 — Servo sweep
+
+Goal: learn and verify direct Arduino → servo control using the HiTec D646WP.
+
+- Connect D646WP signal to Arduino D9.
+- Power the D646WP from the NANKADF bench supply, not the Uno's 3.3 V or 5 V rail.
+- Connect bench-supply negative and Arduino GND to establish a common signal reference.
+- Run the standalone servo sweep before integrating the ER8.
+- Verify center/min/max behavior and establish safe limits.
+
+### POC 4 — Receiver → servo
 
 Goal: command a servo based on an RC channel.
 
 - Read ER8 PWM input.
 - Map PWM to servo command.
-- Connect a known servo.
+- Connect the D646WP.
 - Verify center/min/max behavior.
 - Establish safe limits.
 
-### POC 4 — Two-channel manual control
+### POC 5 — Two-channel manual control
 
 Goal: demonstrate simultaneous throttle + steering inputs.
 
@@ -347,7 +368,7 @@ Goal: demonstrate simultaneous throttle + steering inputs.
 - Verify independent operation.
 - Define neutral/min/max values.
 
-### POC 5 — Control-output hardware
+### POC 6 — Control-output hardware
 
 Goal: replace the simple servo test with the appropriate actuator/motor-control interface.
 
@@ -356,19 +377,19 @@ Goal: replace the simple servo test with the appropriate actuator/motor-control 
 - Select appropriate driver/interface.
 - Add appropriate power distribution and protection.
 
-### POC 6 — Bench-scale propulsion/steering
+### POC 7 — Bench-scale propulsion/steering
 
 Goal: demonstrate actual propulsion and steering hardware without putting the system on the water.
 
-### POC 7 — Hull integration
+### POC 8 — Hull integration
 
 Goal: install the simplified system in the hull.
 
-### POC 8 — Manual water test
+### POC 9 — Manual water test
 
 Goal: verify basic remote-controlled operation.
 
-### POC 9 — Autonomy
+### POC 10 — Autonomy
 
 Autonomous navigation/control should be treated as a later phase after reliable manual control exists.
 
@@ -445,13 +466,13 @@ This section exists specifically to prevent repeating known recommendation and v
 
 ### 2026-09-16 — BOJACK 130-piece breadboard kit / connector mismatch
 
-**Mistake:**
+**Mistake:**  
 Recommended the BOJACK 130-piece breadboard jumper-wire kit for the early ER8/Arduino POC without verifying its actual contents against the required physical connections. The kit contains male-to-male jumper wires only. The ER8 exposes male header pins, so female-ended wiring is required for a direct connection.
 
-**Impact:**
+**Impact:**  
 The kit does not provide the female-ended wires needed for the planned ER8 connection, despite having been recommended as part of the starter setup.
 
-**Prevention:**
+**Prevention:**  
 Before recommending a wiring kit, verify:
 - Exact kit contents.
 - Connector gender on both ends.
@@ -463,13 +484,13 @@ Do not assume a generic "jumper wire kit" contains the required connector types.
 
 ### 2026-08 — Hohm LIFE⁴ / Radiomaster T8L battery compatibility
 
-**Mistake:**
+**Mistake:**  
 Verified the purchase of Hohm LIFE⁴ 18650 cells for the Radiomaster T8L but failed to catch the battery-voltage compatibility issue the user subsequently identified: the Hohm cell is specified at 3.6/3.65 V nominal, and the T8L was treated as though a generic 3.7 V nominal specification established compatibility without verifying the transmitter's actual supported cell and charging requirements.
 
-**Impact:**
+**Impact:**  
 The battery recommendation was made without sufficient verification of the complete battery/device compatibility requirements.
 
-**Prevention:**
+**Prevention:**  
 For battery recommendations, verify:
 - Chemistry.
 - Nominal voltage.
