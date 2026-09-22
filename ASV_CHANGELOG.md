@@ -46,3 +46,15 @@ The BOJACK 130-piece breadboard jumper-wire kit was recommended without verifyin
 The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without adequately verifying the transmitter's exact battery-voltage requirements against the cell's specified 3.6/3.65 V nominal rating.
 
 **Prevention:** Verify chemistry, nominal voltage, full-charge voltage, dimensions, protection/configuration, manufacturer-supported battery types, connector/polarity, and charging architecture. Do not assume 3.6 V and 3.7 V nominal cells are interchangeable without checking the device requirements.
+
+
+## 2026-09-21
+
+- Completed the receiver-signal POC using the Radiomaster T8L and ER8.
+- Confirmed the T8L and ER8 are successfully bound and communicating.
+- Confirmed **ER8 CH1 maps directly to the T8L right joystick X axis**, making CH1 the planned steering input without rebinding.
+- Measured CH1 PWM steering signal at approximately **984 µs minimum, 1493–1496 µs center, and 2001–2002 µs maximum**.
+- Confirmed the ER8 is powered from the NANKADF GC3010H bench supply while the Arduino Uno remains powered solely by USB.
+- Confirmed ER8 ground, Arduino GND, and bench-supply negative share a common ground.
+- Created `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino` for the next integrated POC.
+- POC 5 will use CH1 for steering, initially apply a 30 µs center dead zone, command the HiTec D646WP from Arduino D9, and read a second receiver channel for throttle without controlling propulsion hardware.
