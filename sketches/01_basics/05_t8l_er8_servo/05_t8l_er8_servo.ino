@@ -18,7 +18,7 @@
 #include <Servo.h>
 
 const int STEERING_PIN = 2;  // ER8 CH1
-const int THROTTLE_PIN = 3;  // ER8 CH3
+const int THROTTLE_PIN = 4;  // ER8 CH3 — D3 previously failed signal test; use D4
 
 // Servo integration — retained for the next stage.
 // const int SERVO_PIN = 9;
