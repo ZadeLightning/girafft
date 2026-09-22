@@ -288,27 +288,44 @@ Do not conflate the transmitter battery system with the boat's eventual propulsi
 
 ## 5. Current Control Architecture
 
-### Planned signal chain
+### Working signal chain
 
-**T8L transmitter → ER8 ELRS PWM receiver → Arduino Uno → control output → actuator/motor-control system**
+**T8L transmitter → ER8 ELRS PWM receiver → Arduino Uno → control output**
 
-Initial POC should establish:
+The current manual-control prototype uses:
 
-1. T8L transmits commands.
-2. ER8 receives them.
-3. Arduino reads the receiver PWM channels.
-4. Arduino maps the channels to understandable control values.
-5. Arduino produces a test output.
-6. A servo can be commanded from that output.
+- **ER8 CH1 → Arduino D2:** steering signal
+- **Arduino D9 → HiTec D646WP:** steering servo test output
+- **ER8 CH3 → Arduino D3:** planned throttle signal for POC 5; exact T8L channel assignment will be verified experimentally
+- Throttle is initially displayed over Serial only; it does not control propulsion hardware yet.
 
-Only after this works should the system be connected to more consequential hardware.
+### Confirmed T8L / ER8 mapping
 
-### MVP control mapping
+- **ER8 CH1 = T8L right joystick X axis**
+- CH1 is therefore immediately useful as the planned **steering** input.
+- The transmitter/receiver did not require rebinding or channel remapping to obtain the desired steering input.
+- T8L and ER8 are successfully bound and communicating.
 
-- Channel/input A: throttle
-- Channel/input B: steering
+### Confirmed CH1 signal characteristics
 
-Exact ER8 channel numbers and T8L control assignments should be recorded after the actual hardware is configured and tested.
+Observed during POC 4:
+
+| State | PWM pulse width |
+|---|---:|
+| Minimum | ~984 µs |
+| Center | ~1493–1496 µs |
+| Maximum | ~2001–2002 µs |
+
+The center signal varies by only a few microseconds. POC 5 uses an initial **30 µs steering dead zone** around a nominal 1493 µs center so normal signal jitter does not cause servo movement.
+
+### Power architecture used for POC 4
+
+- NANKADF GC3010H bench supply powers the ER8.
+- The HiTec D646WP remains physically connected but is not required for POC 4.
+- Arduino Uno is powered solely from USB.
+- ER8 ground, Arduino GND, and bench-supply negative share a common ground.
+- Arduino is **not** powered from the bench-supply rail.
+- ER8 RX/TX and EXT-V are unused.
 
 ---
 
@@ -318,55 +335,62 @@ Exact ER8 channel numbers and T8L control assignments should be recorded after t
 
 Goal: establish the development environment and basic Arduino programming concepts.
 
-Current sketches in `sketches/01_basics/`:
+Current sketches:
+- `01_blink/01_blink.ino`
+- `02_serial_test/02_serial_test.ino`
 
-- `01_blink/01_blink.ino` — basic digital output.
-- `02_serial_test/02_serial_test.ino` — basic Serial output.
-- `03_servo_sweep/03_servo_sweep.ino` — basic servo output using the Servo library.
+**Status: COMPLETE**
 
-**Status:** User successfully ran POC 1 and POC 2. Physical Arduino/Serial testing is working.
+### POC 2 — Servo control
 
-### POC 2 — Receiver signal visibility
+Goal: establish direct Arduino → HiTec D646WP control.
 
-Goal: prove the ER8 is receiving the T8L commands.
+- D646WP signal → Arduino D9.
+- D646WP powered from NANKADF bench supply.
+- Bench-supply negative and Arduino GND share a common reference.
+- User successfully ran the servo POC.
+- Full 0–180° behavior was not assumed; safe operating limits still need characterization.
 
-- Power ER8 from an appropriate bench supply.
-- Bind ER8 to T8L.
-- Connect one PWM output to an Arduino input using appropriate female-ended wiring.
-- Read pulse width.
-- Print pulse width over Serial Monitor.
-- Move the assigned transmitter control and confirm the measured signal changes.
+**Status: COMPLETE**
 
-**Status:** User successfully ran POC 2.
+### POC 3 — ER8 receiver signal visibility
 
-### POC 3 — Servo sweep
+Goal: prove the ER8 is receiving T8L commands and expose the PWM signal to the Arduino.
 
-Goal: learn and verify direct Arduino → servo control using the HiTec D646WP.
+- ER8 CH1 signal → Arduino D2.
+- Arduino measures pulse width with `pulseIn()`.
+- T8L → ER8 wireless link successfully established.
+- CH1 confirmed as T8L right joystick X axis.
+- Measured CH1 range: approximately 984–2002 µs.
+- Measured center: approximately 1493–1496 µs.
 
-- Connect D646WP signal to Arduino D9.
-- Power the D646WP from the NANKADF bench supply, not the Uno's 3.3 V or 5 V rail.
-- Connect bench-supply negative and Arduino GND to establish a common signal reference.
-- Run the standalone servo sweep before integrating the ER8.
-- Verify center/min/max behavior and establish safe limits.
+**Status: COMPLETE**
 
-### POC 4 — Receiver → servo
+### POC 4 — Receiver signal characterization
 
-Goal: command a servo based on an RC channel.
+Goal: characterize the useful steering signal before integrating the servo.
 
-- Read ER8 PWM input.
-- Map PWM to servo command.
-- Connect the D646WP.
-- Verify center/min/max behavior.
-- Establish safe limits.
+**Status: COMPLETE**
 
-### POC 5 — Two-channel manual control
+The actual repository sketch for this milestone is:
+`sketches/01_basics/04_receiver_signal/04_receiver_signal.ino`
 
-Goal: demonstrate simultaneous throttle + steering inputs.
+### POC 5 — T8L + ER8 + Arduino + servo
 
-- Read two ER8 PWM channels.
-- Display both values.
-- Verify independent operation.
-- Define neutral/min/max values.
+Goal: integrate the wireless steering signal with the D646WP while also observing throttle.
+
+- ER8 CH1 → Arduino D2 → steering.
+- ER8 CH3 → Arduino D3 → throttle signal.
+- Arduino D9 → D646WP signal.
+- Steering is mapped to a conservative initial servo range.
+- A dead zone is applied around the observed CH1 center.
+- Throttle is printed to Serial only.
+- No propulsion hardware is connected or controlled.
+
+Repository sketch:
+`sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino`
+
+**Status: READY TO TEST**
 
 ### POC 6 — Control-output hardware
 
@@ -424,7 +448,7 @@ Autonomous navigation/control should be treated as a later phase after reliable 
 
 1. Exact **ER8** model/version and PWM output specifications.
 2. Exact ER8 power-input requirements.
-3. Exact T8L channel/control mapping after setup.
+3. Exact T8L channel/control mapping beyond the confirmed CH1 steering assignment (POC 5 will verify the throttle channel).
 4. Quantity and exact configuration of HiTec D646WP servos.
 5. Exact specifications of the **GWIN MOTOR**.
 6. Exact specifications of the legacy motor/propulsion system in the hull.
