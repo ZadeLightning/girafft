@@ -390,10 +390,14 @@ Goal: integrate the wireless steering signal with the D646WP while also observin
 - Throttle is printed to Serial only.
 - No propulsion hardware is connected or controlled.
 
+**Final POC 5 result:** COMPLETE. Both receiver channels are captured simultaneously using Arduino Uno hardware interrupts; CH1 steering is mapped through the ±30 µs dead zone to the D646WP, and CH3 throttle is observed independently over Serial.
+
 Repository sketch:
 `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino`
 
-**Status: STAGE 2 READY TO TEST**
+**Status: COMPLETE**
+
+User successfully completed POC 5 Stage 2. T8L steering controls the HiTec D646WP through ER8 CH1 → Arduino D2 → Arduino D9, while ER8 CH3 simultaneously provides the throttle signal to Arduino D3 for Serial monitoring. The complete wireless control → receiver → Arduino → servo chain is working.
 
 ### POC 6 — Control-output hardware
 
@@ -459,6 +463,47 @@ POC 5 uses the Arduino Uno's hardware interrupt-capable pins:
 The POC 5 sketch now uses interrupt-based edge timing rather than sequential `pulseIn()` calls so both PWM channels can be captured concurrently.
 
 POC 5 Stage 2 now also commands the HiTec D646WP from CH1 on Arduino D9 while continuing to report CH3 throttle over Serial. Steering uses the observed CH1 calibration (984 / 1493 / 2002 µs) with a ±30 µs dead zone around the nominal center. Initial servo output is conservatively limited to 60°–120°.
+## Current Project Milestone
+
+### Completed through POC 5
+
+The project has now progressed from standalone Arduino fundamentals to a working wireless manual-control signal chain:
+
+```
+T8L
+ ├── Right Joystick X
+ │       ↓
+ │     ER8 CH1
+ │       ↓
+ │   Arduino D2
+ │       ↓
+ │   D646WP signal → D9
+ │
+ └── Left Joystick Y
+         ↓
+       ER8 CH3
+         ↓
+       Arduino D3
+         ↓
+      Serial monitor
+```
+
+Confirmed hardware/software behavior:
+- T8L successfully communicates with ER8 over ExpressLRS.
+- ER8 CH1–CH8 channel mapping has been experimentally documented.
+- CH1 steering range observed at approximately **984–2002 µs**, with center around **1489–1496 µs**.
+- CH3 throttle is continuously readable simultaneously with CH1.
+- Arduino Uno **D2 and D3** are used as interrupt-capable PWM inputs.
+- Sequential `pulseIn()` was replaced with interrupt-based edge timing for reliable simultaneous channel capture.
+- CH1 uses a **±30 µs steering dead zone** around a nominal 1493 µs center.
+- HiTec D646WP steering servo is successfully commanded from the T8L right joystick X axis.
+- Initial servo output is conservatively limited to **60°–120°**.
+- Arduino is USB-powered; ER8 and servo are bench-powered; grounds are common.
+- ER8 `RX/TX` and `EXT-V` remain unused for the current POC architecture.
+- ER8 `BATT` is understood as the dedicated receiver power connection and is preferred for future receiver power wiring.
+
+**Current overall status:** POCs 1–5 complete. The next project phase will be determined in a future session.
+
 ## 7. Decisions / Constraints
 
 ### Confirmed preferences
