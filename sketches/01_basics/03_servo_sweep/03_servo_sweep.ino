@@ -16,12 +16,15 @@ void setup() {
 }
 
 void loop() {
-  testServo.write(0);
-  delay(1000);
-
   testServo.write(90);
+  Serial.println("Servo moved to 90");
   delay(1000);
 
-  testServo.write(180);
+  testServo.write(60);
+  Serial.println("Servo moved to 60");
+  delay(1000);
+
+  testServo.write(120);
+  Serial.println("Servo moved to 120");
   delay(1000);
 }
