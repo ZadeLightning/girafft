@@ -331,31 +331,41 @@ The center signal varies by only a few microseconds. POC 5 uses an initial **30 
 
 ## 6. POC Roadmap
 
-### POC 1 — Arduino basics
+### POC 1 — Arduino blink
 
-Goal: establish the development environment and basic Arduino programming concepts.
+Goal: establish the Arduino development environment and basic digital output.
 
-Current sketches:
-- `01_blink/01_blink.ino`
-- `02_serial_test/02_serial_test.ino`
+Repository sketch:
+`sketches/01_basics/01_blink/01_blink.ino`
 
 **Status: COMPLETE**
 
-### POC 2 — Servo control
+### POC 2 — Arduino Serial
 
-Goal: establish direct Arduino → HiTec D646WP control.
+Goal: establish Arduino → computer Serial communication.
+
+Repository sketch:
+`sketches/01_basics/02_serial_test/02_serial_test.ino`
+
+**Status: COMPLETE**
+
+### POC 3 — Arduino → servo
+
+Goal: establish direct Arduino control of the HiTec D646WP.
 
 - D646WP signal → Arduino D9.
 - D646WP powered from NANKADF bench supply.
 - Bench-supply negative and Arduino GND share a common reference.
-- User successfully ran the servo POC.
 - Full 0–180° behavior was not assumed; safe operating limits still need characterization.
+
+Repository sketch:
+`sketches/01_basics/03_servo_sweep/03_servo_sweep.ino`
 
 **Status: COMPLETE**
 
-### POC 3 — ER8 receiver signal visibility
+### POC 4 — ER8 receiver signal visibility
 
-Goal: prove the ER8 is receiving T8L commands and expose the PWM signal to the Arduino.
+Goal: prove the ER8 is receiving T8L commands and expose one PWM channel to the Arduino.
 
 - ER8 CH1 signal → Arduino D2.
 - Arduino measures pulse width with `pulseIn()`.
@@ -364,26 +374,19 @@ Goal: prove the ER8 is receiving T8L commands and expose the PWM signal to the A
 - Measured CH1 range: approximately 984–2002 µs.
 - Measured center: approximately 1493–1496 µs.
 
-**Status: COMPLETE**
-
-### POC 4 — Receiver signal characterization
-
-Goal: characterize the useful steering signal before integrating the servo.
-
-**Status: COMPLETE**
-
-The actual repository sketch for this milestone is:
+Repository sketch:
 `sketches/01_basics/04_receiver_signal/04_receiver_signal.ino`
+
+**Status: COMPLETE**
 
 ### POC 5 — T8L + ER8 + Arduino + servo
 
 Goal: integrate the wireless steering signal with the D646WP while also observing throttle.
 
 - ER8 CH1 → Arduino D2 → steering.
-- ER8 CH3 → Arduino D3 → throttle signal.
+- ER8 CH3 → Arduino D3 → planned throttle signal; verify the T8L assignment experimentally.
 - Arduino D9 → D646WP signal.
-- Steering is mapped to a conservative initial servo range.
-- A dead zone is applied around the observed CH1 center.
+- Steering uses the observed CH1 range and an initial 30 µs center dead zone.
 - Throttle is printed to Serial only.
 - No propulsion hardware is connected or controlled.
 
