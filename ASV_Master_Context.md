@@ -393,7 +393,7 @@ Goal: integrate the wireless steering signal with the D646WP while also observin
 Repository sketch:
 `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino`
 
-**Status: READY TO TEST**
+**Status: STAGE 2 READY TO TEST**
 
 ### POC 6 — Control-output hardware
 
@@ -457,6 +457,8 @@ POC 5 uses the Arduino Uno's hardware interrupt-capable pins:
 - **D3 ← ER8 CH3 (throttle)**
 
 The POC 5 sketch now uses interrupt-based edge timing rather than sequential `pulseIn()` calls so both PWM channels can be captured concurrently.
+
+POC 5 Stage 2 now also commands the HiTec D646WP from CH1 on Arduino D9 while continuing to report CH3 throttle over Serial. Steering uses the observed CH1 calibration (984 / 1493 / 2002 µs) with a ±30 µs dead zone around the nominal center. Initial servo output is conservatively limited to 60°–120°.
 ## 7. Decisions / Constraints
 
 ### Confirmed preferences
