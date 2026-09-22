@@ -58,3 +58,27 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Confirmed ER8 ground, Arduino GND, and bench-supply negative share a common ground.
 - Created `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino` for the next integrated POC.
 - POC 5 will use CH1 for steering, initially apply a 30 µs center dead zone, command the HiTec D646WP from Arduino D9, and read a second receiver channel for throttle without controlling propulsion hardware.
+
+
+## 2026-09-21
+
+- Completed **POC 4 — ER8 receiver signal visibility / channel characterization**.
+- Experimentally mapped all eight ER8 PWM outputs to the T8L controls:
+  - CH1 = Right Joystick X
+  - CH2 = Right Joystick Y
+  - CH3 = Left Joystick Y
+  - CH4 = Left Joystick X
+  - CH5 = SE toggle
+  - CH6 = SA hold-to-press bumper
+  - CH7 = SB three-position switch
+  - CH8 = SC three-position switch
+- Confirmed CH1 steering pulse range of approximately 984–2002 µs with a center around 1489–1496 µs.
+- Confirmed CH3 is a continuously variable left-joystick Y input and does not self-center.
+- Completed **POC 5 Stage 1** by replacing sequential `pulseIn()` reads with interrupt-based PWM capture so CH1 and CH3 can be observed simultaneously.
+- Completed **POC 5 Stage 2** by mapping CH1 steering to the HiTec D646WP on Arduino D9 while continuing to monitor CH3 throttle over Serial.
+- Implemented a ±30 µs steering dead zone around the nominal 1493 µs CH1 center.
+- Used a conservative initial D646WP command range of 60°–120°.
+- Verified the complete working chain: **T8L → ER8 → Arduino → D646WP**, with throttle simultaneously visible on Serial.
+- Confirmed Arduino D2 and D3 are both suitable interrupt-capable PWM inputs; the earlier apparent D3 failure was caused by blocking sequential `pulseIn()` calls, not a bad Arduino pin.
+- Established ER8 BATT as the preferred dedicated receiver power connection for future wiring; RX/TX and EXT-V remain unused.
+- POC 5 is now **COMPLETE**.
