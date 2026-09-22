@@ -446,12 +446,17 @@ The user identified two additional controls on the T8L that may be assigned to h
 
 These Channel 9/10 assignments are **expected, not experimentally verified**. The ER8 used in this POC exposes only CH1–CH8 PWM outputs. The separate **BATT** connection on the ER8 was not used or tested as an additional channel; it is treated as the receiver power/battery connection, not a ninth PWM output.
 
-## Arduino Pin Issue
+## Arduino Pin / PWM Capture Note
 
-During POC 5 two-channel signal testing, Arduino **digital pin D3** failed to produce a detectable pulse for the ER8 CH3 signal. The same receiver/control signal was experimentally verified on the ER8 and the CH1/D2 path remains functional. D3 should therefore be treated as **suspect / currently unusable for this project** rather than assumed reliable.
+During POC 5 two-channel signal testing, the initial `pulseIn()` implementation made Arduino D3 appear to fail when CH1 was also connected. A live test showed that CH3 immediately produced valid readings when CH1 was disconnected, demonstrating that the receiver channel and Arduino input path were functional.
 
-POC 5 throttle input has been remapped to **Arduino D4**. Re-test the CH3 signal on D4 before proceeding with servo integration.
+The actual issue was the **blocking nature of sequential `pulseIn()` calls** when trying to read two continuously generated PWM channels. D3 is therefore **not considered bad**.
 
+POC 5 uses the Arduino Uno's hardware interrupt-capable pins:
+- **D2 ← ER8 CH1 (steering)**
+- **D3 ← ER8 CH3 (throttle)**
+
+The POC 5 sketch now uses interrupt-based edge timing rather than sequential `pulseIn()` calls so both PWM channels can be captured concurrently.
 ## 7. Decisions / Constraints
 
 ### Confirmed preferences
