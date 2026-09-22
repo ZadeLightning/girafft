@@ -422,6 +422,30 @@ Autonomous navigation/control should be treated as a later phase after reliable 
 
 ---
 
+## T8L Channels
+
+The following channel mapping was experimentally observed on the user's T8L + ER8 setup. These are the **8 PWM channels available on the ER8**. Values are pulse widths in microseconds.
+
+| Channel # | T8L Control (min, approx. middle, max) |
+|---|---|
+| Channel 1 | Right Joystick X (**984, 1489–1496, 2002**) |
+| Channel 2 | Right Joystick Y (**984, 1489–1496, 2002**) |
+| Channel 3 | Left Joystick Y (**984, middle hard to approximate because it does not self-center, 2002**) |
+| Channel 4 | Left Joystick X (**984, 1489–1496, 2002**) |
+| Channel 5 | Left Toggle button "SE" (**995–1001 not pushed in, 1989–1995 pushed in**) |
+| Channel 6 | Left Bumper, hold-to-press "SA" (**995–1001 not pushed in, 1989–1995 pushed in**) |
+| Channel 7 | Left Three-position Switch "SB" (**995–1001 bottom, 1492–1498 middle, 1989–1996**) |
+| Channel 8 | Right Three-position Switch "SC" (**995–1001 bottom, 1492–1498 middle, 1989–1996**) |
+
+### Additional T8L controls not represented by the ER8's 8 PWM outputs
+
+The user identified two additional controls on the T8L that may be assigned to higher-numbered channels:
+
+- **R Bumper, hold-to-press "SD"** — expected **Channel 9** based on the observed channel pattern. Same type/location as CH6 "SA", but on the right side.
+- **R Wheel Spinner "S1"** — expected **Channel 10** based on the observed channel pattern. Same general location/type as CH5 "SE", but on the right side; finite-rotation single-axis wheel. Minimum and maximum pulse widths are currently **unknown**.
+
+These Channel 9/10 assignments are **expected, not experimentally verified**. The ER8 used in this POC exposes only CH1–CH8 PWM outputs. The separate **BATT** connection on the ER8 was not used or tested as an additional channel; it is treated as the receiver power/battery connection, not a ninth PWM output.
+
 ## 7. Decisions / Constraints
 
 ### Confirmed preferences
