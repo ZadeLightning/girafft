@@ -11,6 +11,25 @@
 
 The project is a from-scratch, hands-on Autonomous Surface Vessel (ASV) build.
 
+### High-level project goal
+
+> **What is the simplest hardware architecture that will make this hull a reliable RC boat, and what do we need to make it happen?**
+
+The true north star is a **fully functioning, manually controlled RC boat** that can reliably operate on the water. The Radiomaster T8L → ER8 → Arduino control chain is intended to remain part of the actual on-water boat, not merely a disposable prototype.
+
+### Current project scope
+
+For now, deliberately table added complexity. The following are **out of scope**:
+
+- Telemetry
+- GPS
+- Autonomy
+- Autonomous navigation
+- Computer vision
+- Other advanced navigation/vehicle features
+
+These should not drive current architecture or purchasing decisions. The immediate objective is a simple, reliable RC boat.
+
 ### Design philosophy
 
 - Start simple.
@@ -20,6 +39,8 @@ The project is a from-scratch, hands-on Autonomous Surface Vessel (ASV) build.
 - Avoid soldering where practical; use appropriate crimped connectors, pin/socket connections, and off-the-shelf wiring.
 - Validate each subsystem independently before integrating it.
 - Use the actual inventoried hardware as the design baseline.
+- Prefer purchasing hardware that will be used in the final on-water RC boat, rather than buying disposable prototype hardware.
+- Let small-scale POCs prove concepts, but do not treat POC completion as the project goal; the boat is the goal.
 
 ### Current MVP control concept
 
@@ -34,7 +55,7 @@ Preferred operator interface:
 - RC receiver provides the control signals.
 - A microcontroller (initially Arduino Uno R3) will interpret receiver signals and command the actuators/motor-control hardware.
 
-Autonomy comes later. The immediate goal is reliable manual control and subsystem understanding.
+Advanced autonomy/navigation features are explicitly out of scope for the current project phase. The immediate goal is reliable manual RC control and a functioning on-water boat.
 
 ---
 
@@ -504,11 +525,49 @@ Confirmed hardware/software behavior:
 
 **Current overall status:** POCs 1–5 complete. The next project phase will be determined in a future session.
 
+## 7. Final RC Boat Development Process
+
+Now that the small-scale foundational POCs are complete, the project has transitioned from primarily software/electronics fundamentals to **hardware-focused design and integration**. Future work should follow this five-step process:
+
+### 1. Design
+
+Define the simplest viable hardware architecture for a reliable RC boat before purchasing components. Establish what each subsystem must do and how the major components connect.
+
+### 2. Understand what parts we have
+
+Inventory and characterize the hardware already available. Use exact manufacturer, model/part number, electrical specifications, connector type, mechanical interfaces, and condition whenever known. Do not design around unidentified components without first confirming what they are capable of.
+
+### 3. Understand what parts we need
+
+From the design and existing inventory, identify the actual gaps. Produce a concrete list of required components rather than shopping opportunistically or buying generic prototype parts.
+
+### 4. Analyze options
+
+For each required component, evaluate realistic alternatives using compatibility, electrical requirements, mechanical fit, marine suitability, connector strategy, serviceability, cost, availability, and whether the component will remain in the final boat.
+
+### 5. Confirm compatibility
+
+Before purchasing, verify the complete end-to-end system. Check electrical compatibility, voltage/current requirements, signal interfaces, connector gender/pinout, physical fit, mechanical interfaces, power distribution, and environmental suitability. A component should be purchased only after its role and compatibility with the surrounding system are understood.
+
+**Hardware purchasing principle:** The next purchases should preferentially be **final-boat hardware** that will actually remain on the vessel when it goes on the water. Do not optimize for the cheapest temporary POC if a reasonable final component can be characterized and tested on the bench first.
+
+**Working sequence:**
+
+Design → Understand what parts we have → Understand what parts we need → Analyze options → Confirm compatibility → Purchase/build
+
+This process replaces the previous POC-centric mindset as the primary way of organizing the project. POCs remain useful as validation steps inside this process, but they are no longer the project's primary milestones.
+
+---
+
 ## 7. Decisions / Constraints
 
 ### Confirmed preferences
 
+- The true north star is a simple, reliable, fully functioning RC boat that can operate on the water.
 - Build from scratch rather than reproduce the legacy electronics system.
+- Treat the T8L → ER8 → Arduino chain as part of the final boat architecture, not throwaway prototype hardware.
+- Prefer final-boat hardware for new purchases whenever practical.
+- Use the five-step Design → Understand what parts we have → Understand what parts we need → Analyze options → Confirm compatibility process for hardware decisions.
 - Keep the architecture simple.
 - Prefer incremental POCs.
 - Minimize soldering.
@@ -517,6 +576,7 @@ Confirmed hardware/software behavior:
 - Use the user's actual hardware inventory as the design baseline.
 - Use the bench power supply during early electronics prototyping.
 - Keep T8L battery power separate from boat power discussions.
+- Keep telemetry, GPS, autonomy, navigation, computer vision, and similar added complexity out of the current project scope.
 - Develop code incrementally, starting with simple standalone sketches before integrating T8L/ER8/servo control.
 
 ### Avoid
