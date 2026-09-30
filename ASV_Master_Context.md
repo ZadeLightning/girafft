@@ -748,3 +748,43 @@ For battery recommendations, verify:
 - Device charging architecture.
 
 Do not assume 3.6 V and 3.7 V nominal cells are interchangeable without checking the device requirements.
+
+
+## 2026-09-29 — Trolling-motor control requirements
+
+The current Option C investigation is looking for a trolling-motor solution that can plausibly become final-boat hardware while remaining compatible with the project's simple T8L → ER8 → Arduino architecture.
+
+### Current requirements
+
+1. **Saltwater friendly** — suitable for the intended marine environment and specifically rated/documented for saltwater use.
+2. **Lightweight** — minimize propulsion-system weight; exact maximum acceptable motor weight is TBD until hull mounting and balance constraints are known.
+3. **Investigate control methods**:
+   - Mechanical servo actuation of a tiller, speed control, or other user-facing control.
+   - Direct electronic control from Arduino through a documented or accessible interface.
+   - Use of the motor's own remote-control/transmitter system if it provides a practical path to remote operation.
+4. **Potential remote steering** — determine whether the motor can be steered remotely by mechanically rotating its built-in tiller with a servo, or by commanding a built-in electronic steering system/interface.
+
+### Additional screening criteria
+
+- Prefer **12 V** unless there is a compelling reason to move to 24 V/36 V.
+- Thrust must be appropriate to the actual loaded hull displacement; do not select solely from marketing categories.
+- Maximum current draw must support a practical battery, breaker/fuse, wiring, connector, and power-distribution design.
+- Shaft length and propeller depth must fit the hull geometry and eventual waterline.
+- Mounting should preferably use or reasonably adapt the existing stern/transom bracket, but its structural capacity must be verified first.
+- Steering must provide sufficient authority and mechanical travel.
+- Determine throttle behavior: forward/reverse, variable vs. discrete speed, neutral/off, and stop/failsafe behavior.
+- Favor corrosion-resistant, serviceable hardware with available replacement parts.
+- Do not make a proprietary wireless remote the primary architecture unless its integration path is practical.
+- Treat reverse engineering as a higher-complexity option than a documented electrical interface or simple mechanical servo actuation.
+- Prefer hardware that can remain in the final boat rather than temporary test-only hardware.
+
+### Control paths under investigation
+
+| Path | Concept | Main question |
+|---|---|---|
+| **C1 — Mechanical tiller actuation** | Arduino → servo → physical motor control | Can a servo reliably actuate steering/throttle without creating a fragile mechanism? |
+| **C2 — Direct electrical interface** | Arduino → motor's accessible control interface | Does the motor expose a practical signal/interface Arduino can command? |
+| **C3 — Motor's own remote** | Motor ↔ supplied wireless controller | Can the existing remote system be used without excessive reverse engineering? |
+| **C4 — Custom/third-party RC interface** | T8L/ER8 → compatible motor controller/receiver path | Does a supported interface exist that preserves the current RC architecture? |
+
+These are investigation categories, not decisions. No trolling motor should be purchased until its control path, power requirements, mounting approach, and marine suitability are sufficiently understood.
