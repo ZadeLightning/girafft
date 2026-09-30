@@ -46,8 +46,10 @@ These should not drive current architecture or purchasing decisions. The immedia
 
 The initial control MVP has two operator inputs:
 
-1. **Throttle:** power/speed command for the propulsion motor/engine.
-2. **Steering:** left/right command for the rudder/prop steering mechanism.
+1. **Throttle:** power/speed command for the propulsion system.
+2. **Steering:** left/right command for the boat's steering mechanism.
+
+The steering mechanism is **not yet committed to a dedicated rudder**. A steerable propulsion unit, including an electric trolling motor, is now an explicit architecture candidate.
 
 Preferred operator interface:
 
@@ -78,6 +80,11 @@ Advanced autonomy/navigation features are explicitly out of scope for the curren
 
 - Hull is intended to serve as the platform for the new simplified ASV system.
 - The project is **not** intended to reproduce the previous system installed in the hull.
+- The hull has a **finbox on the underside**, approximately amidships, that accepts the supplied stand-up-paddleboard-style fin.
+- The supplied fin appears intended to provide a fixed lateral stabilizing surface rather than act as a conventional steerable rudder.
+- The stern/transom has an existing **metal mounting/bracket assembly** that may be relevant to a future propulsion mounting solution; its original purpose and load capacity are not yet verified.
+- A separate vertical metal tube/legacy structure is visible through the deck near the aft/mid hull area; its function remains unknown.
+- Photos show enough existing structure that a **transom-mounted or stern-mounted electric trolling motor** should be investigated before designing a dedicated rudder installation.
 
 ---
 
@@ -320,6 +327,73 @@ The current manual-control prototype uses:
 - **ER8 CH3 → Arduino D3:** planned throttle signal for POC 5; exact T8L channel assignment will be verified experimentally
 - Throttle is initially displayed over Serial only; it does not control propulsion hardware yet.
 
+### Step 1 — Candidate propulsion/steering architecture
+
+The current design investigation includes three broad architectures:
+
+**A — Conventional propulsion + dedicated rudder**
+```
+Arduino → ESC → propulsion motor → propeller
+Arduino → steering servo → rudder
+```
+
+**B — Steerable propulsion unit**
+```
+Arduino → motor controller → motor + propeller
+Arduino → steering actuator → rotates propulsion unit
+```
+
+**C — Electric trolling motor**
+```
+Arduino → trolling-motor throttle/control
+Arduino → steering actuator or steering interface
+                 ↓
+        steerable trolling motor
+                 ↓
+             propeller
+```
+
+Option C is now a priority investigation because:
+- The naval architect who sold the hull specifically mentioned the possibility of an **electric trolling motor**.
+- The hull already has an underside **finbox and removable SUP fin**, which may provide fixed lateral stability without requiring a conventional rudder.
+- The stern has an existing metal bracket/mounting structure that may provide a starting point for propulsion mounting, although this must be characterized before relying on it.
+- A trolling motor packages the electric motor, propeller, shaft, and basic speed-control hardware into one propulsion assembly, potentially reducing custom mechanical fabrication.
+
+This does **not** mean a trolling motor has been selected. Before purchase, characterize:
+- Available transom mounting geometry.
+- Existing stern bracket dimensions and function.
+- Finbox dimensions and fin geometry.
+- Required propeller depth.
+- Required shaft length.
+- Motor thrust/power requirement for this hull.
+- Trolling motor throttle/control interface and whether it can be commanded by the Arduino architecture.
+- Steering method: direct mechanical actuation of the motor/shaft versus an electronically steerable motor.
+- Boat battery voltage/current requirements and protection.
+
+A current design hypothesis is:
+
+```
+                 T8L
+                  ↓
+                 ER8
+                  ↓
+               Arduino
+              ↙       ↘
+       steering       throttle
+           ↓              ↓
+   steerable trolling   trolling
+       motor unit        motor
+           ↓              ↓
+        propeller → thrust direction
+           
+       fixed SUP fin
+       in existing finbox
+```
+
+The SUP fin should be treated as a **candidate fixed stabilizing surface**, not assumed to be structurally adequate for propulsion loads or steering loads.
+
+---
+
 ### Confirmed T8L / ER8 mapping
 
 - **ER8 CH1 = T8L right joystick X axis**
@@ -523,7 +597,7 @@ Confirmed hardware/software behavior:
 - ER8 `RX/TX` and `EXT-V` remain unused for the current POC architecture.
 - ER8 `BATT` is understood as the dedicated receiver power connection and is preferred for future receiver power wiring.
 
-**Current overall status:** POCs 1–5 complete. The next project phase will be determined in a future session.
+**Current overall status:** POCs 1–5 complete. The project is now in **Step 1 — Design** of the hardware-focused development process. Electric trolling-motor propulsion/steering (Option C) is an explicit architecture candidate and should be investigated before committing to a dedicated rudder/propulsion system.
 
 ## 7. Final RC Boat Development Process
 
@@ -599,9 +673,12 @@ This process replaces the previous POC-centric mindset as the primary way of org
 6. Exact specifications of the legacy motor/propulsion system in the hull.
 7. Whether the hull's existing Deutsch connectors can be reused.
 8. Identity/function of the long metal tube through the hull.
-9. Final steering mechanism.
-10. Final propulsion architecture.
-11. Marine-grade status of the user's 18 AWG wire.
+9. Whether the supplied finbox/SUP fin should remain as the fixed lateral stabilizer.
+10. Dimensions, function, and load capacity of the existing stern metal bracket/mounting assembly.
+11. Final steering mechanism: dedicated rudder, steerable propulsion unit, or trolling-motor steering.
+12. Final propulsion architecture, with an electric trolling motor now an explicit candidate.
+13. Exact trolling-motor control interface compatible with the Arduino architecture, if Option C is selected.
+14. Marine-grade status of the user's 18 AWG wire.
 12. Final fuse ratings and power-distribution architecture.
 13. Boat-side battery chemistry, voltage, capacity, and BMS/protection requirements.
 14. Exact connector gender/pinout for every component before integration.
