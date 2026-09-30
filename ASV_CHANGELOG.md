@@ -82,3 +82,17 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Confirmed Arduino D2 and D3 are both suitable interrupt-capable PWM inputs; the earlier apparent D3 failure was caused by blocking sequential `pulseIn()` calls, not a bad Arduino pin.
 - Established ER8 BATT as the preferred dedicated receiver power connection for future wiring; RX/TX and EXT-V remain unused.
 - POC 5 is now **COMPLETE**.
+
+
+## 2026-09-29
+
+- Began **Step 1 — Design** of the hardware-focused RC boat architecture.
+- User identified the hull's existing **underside finbox and supplied SUP-style fin** as potentially useful for fixed lateral stabilization.
+- Photos documented an existing **stern/transom metal bracket/mounting assembly** whose original purpose and load capacity are not yet verified.
+- Added **Option C — electric trolling motor** as an explicit propulsion/steering architecture candidate.
+- Rationale for investigating Option C:
+  - The naval architect who sold the hull suggested an electric trolling motor.
+  - A trolling motor can package motor, propeller, shaft, and speed-control hardware into one propulsion assembly.
+  - A steerable trolling motor could eliminate the need for a separate rudder and rudder linkage.
+  - The existing finbox/SUP fin may provide fixed lateral stability while the propulsion unit provides directional thrust.
+- No trolling motor has been selected or purchased. Required next checks include mounting geometry, finbox/fin dimensions, propeller depth, shaft length, thrust requirement, control interface, steering mechanism, battery requirements, and compatibility with the existing Arduino architecture.
