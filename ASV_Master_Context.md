@@ -788,3 +788,23 @@ The current Option C investigation is looking for a trolling-motor solution that
 | **C4 — Custom/third-party RC interface** | T8L/ER8 → compatible motor controller/receiver path | Does a supported interface exist that preserves the current RC architecture? |
 
 These are investigation categories, not decisions. No trolling motor should be purchased until its control path, power requirements, mounting approach, and marine suitability are sufficiently understood.
+
+
+### 2026-09-29 — Refined Option C direction
+
+The user refined the trolling-motor investigation after reviewing initial candidates:
+
+- Avoid mechanically hacking the throttle if possible. Combining throttle hacking with steering/tiller hacking is considered unnecessarily difficult and fragile.
+- Mechanical tiller/steering actuation remains acceptable. A servo physically turning the trolling motor for steering is still a viable path to investigate.
+- Avoid deep reverse engineering. The project should not depend on undocumented proprietary protocols, fragile software integrations, or a large amount of reverse-engineering work merely to make the motor controllable.
+- Avoid high-cost electronic-steering trolling motors. Motors in the $1,000+ class are outside the intended budget. Approximately $600 is already considered budget-stretching rather than a target price.
+- Preserve the Arduino where practical. The Arduino Uno should remain part of the control architecture if a practical, robust interface can be built around it. This is both technically useful and an intentional part of the hands-on project.
+- Manual override/failsafe is acknowledged as required but is intentionally tabled for later architecture work. It should not yet constrain the trolling-motor shortlist beyond noting that it will eventually need to be addressed.
+
+A particularly interesting sub-architecture is now:
+
+T8L → ER8 → Arduino
+  ├── steering servo → physically rotates trolling motor
+  └── electronic motor controller → trolling-motor propulsion
+
+This could avoid mechanically actuating the trolling motor's throttle while retaining the Arduino and using the trolling motor primarily as a motor/propeller/shaft/steering assembly. Newport documents external PWM speed controllers for its conventional trolling motors, but its documented PWM approach uses a manual speed-control device; whether an Arduino-compatible high-current controller can replace that function must be investigated rather than assumed.
