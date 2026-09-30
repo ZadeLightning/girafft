@@ -104,3 +104,14 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Added screening criteria covering voltage, thrust versus actual hull displacement, maximum current draw, battery/wiring implications, shaft length, propeller depth, mounting compatibility, steering authority, throttle/forward/reverse behavior, stop/failsafe behavior, marine serviceability, proprietary-interface risk, reverse-engineering complexity, and final-boat suitability.
 - Established C1–C4 as investigation categories rather than decisions: mechanical tiller actuation, direct electrical interface, motor's own wireless remote, and custom/third-party RC interface.
 - Began online investigation of commercially available saltwater trolling motors and their control interfaces. No motor selected or purchased.
+
+
+## 2026-09-29 — Refined trolling-motor direction
+
+- User clarified that mechanically hacking the trolling motor throttle should generally be avoided; steering/tiller actuation alone remains acceptable.
+- User is opposed to deep reverse engineering of proprietary motor controls unless the interface is unusually well documented and robust.
+- User considers $1,000+ electronic-steering motors outside the budget; approximately $600 is already a stretch rather than a target.
+- User wants to retain the Arduino Uno as part of the boat control architecture where practical.
+- Manual override/failsafe remains a required future design topic but is intentionally tabled for now.
+- Added a promising sub-architecture to investigate: Arduino-controlled steering servo plus a separate electronic high-current motor controller for propulsion, potentially avoiding mechanical throttle hacking while retaining the Arduino.
+- Newport's documented external PWM approach is noted as a lead, but Arduino compatibility and high-current implementation still require verification.
