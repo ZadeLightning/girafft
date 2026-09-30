@@ -96,3 +96,11 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
   - A steerable trolling motor could eliminate the need for a separate rudder and rudder linkage.
   - The existing finbox/SUP fin may provide fixed lateral stability while the propulsion unit provides directional thrust.
 - No trolling motor has been selected or purchased. Required next checks include mounting geometry, finbox/fin dimensions, propeller depth, shaft length, thrust requirement, control interface, steering mechanism, battery requirements, and compatibility with the existing Arduino architecture.
+
+
+## 2026-09-29 — Trolling-motor control requirements and screening criteria
+
+- Saved the user's initial Option C requirements: saltwater friendly, lightweight, investigation of mechanical servo control, direct Arduino/electrical control, and the motor's own remote-control architecture, plus potential remote steering via a servo-actuated tiller or electronic steering interface.
+- Added screening criteria covering voltage, thrust versus actual hull displacement, maximum current draw, battery/wiring implications, shaft length, propeller depth, mounting compatibility, steering authority, throttle/forward/reverse behavior, stop/failsafe behavior, marine serviceability, proprietary-interface risk, reverse-engineering complexity, and final-boat suitability.
+- Established C1–C4 as investigation categories rather than decisions: mechanical tiller actuation, direct electrical interface, motor's own wireless remote, and custom/third-party RC interface.
+- Began online investigation of commercially available saltwater trolling motors and their control interfaces. No motor selected or purchased.
