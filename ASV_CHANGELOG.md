@@ -127,3 +127,15 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - User is comfortable designing and fabricating a custom propulsion mount and potentially a dedicated rudder if the thruster architecture is selected.
 - No propulsion hardware has been selected or purchased. The conventional trolling-motor path remains equally active.
 - New screening emphasis: actual thrust/current data, documented Arduino-compatible ESC input, marine suitability, mounting load path, rudder feasibility, battery/fusing requirements, and total delivered cost.
+
+
+## 2026-10-01 — Brushless-thruster path strengthened; hull-weight baseline
+
+- User supplied an empty-hull baseline of approximately **20 lb** for the shell alone. Future rough propulsion/stability calculations should start from this number and add the actual fin, rudder, thruster, battery, electronics, enclosure, wiring, and mounting masses as they are characterized.
+- Follow-up research confirmed that the APISQUEEN U10's bidirectional 100 A ESC accepts a standard RC-style PWM command: approximately 1.0 ms reverse, 1.5 ms stop, and 2.0 ms forward, with 50/100/200/500 Hz control frequencies documented. This is a strong fit for direct Arduino control and avoids proprietary protocol reverse engineering.
+- Confirmed U10 published specifications: 24 V, 900 W, 40 A load current, 10 kg / 22 lb stated thrust, approximately 800 g in air and 350 g in water, M3 mounting with 20 × 16 mm spacing, and freshwater/seawater operation.
+- Identified an important integration constraint: the U10 ESC's listed **5 V / 1 A BEC should not be assumed sufficient for the HiTec D646WP**, whose documented stall current is 2.2 A at 7.4 V. Servo power therefore remains a separate design item.
+- User prefers the potential low, underwater thruster placement because it minimizes topside mass and may help avoid a high center of gravity/topside weight that could contribute to tipping. This is a design hypothesis; actual stability will depend on the complete center-of-gravity/center-of-buoyancy relationship and hull geometry.
+- User is comfortable fabricating the thruster mount and is open to bottom-of-hull fiberglass work. Existing stern brackets may also be useful for a rudder post.
+- The brushless-thruster architecture is now considered a **leading candidate**, but no architecture has been selected and the conventional trolling-motor path remains active.
+- Next technical question: establish whether the U10's real thrust/current performance is appropriate for this specific small hull and realistic all-up displacement, rather than relying on marketing propellable-weight claims.
