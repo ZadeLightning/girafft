@@ -863,3 +863,72 @@ For future candidates, verify:
 12. Total cost versus the conventional trolling-motor architecture.
 
 The user is intentionally comfortable designing and fabricating a custom thruster mount and, if needed, a dedicated rudder. This is considered worthwhile hands-on mechanical work rather than an automatic reason to reject the architecture, provided the mount can be built robustly from the hull's known materials and available structure.
+
+
+### 2026-10-01 — Brushless-thruster path strengthened; hull-weight baseline added
+
+Follow-up research materially strengthened the inexpensive brushless underwater-thruster architecture as a leading candidate, while the conventional trolling-motor architecture remains active and unselected.
+
+The **APISQUEEN U10** documentation confirms a direct Arduino-compatible control path through its bidirectional 100 A ESC:
+- 24 V / 6S LiPo
+- 900 W
+- 40 A stated load current
+- 10 kg / 22 lb stated thrust at 24 V
+- 300 KV
+- approximately 800 g in air and 350 g in water
+- 117.5 × 95.5 mm body
+- M3 mounting holes with 20 × 16 mm spacing
+- stated freshwater and seawater operation
+- 14 AWG, 1 m motor lead; 4.0 mm banana plugs as supplied
+- ESC BEC: 5 V, 1 A
+- bidirectional PWM command: approximately 1.0 ms reverse, 1.5 ms stop, 2.0 ms forward; documented frequencies include 50/100/200/500 Hz
+
+This is a major architecture advantage: the Arduino can generate the throttle command using the same general Servo-library/pulse-width technique already proven in the project, without reverse engineering a proprietary protocol. The U10 ESC's published interface is directly compatible in concept with the project's T8L → ER8 → Arduino chain.
+
+Important caveat: the U10's **5 V / 1 A BEC should not be assumed adequate to power the HiTec D646WP steering servo**. The D646WP's documented stall current is 2.2 A at 7.4 V. Servo power architecture therefore remains a separate design item.
+
+The user provided a new hull baseline: **approximately 20 lb for the empty hull shell alone**. This excludes fin, rudder, thruster, battery, electronics, enclosure, wiring, mounts, and other additions. Use 20 lb as the baseline for rough propulsion and stability calculations until a more complete all-up displacement is measured.
+
+The user is particularly interested in the low, underwater placement of a thruster. The expected benefits are reduced topside mass and potentially a lower center of gravity compared with a conventional heavy transom-mounted trolling motor. This is a design consideration, not yet a demonstrated stability improvement: actual center of gravity, buoyancy, mounting reaction loads, and hull geometry still need to be characterized.
+
+A possible architecture is now:
+
+```
+T8L → ER8 → Arduino
+              ├── PWM → U10 100A ESC → fixed underwater thruster
+              └── PWM → HiTec D646WP → conventional rudder
+```
+
+The user is comfortable designing the propulsion mounting and is open to practicing fiberglass work by mounting the thruster through/on the underside of the hull. The existing stern bracket assembly may also be useful for a rudder-post/mounting structure. Any bottom-mounted thruster must have its thrust and impact loads distributed into reinforced hull structure; the Divinycell H80 foam-core laminate should not be treated as a point-load mounting surface without appropriate reinforcement.
+
+### Propulsion sizing note
+
+The U10's published 22 lb maximum thrust is roughly equal to the empty hull's 20 lb weight, but **thrust-to-weight ratio is not a valid boat-sizing rule by itself**. The actual requirement depends on all-up displacement, hull resistance, wetted area, hull form, desired speed, propeller/thruster efficiency, and operating conditions.
+
+For rough future calculations:
+- Empty hull baseline: 20 lb.
+- If all-up boat mass were 50 lb, 22 lb static thrust would be ~0.44 thrust/weight.
+- If all-up mass were 70 lb, ~0.31.
+- If all-up mass were 80 lb, ~0.28.
+
+These ratios are only sanity checks, not performance predictions.
+
+The U10 manufacturer also claims 7–12 km/h propulsion speed and up to 350 kg propellable weight, but those claims should be treated cautiously until independent or test data is available. The useful next engineering step is to determine whether the U10's actual thrust/current curve is appropriate for this specific 5 ft 8 in hull rather than relying on the marketing "propellable weight" figure.
+
+### Reference benchmark
+
+The **Blue Robotics T200** remains the strongest documentation benchmark:
+- 7–20 V
+- 3.71 kgf / 8.2 lb at 12 V
+- 5.25 kgf / 11.6 lb at 16 V
+- 6.7 kgf / 14.8 lb at 20 V
+- 17 A at 12 V, 24 A at 16 V, 32 A at 20 V
+- approximately 427 g in air for the standard 1 m-cable version
+- 300+ m tested depth
+- explicit Arduino/RC-style PWM support through the Basic ESC
+
+The T200 is lighter and exceptionally well documented, but its maximum thrust is substantially below the U10's published 10 kg. The much larger Blue Robotics T500 produces 16.1 kgf / 35.5 lb at 24 V but currently costs about $790 before its appropriate ESC, so it is not aligned with the project's inexpensive-hardware objective.
+
+### Current design posture
+
+The brushless underwater-thruster architecture is now a **leading candidate to investigate**, not a final selection. The conventional saltwater trolling-motor architecture remains equally active until propulsion sizing, mounting, battery, steering, and real-world control behavior are compared.
