@@ -139,3 +139,16 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - User is comfortable fabricating the thruster mount and is open to bottom-of-hull fiberglass work. Existing stern brackets may also be useful for a rudder post.
 - The brushless-thruster architecture is now considered a **leading candidate**, but no architecture has been selected and the conventional trolling-motor path remains active.
 - Next technical question: establish whether the U10's real thrust/current performance is appropriate for this specific small hull and realistic all-up displacement, rather than relying on marketing propellable-weight claims.
+
+
+## 2026-10-01 — Path #1 and U10 propulsion sizing research
+
+- User designated the inexpensive brushless underwater-thruster architecture as **Path #1** for the current investigation. The conventional trolling-motor path remains active as an alternative.
+- User confirmed the empty hull shell weighs approximately **20 lb**; this is now the baseline for rough propulsion/stability calculations.
+- Found a published U10 full-throttle test table showing forward thrust/current of 4.6 kg/16 A at 14 V, 5.6 kg/17 A at 16 V, 6.9 kg/20 A at 18 V, 8.1 kg/25 A at 20 V, 9.1 kg/27 A at 22 V, and 10.4 kg/32 A at 24 V. Reverse thrust is also documented but is lower.
+- The U10 therefore produces approximately 10.1–22.9 lb of forward static thrust across 14–24 V in the published test data.
+- Initial interpretation: the U10 appears to have substantial propulsion headroom for a small ~20 lb empty hull plus moderate equipment mass, but actual required thrust cannot yet be determined without waterline geometry, all-up displacement, hull form, and target speed.
+- Rough geometric sanity check using 5 ft 8 in as waterline length, 20 in as waterline beam, and Cb≈0.4 gives an approximate draft of 6.3 cm at 50 lb all-up and 8.8 cm at 70 lb. These are preliminary estimates only.
+- A classical displacement-hull speed estimate using 5 ft 8 in waterline length is approximately 3.2 knots / 5.9 km/h. This is a rule of thumb, not a hard speed limit.
+- Explained **BEC (Battery Eliminator Circuit)**: a regulated low-voltage supply built into an ESC. The U10 ESC's listed BEC is 5 V / 1 A and should not be assumed sufficient for the 7.4 V, 2.2 A-stall-current HiTec D646WP servo.
+- No propulsion purchase made. Next sizing inputs are actual waterline dimensions, draft/displacement at representative all-up loads, and target speed.
