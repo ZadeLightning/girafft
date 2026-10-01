@@ -808,3 +808,58 @@ T8L → ER8 → Arduino
   └── electronic motor controller → trolling-motor propulsion
 
 This could avoid mechanically actuating the trolling motor's throttle while retaining the Arduino and using the trolling motor primarily as a motor/propeller/shaft/steering assembly. Newport documents external PWM speed controllers for its conventional trolling motors, but its documented PWM approach uses a manual speed-control device; whether an Arduino-compatible high-current controller can replace that function must be investigated rather than assumed.
+
+
+### 2026-10-01 — Alternative brushless underwater-thruster architecture
+
+A parallel propulsion path is now under investigation alongside the conventional 12 V trolling-motor path: an inexpensive **brushless underwater thruster + external ESC + Arduino** architecture.
+
+The user is explicitly open to designing and fabricating the propulsion mounting as part of the hands-on project, provided the mechanical solution is realistic for this hull. A dedicated rudder is acceptable and may be preferable if the thruster itself is fixed.
+
+The most important finding so far is that this architecture can preserve the desired control chain without proprietary motor reverse engineering:
+
+```text
+T8L → ER8 → Arduino
+              ├── PWM → brushless ESC → underwater thruster
+              └── steering servo → rudder
+```
+
+A particularly strong candidate is the **APISQUEEN U10**:
+- 24 V (6S LiPo)
+- 900 W
+- 10 kg stated thrust at 24 V
+- 40 A stated load current
+- 300 KV brushless motor
+- approximately 800 g in air / 350 g in water
+- aluminum construction
+- stated fresh-water and sea-water operation
+- M3 mounting holes with 20 × 16 mm spacing
+- available with a bidirectional 100 A APISQUEEN ESC
+- documented RC-style PWM control: approximately 1.0 ms full reverse, 1.5 ms stop, 2.0 ms full forward; variable speed between those limits
+- published PWM frequencies include 50, 100, 200, and 500 Hz
+
+The U10's published PWM interface makes it a materially better Arduino candidate than an inexpensive motor whose controller requires proprietary reverse engineering. The documentation explicitly describes the ESC signal line and PWM behavior. The thruster itself is listed at approximately $198.30, with the 100 A ESC offered as a variant; exact delivered system cost remains to be verified.
+
+Another APISQUEEN candidate is the **S10**, a 24 V / 1000 W brushless pump-jet thruster listed at 8.5 kg thrust. It is listed around $352 for the thruster alone and around $537 as a set with waterproof remote/control box/base. Its control interface still needs to be characterized before it is considered preferable to the U10.
+
+The **Blue Robotics T200** is the benchmark/reference architecture because its documentation is unusually strong. It is a 7–20 V flooded brushless thruster, rated up to 32 A / 645 W at 20 V and approximately 6.7 kgf forward thrust at 20 V. Blue Robotics explicitly documents Arduino control using its Basic ESC and standard RC-style PWM. Current published price is $230 for the T200 and $40 for the Basic ESC before applicable surcharge/shipping. It is therefore a credible POC/final-hardware reference, although its thrust is substantially lower than the U10 and its total cost is not necessarily lower.
+
+This alternative path is **not selected over the trolling-motor path**. Both remain active architecture candidates.
+
+### Brushless-thruster architecture screening criteria
+
+For future candidates, verify:
+1. Actual thrust data at the intended voltage, not just marketing horsepower.
+2. Maximum and continuous current.
+3. ESC voltage/current rating and safety margin.
+4. Exact ESC command interface, preferably documented RC-style PWM or another Arduino-friendly interface.
+5. Forward/reverse/neutral behavior and initialization/failsafe behavior.
+6. Saltwater suitability and corrosion-resistant construction.
+7. Propeller/guard design and susceptibility to weeds/debris.
+8. Mechanical mounting geometry and structural load path into the hull.
+9. Rudder placement and steering authority if the thruster is fixed.
+10. Battery voltage/capacity/BMS requirements and resulting wiring/fusing.
+11. Whether connectors can be integrated into the project's Deutsch strategy without unnecessary soldering.
+12. Total cost versus the conventional trolling-motor architecture.
+
+The user is intentionally comfortable designing and fabricating a custom thruster mount and, if needed, a dedicated rudder. This is considered worthwhile hands-on mechanical work rather than an automatic reason to reject the architecture, provided the mount can be built robustly from the hull's known materials and available structure.
