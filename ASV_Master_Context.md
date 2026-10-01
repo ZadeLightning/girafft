@@ -932,3 +932,57 @@ The T200 is lighter and exceptionally well documented, but its maximum thrust is
 ### Current design posture
 
 The brushless underwater-thruster architecture is now a **leading candidate to investigate**, not a final selection. The conventional saltwater trolling-motor architecture remains equally active until propulsion sizing, mounting, battery, steering, and real-world control behavior are compared.
+
+
+### 2026-10-01 — Path #1 designation and initial U10 propulsion sizing
+
+The user designated the brushless underwater-thruster architecture as **Path #1**. This is currently the leading path for investigation, but it is not a final architecture selection; the conventional trolling-motor path remains active as an alternative.
+
+The user supplied an empty-hull shell baseline of approximately **20 lb**. This is now the starting point for rough propulsion and stability calculations. All-up displacement will be refined later after adding the fin, rudder, thruster/mount, battery, electronics, enclosure, wiring, and other hardware.
+
+### U10 measured/published thrust data found
+
+A published APISQUEEN U10 test table gives the following full-throttle forward/reverse data:
+
+| Voltage | Forward current | Forward thrust | Reverse current | Reverse thrust |
+|---:|---:|---:|---:|---:|
+| 14 V | 16 A | 4.6 kg / 10.1 lb | 16 A | 4.3 kg / 9.5 lb |
+| 16 V | 17 A | 5.6 kg / 12.3 lb | 17 A | 5.2 kg / 11.5 lb |
+| 18 V | 20 A | 6.9 kg / 15.2 lb | 21 A | 6.1 kg / 13.4 lb |
+| 20 V | 25 A | 8.1 kg / 17.9 lb | 26 A | 7.1 kg / 15.7 lb |
+| 22 V | 27 A | 9.1 kg / 20.1 lb | 28 A | 8.1 kg / 17.9 lb |
+| 24 V | 32 A | 10.4 kg / 22.9 lb | 32 A | 9.4 kg / 20.7 lb |
+
+These values are from a published thruster test table and are more useful for engineering than the headline 10 kg thrust claim. The source also lists the U10 as 12–24 V, with 24 V as the optimal operating voltage, although another U10 manual lists 24 V / 6S LiPo as the supported configuration. Use 24 V as the current target only; final battery architecture remains TBD.
+
+### Rough hull-sizing interpretation
+
+The U10's maximum published forward thrust (~22.9 lb) is slightly greater than the empty hull shell's 20 lb mass, but thrust-to-weight is **not** a boat performance criterion by itself. More useful is that the U10 can produce approximately:
+- 10.1 lb at 14 V
+- 12.3 lb at 16 V
+- 15.2 lb at 18 V
+- 17.9 lb at 20 V
+- 20.1 lb at 22 V
+- 22.9 lb at 24 V
+
+Therefore the U10 has substantial thrust headroom relative to a likely small all-up boat, but actual required thrust cannot yet be calculated reliably because waterline length, waterline beam, draft, hull form, target speed, and all-up displacement are not yet known.
+
+For a rough displacement sanity check only, if the 5 ft 8 in overall length is close to waterline length and the full 20 in beam is used as a rough waterline beam, a preliminary block-coefficient assumption of Cb≈0.4 gives approximately 6.3 cm draft at 50 lb all-up weight and approximately 8.8 cm at 70 lb. These are rough geometric estimates only and should not be used for construction or stability decisions until the actual hull geometry is measured.
+
+The classical displacement-hull speed estimate using 5 ft 8 in as waterline length is approximately 3.2 knots / 3.7 mph / 5.9 km/h. This is a rule-of-thumb, not a hard speed limit; the actual hull may behave differently, particularly if its form permits semi-planing/planing operation.
+
+### BEC terminology / power architecture
+
+**BEC = Battery Eliminator Circuit.** It is a regulated low-voltage power supply built into an ESC. In the U10 ESC, the published BEC output is **5 V / 1 A**. It can potentially power low-current receiver/electronics loads, but it should **not** be assumed adequate for the HiTec D646WP steering servo because the D646WP's documented stall current is 2.2 A at 7.4 V. A separate appropriate servo/electronics regulator remains a design item.
+
+### Current Path #1 architecture
+
+```
+T8L → ER8 → Arduino
+              ├── PWM → U10 100A ESC → fixed underwater U10 thruster
+              └── PWM → HiTec D646WP → rudder
+```
+
+The primary attraction is that the U10 ESC uses a documented RC-style PWM interface, so the Arduino can command propulsion without proprietary protocol reverse engineering. The low underwater motor mass is also attractive for keeping heavy mass out of the topside structure, although overall stability still depends on the complete center-of-gravity and center-of-buoyancy relationship.
+
+The next sizing inputs to obtain are the hull's actual waterline length/beam, draft or displacement at representative loads, and a realistic target speed. No propulsion purchase is justified solely from the current rough calculations.
