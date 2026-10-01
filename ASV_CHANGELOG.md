@@ -115,3 +115,15 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Manual override/failsafe remains a required future design topic but is intentionally tabled for now.
 - Added a promising sub-architecture to investigate: Arduino-controlled steering servo plus a separate electronic high-current motor controller for propulsion, potentially avoiding mechanical throttle hacking while retaining the Arduino.
 - Newport's documented external PWM approach is noted as a lead, but Arduino compatibility and high-current implementation still require verification.
+
+
+## 2026-10-01 — Alternative brushless underwater-thruster path
+
+- Opened a parallel propulsion investigation for inexpensive **brushless underwater thrusters** aimed at ROV/USV/kayak/unmanned-boat applications.
+- Confirmed that the architecture can preserve the desired **T8L → ER8 → Arduino** chain by using an external brushless ESC with a documented RC-style PWM input and a separate servo-operated rudder.
+- Identified the **APISQUEEN U10** as a particularly relevant candidate: 24 V, 900 W, 10 kg stated thrust, 40 A stated load current, approximately 800 g in air, sea/fresh-water operation, and a documented bidirectional 100 A ESC with standard 1–2 ms PWM-style control.
+- Identified the **APISQUEEN S10** as another candidate: 24 V, 1000 W, 8.5 kg stated thrust, pump-jet configuration, with a thruster-only and complete control-box/remote package available.
+- Retained the **Blue Robotics T200 + Basic ESC** as a well-documented benchmark architecture: 7–20 V, up to 32 A / 645 W at 20 V, approximately 6.7 kgf forward thrust at 20 V, and explicitly documented Arduino/PWM control.
+- User is comfortable designing and fabricating a custom propulsion mount and potentially a dedicated rudder if the thruster architecture is selected.
+- No propulsion hardware has been selected or purchased. The conventional trolling-motor path remains equally active.
+- New screening emphasis: actual thrust/current data, documented Arduino-compatible ESC input, marine suitability, mounting load path, rudder feasibility, battery/fusing requirements, and total delivered cost.
