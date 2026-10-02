@@ -152,3 +152,12 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - A classical displacement-hull speed estimate using 5 ft 8 in waterline length is approximately 3.2 knots / 5.9 km/h. This is a rule of thumb, not a hard speed limit.
 - Explained **BEC (Battery Eliminator Circuit)**: a regulated low-voltage supply built into an ESC. The U10 ESC's listed BEC is 5 V / 1 A and should not be assumed sufficient for the 7.4 V, 2.2 A-stall-current HiTec D646WP servo.
 - No propulsion purchase made. Next sizing inputs are actual waterline dimensions, draft/displacement at representative all-up loads, and target speed.
+
+
+## 2026-10-01 — U10 purchase plan and propulsion POC
+
+- User decided to purchase the **APISQUEEN U10** and the **APISQUEEN 2–6S 100 A Feather ESC, waterproof variant with 5.5 V / 3 A BEC** as the current single-thruster hardware candidates.
+- Defined the next hardware POC as **Arduino-controlled U10 propulsion**: T8L → ER8 → Arduino → PWM → ESC → U10.
+- Initial POC goals are safe ESC arming, neutral/forward/reverse behavior, PWM characterization, current measurement, ESC thermal observation, and sustained-load testing before hull integration.
+- Confirmed the inventory **NANKADF GC3010H 0–30 V / 0–10 A bench supply is not sufficient for a full-power U10 test**. Published U10 data reaches 32 A at 24 V, and APISQUEEN's current guide identifies 32 A as maximum working current. The bench supply remains useful for low-power/low-throttle testing but cannot reproduce maximum-load operation.
+- Full-power propulsion testing will require a suitable approximately 24 V source capable of roughly 35–40 A continuous, with appropriate fusing/wiring, plus a safe water test setup because the U10 is an underwater thruster.
