@@ -161,3 +161,11 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Initial POC goals are safe ESC arming, neutral/forward/reverse behavior, PWM characterization, current measurement, ESC thermal observation, and sustained-load testing before hull integration.
 - Confirmed the inventory **NANKADF GC3010H 0–30 V / 0–10 A bench supply is not sufficient for a full-power U10 test**. Published U10 data reaches 32 A at 24 V, and APISQUEEN's current guide identifies 32 A as maximum working current. The bench supply remains useful for low-power/low-throttle testing but cannot reproduce maximum-load operation.
 - Full-power propulsion testing will require a suitable approximately 24 V source capable of roughly 35–40 A continuous, with appropriate fusing/wiring, plus a safe water test setup because the U10 is an underwater thruster.
+
+
+## 2026-10-01 — U10 exact specification baseline and mounting hardware
+
+- User supplied a U10 specification table and it has been recorded in ASV_Master_Context.md as the exact current baseline for the U10 under consideration.
+- Recorded: **117.5 × 95.5 mm**, **24 V / 6S LiPo**, **1.9 A no-load**, **40 A load current**, **300 KV**, **900 W**, **10 kg thrust at 24 V**, **100 A continuous ESC**, **5 V / 1 A BEC**, **9 mm wire diameter**, **M3 mounting holes**, **20 × 16 mm mounting-hole spacing**, **800 g in air / 350 g in water**, and fresh-/sea-water operation.
+- Clarified that M3 mounting hardware should be readily available; final screw length depends on the fabricated mount/plate thickness and required thread engagement.
+- Recorded a design caution not to interpret the 20 × 16 mm value as hole diameter; treat it as mounting-hole spacing/layout until the physical thruster is inspected.
