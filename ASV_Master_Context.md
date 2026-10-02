@@ -494,14 +494,37 @@ Repository sketch:
 
 User successfully completed POC 5 Stage 2. T8L steering controls the HiTec D646WP through ER8 CH1 → Arduino D2 → Arduino D9, while ER8 CH3 simultaneously provides the throttle signal to Arduino D3 for Serial monitoring. The complete wireless control → receiver → Arduino → servo chain is working.
 
+### POC 6 — Arduino-controlled U10 propulsion
+
+Goal: bench-test the selected propulsion hardware and establish the Arduino → ESC → U10 control path before hull installation.
+
+**Planned hardware:**
+- **APISQUEEN U10** single underwater brushless thruster, 24 V / 6S target architecture.
+- **APISQUEEN 2–6S 100 A Feather ESC, waterproof variant**, with 5.5 V / 3 A BEC.
+- Arduino Uno Rev3 A000066 as the command source.
+
+**Planned signal architecture:**
+
+T8L → ER8 → Arduino → PWM → U10 ESC → U10
+
+The initial POC should verify, in order:
+1. ESC powers up and arms safely.
+2. Arduino can command neutral/stop.
+3. Forward and reverse commands work.
+4. PWM endpoints/frequency are characterized rather than assumed.
+5. Motor current and ESC temperature are observed at increasing throttle levels.
+6. The ESC remains thermally stable during sustained operation at representative U10 loads.
+7. The actual U10/ESC behavior is recorded before hull integration.
+
+**Bench-power limitation:** The inventory NANKADF GC3010H is rated **0–30 V / 0–10 A**. This is sufficient for low-power/low-throttle electronics and initial control testing, but **not sufficient for a full-power U10 test**. Published U10 test data reaches 32 A at 24 V, and APISQUEEN's current U10 guide identifies 32 A as the maximum working current. The 10 A bench supply cannot reproduce the U10's maximum-load operating point. A current-limited bench test can still be useful at low throttle, but current limiting may cause the ESC to behave differently from a properly powered propulsion test.
+
+The U10 is an underwater thruster and should not be treated as a conventional motor for unrestricted dry running; propulsion tests should provide the required water environment/cooling and a secure mechanical restraint. A future full-power test will require a suitable ~24 V source capable of approximately 35–40 A continuous, with appropriate fusing and wiring.
+
+**Status:** Planned; U10 and waterproof 100 A Feather ESC selected for purchase by the user. No propulsion hardware has yet been installed in the hull.
+
 ### POC 6 — Control-output hardware
 
-Goal: replace the simple servo test with the appropriate actuator/motor-control interface.
-
-- Determine exact propulsion hardware.
-- Determine steering actuator/mechanism.
-- Select appropriate driver/interface.
-- Add appropriate power distribution and protection.
+Goal: broader control-output hardware selection and integration planning. Immediate propulsion testing is handled by the dedicated U10 POC above.
 
 ### POC 7 — Bench-scale propulsion/steering
 
