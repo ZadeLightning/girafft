@@ -978,6 +978,32 @@ A published APISQUEEN U10 test table gives the following full-throttle forward/r
 
 These values are from a published thruster test table and are more useful for engineering than the headline 10 kg thrust claim. The source also lists the U10 as 12–24 V, with 24 V as the optimal operating voltage, although another U10 manual lists 24 V / 6S LiPo as the supported configuration. Use 24 V as the current target only; final battery architecture remains TBD.
 
+
+### U10 exact specification baseline — user-provided
+
+User supplied an APISQUEEN U10 specification table. Preserve these values as the current exact reference for the specific U10 being considered:
+
+| Specification | U10 |
+|---|---|
+| Size | **117.5 × 95.5 mm** |
+| Support voltage | **24 V (6S LiPo)** |
+| No-load current | **1.9 A** |
+| Load current | **40 A** |
+| Motor KV | **300 KV** |
+| Power | **900 W** |
+| Stated thrust | **10 kg at 24 V** |
+| Color | **Black** |
+| Included ESC rating | **100 A continuous** |
+| Included ESC BEC | **5 V / 1 A** |
+| Wire diameter | **9 mm** |
+| Mounting hole specification | **M3** |
+| Mounting-hole spacing shown | **20 × 16 mm** |
+| Weight | **800 g in air / 350 g in water** |
+| Working environment | **Fresh water / sea water** |
+
+**Mounting note:** M3 fasteners are a common metric hardware size and should be straightforward to source. The exact screw length should be selected after the propulsion mount/plate thickness is established so that the fastener provides adequate thread engagement without being unnecessarily long. Stainless-steel M3 hardware is a likely marine-mounting starting point, with washers/locking method selected based on the final mount design. Do not assume the listed 20 × 16 mm dimension is a hole diameter; treat it as the manufacturer's mounting-hole spacing/layout until the physical U10 is inspected.
+
+
 ### Rough hull-sizing interpretation
 
 The U10's maximum published forward thrust (~22.9 lb) is slightly greater than the empty hull shell's 20 lb mass, but thrust-to-weight is **not** a boat performance criterion by itself. More useful is that the U10 can produce approximately:
