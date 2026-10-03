@@ -1066,16 +1066,33 @@ This discovery materially increases the value of the legacy stern hardware as a 
 The user measured the stern cross-section as an isosceles triangle representing the V shape:
 
 - Long/base side: **15-3/8 in**
-- Two equal sides: **7-15/16 in** each
+- Two equal sides: **7-7/8 in** each
 - Half-base: **7-11/16 in**
-- Calculated altitude/depth: **~1.976 in (1-31/32 in)**
-- Calculated base angles: **~14.42° each**
-- Calculated apex angle at the bottom of the V: **~151.16°**
+- Calculated altitude/depth: **~1.708 in (1-45/64 in)**
+- Calculated base angles: **~12.53° each**
+- Calculated apex angle at the bottom of the V: **~154.94°**
 - Each hull-bottom face is therefore approximately **14.42° below horizontal** in this transverse cross-section.
 
-These calculations assume the 15-3/8 in measurement is the full width of the triangle and the two 7-15/16 in measurements run from each end to the centerline V apex. The measurements are internally consistent.
+These calculations assume the 15-3/8 in measurement is the full width of the triangle and the two 7-7/8 in measurements run from each end to the centerline V apex. The measurements are internally consistent.
 
 This gives us the **transverse deadrise/V geometry at the stern**, which is directly useful when designing an underside U10 mounting plate. It does not establish the fore-aft longitudinal slope of the hull bottom. For a complete U10 mount geometry, we will still need a fore-aft measurement describing the bottom slope over the intended mounting location.
+
+---
+
+### 2026-10-03 — U10 mounting footprint observations
+
+The user physically compared the APISQUEEN U10 mounting base to the hull bottom and noted that the required contact/mounting area can be relatively small:
+
+- Approximate U10 base length: **4-1/2 in**
+- Approximate U10 base width: **1 in**
+- Distance from the back/outside edge of the rearmost mounting-hole region to the front/outside edge of the forwardmost mounting-hole region: **~1-3/4 in**
+- Mounting holes are arranged approximately in a **kite-shaped pattern**.
+- Distance across the outside ends of the two wider hole features: **a little over 3/4 in**.
+- The U10 mounting surface exposed to the hull therefore does **not** need to be a large plate solely to accommodate the U10 footprint.
+
+For initial design work, treat the transverse V geometry as effectively unchanged over the U10's small ~4-1/2 in footprint, and treat the longitudinal/front-to-back bottom slope as negligible over that same local region. This is an engineering simplification for the U10 mount, not a claim that the entire hull bottom is planar.
+
+The current mounting concept should focus on a **small, structurally reinforced contact/mounting interface** that conforms to the local ~12.53° transverse V rather than attempting to cover a large area of the hull bottom.
 
 ---
 
