@@ -82,7 +82,10 @@ Advanced autonomy/navigation features are explicitly out of scope for the curren
 - The project is **not** intended to reproduce the previous system installed in the hull.
 - The hull has a **finbox on the underside**, approximately amidships, that accepts the supplied stand-up-paddleboard-style fin.
 - The supplied fin appears intended to provide a fixed lateral stabilizing surface rather than act as a conventional steerable rudder.
-- The stern/transom has an existing **metal mounting/bracket assembly** that may be relevant to a future propulsion mounting solution; its original purpose and load capacity are not yet verified.
+- The stern/transom has an existing **metal mounting/bracket/linkage assembly** that may be relevant to a future propulsion or steering solution; its original purpose and load capacity are not yet verified.
+- The old-build PA-14P-6-35 actuator has now been physically matched to this stern assembly: its fixed end mounts to a small square block on the hull/deck, while its extending rod connects to the stern linkage.
+- The exact function of the stern mechanism remains unknown, but the geometry strongly indicates that the actuator was intended to move a stern-mounted mechanism rather than provide propulsion itself.
+- Two matching circular hull penetrations near the actuator installation are available as potential wire/cable pass-throughs. One is already identified as a convenient route for the PA-14P wiring into the hull; the other remains unused/unknown.
 - A separate vertical metal tube/legacy structure is visible through the deck near the aft/mid hull area; its function remains unknown.
 - Photos show enough existing structure that a **transom-mounted or stern-mounted electric trolling motor** should be investigated before designing a dedicated rudder installation.
 
@@ -187,7 +190,15 @@ Do not assume these batteries are for the Arduino or boat power system. The curr
   - Unused unit: **2006**
 - Used actuator has a **Deutsch DT06-6S male connector** on its outgoing wire.
 - Intended/possible use: mechanical actuation.
-- The actuator should not be assumed to be part of the MVP until its role is defined.
+- **Legacy hull installation identified:** the user has now physically inspected the actuator in relation to the stern/transom hardware from the old build.
+- The actuator's **fixed/non-extending end** attaches to a small square mounting block on the deck/transom area.
+- The actuator's extending rod connects to the existing stern metal linkage/bracket assembly.
+- The existing arrangement strongly suggests the PA-14P was used to provide **mechanical linear actuation of a stern-mounted mechanism**, potentially steering, but the exact controlled function (rudder/tiller, propulsion steering, throttle/shift, or other mechanism) is **not yet confirmed**.
+- Two existing circular hull penetrations are located near the actuator installation. The **forward/starboard penetration** is readily usable for routing the PA-14P wiring into the otherwise largely empty hull.
+- The **aft/port penetration** appears to be an additional matching unused/unknown cable or mechanical pass-through. Its original function and future use are **unknown**.
+- A larger hatch farther forward provides limited internal access; internal stability walls partially isolate the stern and bow, so future internal wiring/mechanical work should favor the existing penetrations rather than relying on access through the hatch.
+- **Potential reuse:** the existing PA-14P mounting geometry and stern linkage should be treated as potentially reusable hardware for the final steering architecture until the stern mechanism is positively identified.
+- The actuator should not be assumed to be part of the MVP until its role and the mechanical interface are confirmed.
 
 ---
 
@@ -697,7 +708,9 @@ This process replaces the previous POC-centric mindset as the primary way of org
 7. Whether the hull's existing Deutsch connectors can be reused.
 8. Identity/function of the long metal tube through the hull.
 9. Whether the supplied finbox/SUP fin should remain as the fixed lateral stabilizer.
-10. Dimensions, function, and load capacity of the existing stern metal bracket/mounting assembly.
+10. Dimensions, function, and load capacity of the existing stern metal bracket/mounting/linkage assembly.
+11. Identify exactly what the PA-14P stern linkage actuated in the legacy build (rudder/tiller, propulsion steering, throttle/shift, or other mechanism).
+12. Determine whether the two matching circular hull penetrations are intended cable glands/pass-throughs and what hardware originally occupied the aft/port penetration.
 11. Final steering mechanism: dedicated rudder, steerable propulsion unit, or trolling-motor steering.
 12. Final propulsion architecture, with an electric trolling motor now an explicit candidate.
 13. Exact trolling-motor control interface compatible with the Arduino architecture, if Option C is selected.
@@ -978,6 +991,25 @@ A published APISQUEEN U10 test table gives the following full-throttle forward/r
 
 These values are from a published thruster test table and are more useful for engineering than the headline 10 kg thrust claim. The source also lists the U10 as 12–24 V, with 24 V as the optimal operating voltage, although another U10 manual lists 24 V / 6S LiPo as the supported configuration. Use 24 V as the current target only; final battery architecture remains TBD.
 
+
+### 2026-10-03 — Legacy PA-14P stern installation characterized
+
+The user physically inspected the **Progressive Automations PA-14P-6-35** and its relationship to the old-build stern hardware.
+
+Observed installation:
+
+- The PA-14P's **fixed/non-extending end** attaches to a small square mounting block on the deck/transom area.
+- The extending actuator rod connects into the existing stern metal linkage/bracket assembly.
+- This confirms that the PA-14P was mechanically integrated with the stern assembly in the previous build.
+- The exact function remains unconfirmed. The mechanism may have controlled a rudder/tiller, steerable propulsion, throttle/shift, or another stern mechanism.
+- A matching circular hull penetration immediately forward/starboard of the actuator is an easy route for the actuator's wiring into the hull.
+- A second matching circular penetration farther aft/port is currently unused/unknown.
+- The hull interior is largely empty, but internal stability walls limit access to the stern/bow from the larger forward hatch. Existing penetrations are therefore potentially valuable for future wiring.
+- The existing PA-14P mounting and stern linkage should be preserved as potentially reusable hardware until the old mechanism is positively identified.
+
+This discovery materially increases the value of the legacy stern hardware as a candidate for the final steering/mechanical architecture. It does **not** establish that the PA-14P or its linkage should be used; function, travel, load path, and compatibility with the new propulsion architecture still need to be verified.
+
+---
 
 ### U10 exact specification baseline — user-provided
 
