@@ -1053,11 +1053,29 @@ Observed installation:
 - This confirms that the PA-14P was mechanically integrated with the stern assembly in the previous build.
 - The exact function remains unconfirmed. The mechanism may have controlled a rudder/tiller, steerable propulsion, throttle/shift, or another stern mechanism.
 - A matching circular hull penetration immediately forward/starboard of the actuator is an easy route for the actuator's wiring into the hull.
-- A second matching circular penetration farther aft/port is currently unused/unknown.
+- A second matching circular penetration on the boat centerline is currently unused/unknown.
 - The hull interior is largely empty, but internal stability walls limit access to the stern/bow from the larger forward hatch. Existing penetrations are therefore potentially valuable for future wiring.
 - The existing PA-14P mounting and stern linkage should be preserved as potentially reusable hardware until the old mechanism is positively identified.
 
 This discovery materially increases the value of the legacy stern hardware as a candidate for the final steering/mechanical architecture. It does **not** establish that the PA-14P or its linkage should be used; function, travel, load path, and compatibility with the new propulsion architecture still need to be verified.
+
+---
+
+### 2026-10-03 — Stern transom V geometry measured
+
+The user measured the stern cross-section as an isosceles triangle representing the V shape:
+
+- Long/base side: **15-3/8 in**
+- Two equal sides: **7-15/16 in** each
+- Half-base: **7-11/16 in**
+- Calculated altitude/depth: **~1.976 in (1-31/32 in)**
+- Calculated base angles: **~14.42° each**
+- Calculated apex angle at the bottom of the V: **~151.16°**
+- Each hull-bottom face is therefore approximately **14.42° below horizontal** in this transverse cross-section.
+
+These calculations assume the 15-3/8 in measurement is the full width of the triangle and the two 7-15/16 in measurements run from each end to the centerline V apex. The measurements are internally consistent.
+
+This gives us the **transverse deadrise/V geometry at the stern**, which is directly useful when designing an underside U10 mounting plate. It does not establish the fore-aft longitudinal slope of the hull bottom. For a complete U10 mount geometry, we will still need a fore-aft measurement describing the bottom slope over the intended mounting location.
 
 ---
 
