@@ -195,7 +195,7 @@ Do not assume these batteries are for the Arduino or boat power system. The curr
 - The actuator's extending rod connects to the existing stern metal linkage/bracket assembly.
 - The existing arrangement strongly suggests the PA-14P was used to provide **mechanical linear actuation of a stern-mounted mechanism**, potentially steering, but the exact controlled function (rudder/tiller, propulsion steering, throttle/shift, or other mechanism) is **not yet confirmed**.
 - Two existing circular hull penetrations are located near the actuator installation. The **forward/starboard penetration** is readily usable for routing the PA-14P wiring into the otherwise largely empty hull.
-- The **aft/port penetration** appears to be an additional matching unused/unknown cable or mechanical pass-through. Its original function and future use are **unknown**.
+- The **aft/centerline penetration** is an additional matching circular hull penetration located essentially on the boat centerline. Its original function and future use are **unknown**.
 - A larger hatch farther forward provides limited internal access; internal stability walls partially isolate the stern and bow, so future internal wiring/mechanical work should favor the existing penetrations rather than relying on access through the hatch.
 - **Potential reuse:** the existing PA-14P mounting geometry and stern linkage should be treated as potentially reusable hardware for the final steering architecture until the stern mechanism is positively identified.
 - The actuator should not be assumed to be part of the MVP until its role and the mechanical interface are confirmed.
@@ -710,7 +710,7 @@ This process replaces the previous POC-centric mindset as the primary way of org
 9. Whether the supplied finbox/SUP fin should remain as the fixed lateral stabilizer.
 10. Dimensions, function, and load capacity of the existing stern metal bracket/mounting/linkage assembly.
 11. Identify exactly what the PA-14P stern linkage actuated in the legacy build (rudder/tiller, propulsion steering, throttle/shift, or other mechanism).
-12. Determine whether the two matching circular hull penetrations are intended cable glands/pass-throughs and what hardware originally occupied the aft/port penetration.
+12. Determine whether the two matching circular hull penetrations are intended cable glands/pass-throughs and what hardware originally occupied the aft/centerline penetration.
 11. Final steering mechanism: dedicated rudder, steerable propulsion unit, or trolling-motor steering.
 12. Final propulsion architecture, with an electric trolling motor now an explicit candidate.
 13. Exact trolling-motor control interface compatible with the Arduino architecture, if Option C is selected.
@@ -991,6 +991,18 @@ A published APISQUEEN U10 test table gives the following full-throttle forward/r
 
 These values are from a published thruster test table and are more useful for engineering than the headline 10 kg thrust claim. The source also lists the U10 as 12–24 V, with 24 V as the optimal operating voltage, although another U10 manual lists 24 V / 6S LiPo as the supported configuration. Use 24 V as the current target only; final battery architecture remains TBD.
 
+
+### 2026-10-03 — Stern bracket / steering architecture observation
+
+The user clarified the legacy stern hardware and the intended direction for the new build:
+
+- The second circular hull penetration is essentially **centerline**, not port-side.
+- The existing stern bracket is a substantial aluminum assembly attached to the transom/hull. It includes two horizontal removable pins/rods and vertical side plates, creating a useful mechanical mounting/interface structure.
+- No legacy tiller, rudder, or other obvious steering component was found with the old hardware.
+- The project does **not** need to reproduce the legacy boat's exact propulsion/steering system. The old hardware is being treated as a source of useful mounting geometry and potential mechanical infrastructure, not as a specification for the new architecture.
+- The current plan should therefore consider designing a **new rudder/steering mechanism** around the existing stern bracket if practical.
+- The PA-14P remains a candidate steering actuator only if its stroke, mounting geometry, travel, and loads prove suitable for the newly designed rudder/linkage.
+- The existing stern bracket should be measured and characterized before committing to a new rudder design. In particular, determine pin diameter, spacing, plate geometry, attachment method, available rudder envelope, and how loads are transferred into the hull.
 
 ### 2026-10-03 — Legacy PA-14P stern installation characterized
 
