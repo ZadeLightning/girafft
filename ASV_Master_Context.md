@@ -992,6 +992,44 @@ A published APISQUEEN U10 test table gives the following full-throttle forward/r
 These values are from a published thruster test table and are more useful for engineering than the headline 10 kg thrust claim. The source also lists the U10 as 12–24 V, with 24 V as the optimal operating voltage, although another U10 manual lists 24 V / 6S LiPo as the supported configuration. Use 24 V as the current target only; final battery architecture remains TBD.
 
 
+### 2026-10-03 — Stern bracket measured dimensions
+
+The user measured the existing stern mounting bracket for potential reuse in a new rudder/steering design:
+
+| Dimension | Measured value | Notes |
+|---|---:|---|
+| Pin diameter | **1/4 in** | Existing pins pull out relatively easily and lack a robust locking mechanism. Plan may be to retain the bracket but replace pins with positively retained/locking hardware. |
+| Upper pin center → lower pin center | **3-3/8 in** | |
+| Clear gap between pins | **3-1/8 in** | Consistent with 1/4 in pin diameter. |
+| Bottom of lower pin → top of upper pin | **3-5/8 in** | |
+| Inside width between side plates | **4-5/8 in** | |
+| Outside width across side plates | **5 in** | |
+| Side-plate thickness | **~5/32 in** | Approximate measurement. |
+| Bracket plate height | **6 in** | Plates do not extend above/below the transom; they begin approximately 1 in below the transom deck/top. |
+| Top pin-hole center below bracket top | **5/8 in** | |
+| Bottom pin-hole center below bracket top | **4 in** | |
+| Closest bracket bottom → hull bottom | **1-7/8 in** | Because the hull bottom is V-shaped. |
+| Bracket bottom → bottom of hull V | **2-3/8 in** | |
+| Transom → pin center | **1 in** | Measured across the small gap where the plates connect to the transom. |
+| Transom-side plate connection → pin center | **~13/16 in** | More representative of the actual plate offset. |
+
+### Preliminary hull-bottom geometry interpretation
+
+The measurements indicate the stern hull bottom rises toward the transom in a V-shaped profile. The bracket bottom sits **1-7/8 in above the nearest hull surface** and **2-3/8 in above the bottom of the V**, giving a **5/8 in difference** between those two reference points.
+
+This is useful for future rudder/thruster clearance calculations, but it is **not yet sufficient to uniquely determine the V angle/pitch**. We need at least one additional horizontal/fore-aft measurement between the relevant hull-bottom reference points before calculating the slope/angle.
+
+### Rudder-envelope terminology
+
+“Approximate maximum rudder envelope” means the **largest physical volume a new rudder could occupy without hitting the hull, bracket, ground/stand, or other hardware through its intended steering range**. It is not necessary to measure this yet.
+
+For the next rudder-design step, more useful measurements are:
+- maximum allowable rudder width/height;
+- distance from the bracket/transom to the rudder pivot axis;
+- available underwater depth at the intended rudder location;
+- clearance to the hull bottom through full left/right steering;
+- clearance to the U10 propeller/thruster if Path #1 is retained.
+
 ### 2026-10-03 — Stern bracket / steering architecture observation
 
 The user clarified the legacy stern hardware and the intended direction for the new build:
