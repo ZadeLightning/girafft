@@ -1223,3 +1223,39 @@ The POC 6 sequence should initially emphasize **low-risk functional verification
 - NANKADF GC3010H bench supply: **ON HAND**
 - Arduino Uno Rev3: **ON HAND**
 - POC 6 powered test: **WAITING FOR ESC ARRIVAL**
+
+
+### 2026-10-06 — POC 6 Arduino sketch created
+
+The first POC 6 propulsion-control sketch is now committed to the repository:
+
+- Sketch: `sketches/01_basics/06_u10_esc_throttle/06_u10_esc_throttle.ino`
+- README: `sketches/01_basics/06_u10_esc_throttle/README.md`
+
+Signal chain implemented:
+
+```
+T8L left joystick Y (throttle)
+        ↓
+      ER8 CH3
+        ↓
+   Arduino D3
+        ↓
+   Arduino D9
+        ↓
+waterproof bidirectional ESC
+        ↓
+       U10
+```
+
+The sketch:
+- Uses Arduino D3 for ER8 CH3 throttle input.
+- Uses Arduino D9 for the ESC PWM signal.
+- Commands approximately 1000 µs reverse, 1500 µs neutral, and 2000 µs forward.
+- Starts and remains at 1500 µs neutral.
+- Requires the transmitter throttle to be near center before enabling throttle control.
+- Commands neutral if the receiver signal is lost.
+- Uses the existing T8L/ER8 observed calibration baseline of approximately 984 / 1493 / 2002 µs.
+- Is deliberately conservative for the first physical U10 test.
+
+The first POC 6 test should validate the signal chain and ESC behavior at low power before any full-throttle testing. The U10 is to remain submerged in water and mechanically restrained by the temporary wooden fixture during powered testing.
