@@ -1152,3 +1152,74 @@ T8L → ER8 → Arduino
 The primary attraction is that the U10 ESC uses a documented RC-style PWM interface, so the Arduino can command propulsion without proprietary protocol reverse engineering. The low underwater motor mass is also attractive for keeping heavy mass out of the topside structure, although overall stability still depends on the complete center-of-gravity and center-of-buoyancy relationship.
 
 The next sizing inputs to obtain are the hull's actual waterline length/beam, draft or displacement at representative loads, and a realistic target speed. No propulsion purchase is justified solely from the current rough calculations.
+
+
+### 2026-10-06 — POC 6 U10 + waterproof bidirectional ESC bench/water test setup
+
+The following propulsion hardware is now confirmed **on hand / purchased for the project**:
+
+#### APISQUEEN U10 underwater brushless thruster
+- Product: **APISQUEEN U10 Underwater Brushless Thruster**
+- Specification baseline: **24 V, 900 W, 10 kg stated thrust**
+- Physical status: **on hand**
+- The U10 has been attached to a long piece of wood that serves as a temporary handling/positioning fixture. This allows the thruster to be submerged in water while keeping the electrical connections above/outside the water.
+- The U10's supplied motor lead is the manufacturer's stated **14 AWG, 1 m, 3-core lead with 4.0 mm banana plugs**.
+- Intended POC 6 purpose: demonstrate controlled underwater operation and validate the U10 + ESC + bench-power chain before integrating propulsion into the hull.
+
+#### APISQUEEN 2–6S 100 A Feather ESC with 5.5 V / 3 A BEC
+- Product: **APISQUEEN 2–6S 100 A Feather ESC**
+- Purchased variant: **Waterproof 100 A ESC, Bi-directional control**
+- Published electrical range: **2–6S**
+- Published continuous current: **100 A**
+- Published BEC: **5.5 V / 3 A**
+- Physical status: **purchased; currently in transit / not yet received**
+- Intended POC 6 purpose: drive the U10 from the NANKADF GC3010H bench power supply and accept a PWM command from the Arduino/control chain.
+- This is distinct from the older U10 page's generic/legacy references to a 100 A ESC with a 5 V / 1 A BEC. For the project's actual POC 6 hardware, use the **purchased waterproof bi-directional ESC's published 5.5 V / 3 A BEC specification**.
+
+The manufacturer's ESC documentation describes the bidirectional PWM command as approximately:
+- **1.0 ms = maximum reverse**
+- **1.5 ms = stop**
+- **2.0 ms = maximum forward**
+- Published compatible PWM frequencies include **50, 100, 200, and 500 Hz**
+
+The manufacturer's U10 page identifies the operating environment as **freshwater / seawater** and specifies the U10 motor lead and 24 V / 900 W class. The current POC 6 setup therefore uses the U10 submerged in water while the ESC and bench-power connections remain out of the water.
+
+### POC 6 — U10 underwater thruster + waterproof bidirectional ESC
+
+**Goal:** Prove that the physical propulsion chain works safely and controllably before committing to a permanent hull installation.
+
+Planned chain:
+
+```
+NANKADF GC3010H bench supply
+          ↓
+waterproof 100 A bidirectional ESC
+          ↓
+       U10 thruster
+          ↓
+       submerged in water
+
+Arduino PWM
+     ↓
+ESC signal input
+```
+
+The POC 6 sequence should initially emphasize **low-risk functional verification**, not maximum-thrust testing:
+1. Verify the ESC wiring, polarity, connectors, and signal connection before applying propulsion power.
+2. Confirm the bench supply can provide the required voltage/current for the intended test range.
+3. Start with the U10 submerged and mechanically restrained by the temporary wood fixture.
+4. Establish the ESC's stop/neutral command before commanding forward or reverse.
+5. Increase command gradually and observe motor response, bench-supply current, ESC behavior, and mechanical stability.
+6. Keep the first runs brief and avoid unnecessary full-throttle operation.
+7. Record voltage, current, PWM command, direction, and qualitative thrust/behavior observations.
+8. Do not treat the bench test as proof that the eventual hull mount is structurally adequate; the permanent U10 mount remains a separate mechanical-engineering task.
+
+**Important test constraint:** the U10 must be operated **submerged in water** for powered testing. The water provides the intended operating environment and load; do not run the thruster at meaningful power in air.
+
+**Current POC 6 status:**
+- U10: **ON HAND**
+- Temporary submersion/handling fixture: **READY**
+- Waterproof bidirectional 100 A ESC: **IN TRANSIT**
+- NANKADF GC3010H bench supply: **ON HAND**
+- Arduino Uno Rev3: **ON HAND**
+- POC 6 powered test: **WAITING FOR ESC ARRIVAL**
