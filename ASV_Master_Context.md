@@ -1347,3 +1347,18 @@ Working architecture:
 
 A detailed candidate BOM, purchase priorities, open verification items, and a staged “get the actuator moving first” list are maintained in `docs/power-system/ASV_Power_System_Shopping_List.md`. Treat it as a working shortlist, not authorization to buy all items. Initial purchasing should focus on the actuator controller and verified mating/signal/motor wiring; the 12 V converter is needed for the final 6S-powered architecture but is not necessarily needed for a current-limited actuator bench POC because the NANKADF GC3010H can supply regulated 12 V up to 10 A.
 
+
+
+### 2026-10-10 — Connector policy clarified for the new PA-14P
+
+The user explicitly clarified the following connector decisions:
+
+- The actuator being used for this build is a **new PA-14P with a Molex-style 6-position connector**. Ignore the earlier inventory note about a Deutsch connector on the used actuator; it refers to a different/older unit.
+- The actuator-side mating interface must therefore be the correct **Molex Mini-Fit Jr. 6-position mating housing**, manufacturer part reference **39013063**, or a verified pre-crimped mating pigtail/breakout. Do not modify or cut the factory actuator cable.
+- The project already has a useful stock of Deutsch connectors, compatible contacts/seals and a working crimping tool; the user has successfully crimped with the tool.
+- **Default to existing Deutsch DT connectors for detachable low-/medium-current wiring interfaces whenever practical**, after the Molex actuator pigtail/breakout. This should be the default for future connector recommendations rather than introducing new connector families unnecessarily.
+- Before using Deutsch on any specific circuit, verify the exact contact family, conductor gauge, connector/cavity arrangement, and current rating against that circuit's expected continuous/transient current. Do not assume all Deutsch housings/contacts or all wire gauges are interchangeable.
+- Do not force Deutsch connectors onto the high-current battery/propulsion path if a purpose-built, appropriately rated high-current connector is more suitable.
+- Maintain the project's broader rule: minimize soldering, avoid unnecessary tool/connector purchases, and check exact connector gender, pitch, terminal family, pinout, and end-to-end mating compatibility before recommending a part.
+
+The shopping list at `docs/power-system/ASV_Power_System_Shopping_List.md` has been updated to reflect this connector policy and to remove the false conflict about the new actuator.
