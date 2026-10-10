@@ -1079,6 +1079,30 @@ This gives us the **transverse deadrise/V geometry at the stern**, which is dire
 
 ---
 
+### 2026-10-09 — Rudder steering concept from legacy actuator and stern bracket
+
+The user wants to design a new rudder/steering system using the existing stern bracket as a potential structural mounting foundation and the **Progressive Automations PA-14P-6-35** linear actuator mounted externally on top of the hull.
+
+Working concept:
+- Mount the actuator on the upper hull/deck, with its fixed end forward and the actuator rod pointing toward the stern.
+- Current visual estimate: when retracted, the actuator/rod reaches approximately the transom. Consider angling the actuator from a forward attachment point near the hull centerline toward the **port stern corner**, rather than aiming straight aft at 90 degrees to the transom.
+- Two motivations for a portward angle: (1) target the actuator's **3 in midpoint of its 6 in stroke** as the nominal straight-ahead rudder position, and (2) preserve more access to a planned hatch in the starboard aft section. Mid-stroke alignment is a design target, not yet a verified geometric fact.
+- Design a new rudder/rudder stock to use the existing transom bracket if feasible; no legacy rudder/tiller hardware is available.
+- A tiller arm attached to the rudder stock could extend approximately toward port, with the actuator rod-end connecting near its outboard end.
+- The actuator would push/pull the tiller arm to rotate the rudder stock. The required tiller-arm radius and attachment geometry must be calculated from the intended rudder angle and measured actuator endpoints; do not assume a 6 in stroke automatically gives an appropriate rudder range.
+- Keep the starboard aft hatch access in mind when selecting actuator angle and routing wiring.
+
+Important design caveats / next validation:
+1. Confirm actual actuator overall length and rod-end location at fully retracted, 3 in extension, and fully extended, including pivot/clevis offsets.
+2. Establish the rudder-stock axis location on the stern bracket and whether the bracket can safely support the rudder loads.
+3. Choose a preliminary rudder angle range and tiller-arm radius, then solve the actuator-to-tiller geometry at both travel limits. Ensure no dead-center/toggle condition, interference, or actuator side-loading across the range.
+4. The actuator's midpoint can be assigned to straight-ahead by design, but its rod end does not have to physically lie at the transom at midpoint. Prioritize a symmetric and mechanically sound steering range.
+5. Test the complete linkage dry, with mechanical end stops and a way to prevent the actuator from driving against the ends of travel. Verify the PA-14P feedback/control requirements and provide a suitable reversible actuator driver; it cannot be driven directly from an Arduino pin.
+
+This is the current steering concept, not a finalized design. Preserve flexibility to change actuator angle, tiller arm direction/length, and rudder-stock placement after measurements and a simple linkage layout are completed.
+
+---
+
 ### 2026-10-03 — U10 mounting footprint observations
 
 The user physically compared the APISQUEEN U10 mounting base to the hull bottom and noted that the required contact/mounting area can be relatively small:
