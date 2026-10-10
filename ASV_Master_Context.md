@@ -1283,3 +1283,67 @@ The sketch:
 - Is deliberately conservative for the first physical U10 test.
 
 The first POC 6 test should validate the signal chain and ESC behavior at low power before any full-throttle testing. The U10 is to remain submerged in water and mechanically restrained by the temporary wooden fixture during powered testing.
+
+
+---
+
+## 2026-10-09 — Power-system architecture and initial shopping list
+
+The user clarified the final-boat packaging and runtime targets:
+
+- Central internal compartment: approximately **16 × 16 × 6 in**.
+- A second aft compartment of similar size is available. The central and aft compartments may be used separately or together to spread mass and improve fore-aft balance.
+- These are planning envelopes, not hard caps; do not fill the full 6 in height by default. Weight, center of gravity, balance, service access, and water protection matter.
+- The external components are the **PA-14P-6-35 actuator**, **U10 thruster**, and rudder/tiller assembly.
+- Target runtime reduced from one hour to approximately **30 minutes**, with frequent high-power propulsion use assumed for conservative sizing.
+- **HiTec D646WP servo is excluded from the final build**. It was used for POC testing only; the current steering direction uses the PA-14P linear actuator.
+
+### Battery sizing — preliminary napkin math
+
+Use the U10 user-provided published 24 V test point of approximately **32 A** as a conservative high-power reference:
+
+- (24 V × 32 A ≈ 768 W).
+- (768 W × 0.5 h ≈ 384 Wh) for the U10 alone over 30 minutes at that point.
+- Allowing approximately 10–15% for conversion losses and low-voltage loads gives roughly **425–450 Wh delivered**.
+- Add a reserve for battery aging, voltage sag, and avoiding deep discharge: preliminary nominal battery target **~530–600 Wh**.
+- A 6S LiPo is **22.2 V nominal** and **25.2 V fully charged**. (530–600 Wh ÷ 22.2 V ≈ 24–27 Ah).
+
+**Preliminary battery target:** 6S, approximately **25–30 Ah**, with documented continuous pack discharge capability of at least **50 A**, preferably **60 A or more**. This is a planning estimate, not a guaranteed runtime. Confirm pack current/thermal specifications, mass, dimensions, chemistry, charger, protection, and measured U10 draw before purchasing. Do not use ordinary low-current 18650 cells/packs for U10 propulsion.
+
+### Proposed power architecture
+
+A visual diagram and its calculation notes are in:
+- `docs/power-system/ASV_Power_System_Architecture.svg`
+- Shopping list: `docs/power-system/ASV_Power_System_Shopping_List.md`
+
+Working architecture:
+
+- **Main battery:** 6S high-discharge pack; main DC-rated disconnect, fuse, and distribution.
+- **Propulsion branch:** main battery → branch fuse/wiring → existing APISQUEEN 2–6S waterproof 100 A bidirectional ESC → U10.
+- **Actuator branch:** battery bus → branch fuse → regulated 12 V DC-DC converter → reversible brushed-DC motor controller → PA-14P motor leads.
+- **Control branch:** battery bus → regulated 5 V converter → Arduino Uno and ER8, subject to their input specifications and the final grounding/power-path design.
+- **Control signals:** Arduino output → actuator motor controller; PA-14P potentiometer feedback → Arduino.
+- Establish common signal ground where required by the chosen controller/converter topology. Do not tie isolated power negatives together without checking device documentation.
+- Do not use an ESC BEC and a separate 5 V converter in parallel without an intentional, verified power-path design.
+
+### Initial actuator-controller shortlist
+
+- **Mtroniks Viper Marine25 HV2** is the current waterproof marine brushed-controller candidate for the PA-14P. It remains a **shortlist item, not approved for purchase** until its exact input voltage range, LiPo/low-voltage behavior, current protection, startup/stall suitability for a linear actuator, failsafe/neutral behavior, and actual connector/lead types are verified.
+- **Cytron MD20A** remains an alternative for a dry/sealed-enclosure installation, with enclosure and cable-entry work required.
+- The smaller MicroViper Marine10 is not the preferred candidate for the planned 6S-battery architecture because it is a 12 V maximum controller and specifies “LiPo safe: No.”
+- The 12 V actuator supply converter must tolerate the full 6S battery range (up to 25.2 V for LiPo) and be sized for actuator startup/stall behavior. **Victron Orion IP67 24/12-20** is a candidate to evaluate, not a finalized purchase.
+- Select a separate regulated 5 V converter for Arduino + ER8 after checking input range, current capacity, ripple, enclosure/IP rating, and power-path arrangement.
+
+### Connector and no-solder requirements
+
+- Preserve the PA-14P factory cable; do not cut it.
+- The current discussion identified a five-wire PA-14P cable (red, black, white, yellow, blue) and a Molex-style six-position connector matching the product image. Manufacturer documentation was cited as identifying Molex Mini-Fit Jr. mating housing **39013063**.
+- **Important unresolved inventory conflict:** older inventory notes describe the used PA-14P unit as having a Deutsch DT06-6S connector, while the current photo/product-image discussion shows a Molex-style connector. There may be two different actuator units or a prior connector identification error. Inspect the exact actuator unit being tested and verify pin orientation/pinout before ordering any mating connector or applying power.
+- Prefer a verified prewired mating pigtail/breakout and factory-lead controller/converter products. Avoid generic Dupont jumpers unless their connector gender and pitch are verified end-to-end.
+- The Viper's receiver-style signal lead is not assumed to connect directly to the Arduino; verify its connector and use a compatible premade signal breakout/extension if needed.
+- Final fuse ratings, wire gauges, and connector ratings remain TBD until cable lengths, current/transient behavior, branch loads, and installation conditions are established. Existing 18 AWG wire must not be assumed suitable for the U10 high-current path.
+
+### Shopping list tracking
+
+A detailed candidate BOM, purchase priorities, open verification items, and a staged “get the actuator moving first” list are maintained in `docs/power-system/ASV_Power_System_Shopping_List.md`. Treat it as a working shortlist, not authorization to buy all items. Initial purchasing should focus on the actuator controller and verified mating/signal/motor wiring; the 12 V converter is needed for the final 6S-powered architecture but is not necessarily needed for a current-limited actuator bench POC because the NANKADF GC3010H can supply regulated 12 V up to 10 A.
+
