@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
+<title id="title">ASV proposed power-system architecture and battery sizing</title>
+<desc id="desc">Proposed 6S battery architecture with separate propulsion, 12 volt actuator and 5 volt control branches, plus conservative 30-minute battery sizing calculations.</desc>
+<defs>
+  <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
+  <style>
+    .bg{fill:#f8fafc}.title{font:700 34px Arial,sans-serif;fill:#0f172a}.sub{font:18px Arial,sans-serif;fill:#475569}
+    .head{font:700 22px Arial,sans-serif;fill:#0f172a}.body{font:17px Arial,sans-serif;fill:#1e293b}.small{font:15px Arial,sans-serif;fill:#475569}
+    .box{stroke:#64748b;stroke-width:2;rx:16}.line{stroke:#334155;stroke-width:4;fill:none;marker-end:url(#arrow)}
+    .power{fill:#fff7ed;stroke:#c2410c}.prop{fill:#dbeafe;stroke:#2563eb}.act{fill:#dcfce7;stroke:#15803d}.ctrl{fill:#f3e8ff;stroke:#7e22ce}.warn{fill:#fef3c7;stroke:#b45309}
+  </style>
+</defs>
+<rect class="bg" width="1600" height="1200"/>
+<text x="64" y="64" class="title">ASV — Proposed Power-System Architecture</text>
+<text x="64" y="98" class="sub">Working design • 30-minute high-power target • D646WP servo excluded</text>
+
+<rect x="470" y="130" width="660" height="115" class="box power"/>
+<text x="800" y="172" text-anchor="middle" class="head">6S high-discharge battery pack</text>
+<text x="800" y="204" text-anchor="middle" class="body">22.2 V nominal • 25.2 V fully charged (LiPo)</text>
+<text x="800" y="229" text-anchor="middle" class="small">Preliminary target: 25–30 Ah • ≥50 A continuous, preferably ≥60 A</text>
+
+<path d="M800 245 V280 H275 V315" class="line"/>
+<path d="M800 280 V315" class="line"/>
+<path d="M800 280 H1325 V315" class="line"/>
+<text x="800" y="270" text-anchor="middle" class="small">Main disconnect + main fuse + distribution</text>
+
+<rect x="65" y="315" width="420" height="300" class="box prop"/>
+<text x="275" y="355" text-anchor="middle" class="head">A. Propulsion branch</text>
+<rect x="105" y="385" width="340" height="58" class="box" fill="#eff6ff"/>
+<text x="275" y="421" text-anchor="middle" class="body">Branch fuse + rated wiring</text>
+<path d="M275 443 V468" class="line"/>
+<rect x="105" y="468" width="340" height="70" class="box" fill="#eff6ff"/>
+<text x="275" y="497" text-anchor="middle" class="body">APISQUEEN waterproof</text>
+<text x="275" y="520" text-anchor="middle" class="body">100 A bidirectional ESC</text>
+<path d="M275 538 V562" class="line"/>
+<text x="275" y="588" text-anchor="middle" class="head">U10 thruster (24 V)</text>
+
+<rect x="590" y="315" width="420" height="300" class="box act"/>
+<text x="800" y="355" text-anchor="middle" class="head">B. Actuator branch</text>
+<rect x="630" y="385" width="340" height="58" class="box" fill="#f0fdf4"/>
+<text x="800" y="421" text-anchor="middle" class="body">Branch fuse + rated wiring</text>
+<path d="M800 443 V468" class="line"/>
+<rect x="630" y="468" width="340" height="58" class="box" fill="#f0fdf4"/>
+<text x="800" y="504" text-anchor="middle" class="body">24 V → regulated 12 V DC-DC</text>
+<path d="M800 526 V548" class="line"/>
+<rect x="630" y="548" width="340" height="58" class="box" fill="#f0fdf4"/>
+<text x="800" y="572" text-anchor="middle" class="body">Reversible brushed-motor</text>
+<text x="800" y="593" text-anchor="middle" class="body">controller → PA-14P</text>
+
+<rect x="1115" y="315" width="420" height="300" class="box ctrl"/>
+<text x="1325" y="355" text-anchor="middle" class="head">C. Control branch</text>
+<rect x="1155" y="385" width="340" height="58" class="box" fill="#faf5ff"/>
+<text x="1325" y="421" text-anchor="middle" class="body">Branch fuse + rated wiring</text>
+<path d="M1325 443 V468" class="line"/>
+<rect x="1155" y="468" width="340" height="58" class="box" fill="#faf5ff"/>
+<text x="1325" y="504" text-anchor="middle" class="body">Battery bus → regulated 5 V</text>
+<path d="M1325 526 V548" class="line"/>
+<rect x="1155" y="548" width="340" height="58" class="box" fill="#faf5ff"/>
+<text x="1325" y="572" text-anchor="middle" class="body">Arduino Uno + ER8 receiver</text>
+<text x="1325" y="593" text-anchor="middle" class="small">USB only for development</text>
+
+<rect x="65" y="660" width="1470" height="150" class="box" fill="#ffffff"/>
+<text x="95" y="700" class="head">Control and feedback (signal wiring, not motor power)</text>
+<text x="95" y="740" class="body">T8L → ER8 → Arduino → controller input → PA-14P motor controller</text>
+<text x="95" y="775" class="body">PA-14P potentiometer feedback → Arduino analog input; common signal ground as required by selected hardware.</text>
+
+<rect x="65" y="845" width="1470" height="285" class="box warn"/>
+<text x="95" y="885" class="head">Battery “napkin math” — conservative estimate, not a runtime guarantee</text>
+<text x="100" y="930" class="body">U10 reference point: 24 V × 32 A ≈ 768 W</text>
+<text x="100" y="967" class="body">30 minutes at that point: 768 W × 0.5 h ≈ 384 Wh for U10 alone</text>
+<text x="100" y="1004" class="body">Allow conversion losses + low-voltage loads: ≈ 425–450 Wh delivered</text>
+<text x="100" y="1041" class="body">Add reserve: preliminary nominal pack target ≈ 530–600 Wh</text>
+<text x="100" y="1078" class="body">530–600 Wh ÷ 22.2 V ≈ 24–27 Ah → target 25–30 Ah, ≥50 A continuous (prefer ≥60 A)</text>
+<text x="100" y="1110" class="small">Verify with measured U10 current, pack mass/volume, actual battery datasheet, protection, and thermal performance.</text>
+</svg>
