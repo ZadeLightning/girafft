@@ -39,7 +39,7 @@ Statuses:
 
 | Priority | Item | Target / candidate | Status and verification required |
 |---|---|---|---|
-| 1 | Reversible brushed-motor controller for PA-14P | Mtroniks Viper Marine25 HV2 is the current waterproof marine candidate; receiver-style RC input should accept an Arduino-generated servo PWM pulse | **SHORTLIST — do not buy until verified.** Confirm exact product voltage range, LiPo/low-voltage behavior, continuous/peak/stall current handling, control-signal behavior, supplied wire/connector types, and whether it supports safe neutral/failsafe operation. Confirm suitability for a linear actuator rather than a propeller load. |
+| 1 | Reversible brushed-motor driver for PA-14P | **Dimension Engineering SyRen 10**, purchased from RobotShop on 2026-10-13 | **PURCHASED — awaiting delivery.** 10 A continuous-class regenerative brushed-DC driver with Arduino-compatible control options and overcurrent/thermal protection. Verify exact manual/revision, supplied signal lead/connector, terminal setup and no-solder integration when received. Exact actuator startup/stall current remains unknown; protection is not a guarantee against prolonged stall. Driver does not read PA-14P potentiometer directly; Arduino will implement position control. Regenerative behavior means a typical bench supply alone may not be suitable for braking/reversal; follow manufacturer power-source guidance for testing. |
 | 1 | PA-14P mating connector / breakout | Manufacturer PA-14P documentation has identified Molex Mini-Fit Jr. 6-position housing **39013063** as a mating-housing reference | **REQUIRED.** The new PA-14P being used has the Molex-style 6-position connector; use the manufacturer-identified Molex Mini-Fit Jr. mating housing (39013063) or, preferably, a verified pre-crimped mating pigtail/breakout. Preserve the actuator's factory connector. After this Molex mating pigtail, default to existing Deutsch DT connectors for detachable harness interfaces where the contact family, wire gauge, current rating, and cavity/pinout are verified. Prefer pre-crimped/pigtail breakout; no cable cutting. |
 | 1 | Controller-to-actuator motor leads | Two conductors from controller motor outputs to actuator motor pair | **REQUIRED.** Terminations must match the selected controller output and actuator breakout. Confirm motor wire colors/pinout from the exact actuator datasheet; do not infer polarity from color alone. |
 | 1 | Arduino-to-controller signal lead | Arduino digital output to controller's receiver-style signal input; signal ground/reference as specified by controller | **REQUIRED.** Determine controller's exact connector (likely a 3-wire RC servo-style lead, but verify). Prefer a premade servo extension/breakout plus compatible female jumper or screw-terminal adapter. Avoid assuming the existing BOJACK kit has female-ended leads. |
@@ -75,7 +75,7 @@ Statuses:
 ## First purchase tranche: get the actuator moving
 
 Only buy after checking the exact actuator connector and Viper specifications:
-1. Candidate waterproof reversible brushed-motor controller (Viper Marine25 HV2 remains a shortlist candidate).
+1. **Purchased:** Dimension Engineering SyRen 10 regenerative brushed-DC motor driver; awaiting delivery.
 2. Matching PA-14P mating connector with factory/premade leads, if the exact unit uses the documented Molex connector.
 3. Compatible controller signal breakout / servo extension / Arduino female-jumper adapter.
 4. Short, appropriately sized motor-output leads and terminals.
@@ -88,7 +88,17 @@ The 12 V DC-DC converter is required for the final 6S-powered boat architecture,
 - Verify the new PA-14P's exact pinout against the matching datasheet and connector orientation before connecting the motor or potentiometer wires.
 - After the Molex pigtail, prefer existing Deutsch DT connectors for detachable harness breaks where the exact contact family and electrical ratings are suitable.
 - Verify actuator stall current / startup behavior and duty cycle.
-- Verify Viper Marine25 HV2's exact model, LiPo handling, input voltage limits, failsafe behavior, current protection, and connector types.
+- On SyRen 10 arrival, verify exact model/revision, signal interface and no-solder connection options; review its regenerative power-source requirements before bench testing.
 - Choose battery chemistry and specific pack only after comparing mass, volume, current rating, protection, charger and budget.
 - Verify that the 6S battery pack, converters, ESC, fuses, cables and connectors fit the hull's central/aft compartments and can be placed for reasonable fore-aft balance.
 - Do not assume a 30-minute high-power runtime until verified with water tests and measured battery draw.
+
+## Purchase update — 2026-10-13
+
+- **SyRen 10 purchased from RobotShop**, awaiting delivery. User observed listing stock of 12 units and estimated shipping of 4–10 days at time of purchase.
+- Product: https://www.robotshop.com/products/dimension-engineering-syren-10
+- Manufacturer: https://www.dimensionengineering.com/products/syren10
+- Waterproofing is not required for this controller; plan a protected installation inside the hull.
+- Arduino will implement position feedback and software limits using the PA-14P potentiometer. SyRen 10 drives the motor in either direction; it is not itself the position controller.
+- **Bench-test caution:** SyRen 10 is regenerative; use a suitable battery-based source or manufacturer-approved battery/supply arrangement. Do not assume the NANKADF GC3010H alone can absorb returned energy during braking/reversal.
+- **Still open:** verify signal wiring and terminal/no-solder setup when delivered; confirm exact PA-14P connector pinout before wiring; choose appropriate fuse/wire; characterize actuator current safely without prolonged stall.
