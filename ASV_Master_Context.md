@@ -1362,3 +1362,15 @@ The user explicitly clarified the following connector decisions:
 - Maintain the project's broader rule: minimize soldering, avoid unnecessary tool/connector purchases, and check exact connector gender, pitch, terminal family, pinout, and end-to-end mating compatibility before recommending a part.
 
 The shopping list at `docs/power-system/ASV_Power_System_Shopping_List.md` has been updated to reflect this connector policy and to remove the false conflict about the new actuator.
+
+### 2026-10-13 — SyRen 10 motor driver purchased
+
+- **Purchased:** Dimension Engineering **SyRen 10 regenerative brushed-DC motor driver**, ordered from RobotShop (user reports listing showed 12 units in stock and estimated shipping of 4–10 days).
+- Product listing: https://www.robotshop.com/products/dimension-engineering-syren-10
+- Manufacturer documentation: https://www.dimensionengineering.com/products/syren10
+- Intended use: bidirectional control of the Progressive Automations PA-14P-6-35 12 V linear actuator, commanded by the Arduino Uno. The Arduino will read the actuator's potentiometer and implement steering position control/software limits; the SyRen drives motor power/direction and does not itself interpret the PA-14P potentiometer as a target position.
+- Published actuator current is 1 A no-load and 5 A full-load; exact startup/stall current remains unknown. SyRen 10 is a 10 A continuous-class driver with overcurrent and thermal protection, but do not assume its protection makes prolonged stall safe or that its current limit is user-adjustable.
+- The SyRen is **regenerative**. Manufacturer guidance warns that a typical bench power supply cannot absorb returned energy; use a suitable battery-based test supply or a manufacturer-approved supply/battery arrangement for initial powered testing. Do not assume the NANKADF GC3010H alone is suitable during braking/reversal.
+- Leave the SyRen's 5 V BEC unused for now. Power Arduino/ER8 from the planned separate regulated supply; avoid paralleling 5 V sources.
+- Next steps when it arrives: inspect exact board/revision and included connectors; verify no-solder signal hookup and terminal requirements; read the exact manual; confirm PA-14P pinout before wiring; design a fused, current-aware bench setup; test short extension/retraction commands first; then develop feedback control and fault handling.
+- Waterproofing is no longer a requirement for the motor driver; final installation can use a protected enclosure inside the hull.
