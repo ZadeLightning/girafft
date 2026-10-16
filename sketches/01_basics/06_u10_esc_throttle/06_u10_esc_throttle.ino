@@ -1,129 +1,114 @@
-// POC 6 — T8L + ER8 + Arduino + U10 ESC
-// Goal:
-//   - Read T8L throttle from ER8 CH3.
-//   - Command the APISQUEEN waterproof bidirectional ESC.
-//   - ESC drives the APISQUEEN U10 underwater thruster.
+// POC 6 — T8L + ER8 + Arduino + APISQUEEN ESC + U10
+// Goal: very-low-throttle forward / neutral / reverse functional test.
 //
 // Signal chain:
-//   T8L throttle -> ER8 CH3 -> Arduino D3 -> Arduino D9 -> ESC -> U10
+//   T8L right joystick Y (spring-centered) -> ER8 CH2 -> Arduino D3
+//   Arduino D9 -> APISQUEEN bidirectional ESC -> U10
 //
-// Confirmed T8L / ER8 mapping:
-//   CH3 = Left Joystick Y (throttle)
-//
-// ESC command range:
-//   ~1000 us = maximum reverse
-//   ~1500 us = stop / neutral
-//   ~2000 us = maximum forward
-//
-// This sketch intentionally starts conservatively:
-//   - ESC receives 1500 us (neutral) at startup.
-//   - The transmitter throttle must be detected near neutral before
-//     the sketch will pass throttle commands through to the ESC.
-//   - If the receiver signal is lost, the ESC is commanded to neutral.
+// Safety behavior:
+//   - Starts with ESC command at neutral (1500 us).
+//   - Requires CH2 to be detected near center before enabling control.
+//   - Invalid/lost receiver signal commands neutral and disarms control.
+//   - First-test output is restricted to 1450–1550 us (only +/-50 us
+//     from neutral). This may be too narrow to overcome the ESC's neutral
+//     deadband; if the motor does not spin, do not increase it blindly.
+//   - Use only with the U10 securely restrained and fully submerged.
 //
 // IMPORTANT:
-//   The U10 must be submerged in water for powered operation.
-//   Do not run the U10 at meaningful power in air.
+//   1450–1550 us is a deliberately conservative initial test window, not
+//   a verified U10/ESC operating range. Confirm ESC arming/neutral behavior
+//   and test direction briefly. Keep clear of the propeller.
 
 #include <Servo.h>
 
-const int THROTTLE_INPUT_PIN = 3;  // ER8 CH3
-const int ESC_OUTPUT_PIN = 9;      // ESC signal
+const uint8_t THROTTLE_INPUT_PIN = 3; // ER8 CH2: right joystick Y
+const uint8_t ESC_OUTPUT_PIN = 9;     // ESC white PWM signal
 
-// Observed CH3 signal range is expected to be approximately
-// 1000–2000 us, consistent with the T8L/ER8 system.
+// Previously documented T8L/ER8 CH2 calibration; verify in Serial Monitor.
 const int THROTTLE_MIN = 984;
 const int THROTTLE_CENTER = 1493;
 const int THROTTLE_MAX = 2002;
 
-// ESC command range.
-const int ESC_REVERSE = 1000;
+// Typical bidirectional ESC servo-pulse convention; verify on this ESC.
 const int ESC_NEUTRAL = 1500;
-const int ESC_FORWARD = 2000;
 
-// Startup safety: throttle must be near center before control is enabled.
-const int ARM_DEADZONE = 30;
+// Extremely limited first-test window: +/-50 us around neutral.
+const int ESC_REVERSE_TEST = 1450;
+const int ESC_FORWARD_TEST = 1550;
 
-// Receiver signal timeout.
-const unsigned long SIGNAL_TIMEOUT_US = 25000;
+// Require stick to be close to center at startup before enabling.
+const int ARM_DEADZONE_US = 30;
+
+// A pulseIn timeout indicates missing/invalid receiver signal.
+const unsigned long SIGNAL_TIMEOUT_US = 25000UL;
+const unsigned long SERIAL_INTERVAL_MS = 200UL;
 
 Servo esc;
-
 bool throttleEnabled = false;
+unsigned long lastSerialMs = 0;
 
 void setup() {
-  Serial.begin(9600);
-
+  Serial.begin(115200);
   pinMode(THROTTLE_INPUT_PIN, INPUT);
 
-  // Always start the ESC at neutral.
   esc.attach(ESC_OUTPUT_PIN);
   esc.writeMicroseconds(ESC_NEUTRAL);
 
-  Serial.println("POC 6 — U10 ESC throttle control");
-  Serial.println("ESC commanded to NEUTRAL.");
-  Serial.println("Move throttle to center to enable control.");
+  Serial.println(F("POC 6 — U10 very-low-throttle test"));
+  Serial.println(F("Input: ER8 CH2 -> D3; output: D9 -> ESC signal"));
+  Serial.println(F("ESC command held at NEUTRAL (1500 us) at startup."));
+  Serial.println(F("Center the spring-loaded right joystick Y to enable."));
+  Serial.println(F("Test window limited to 1450–1550 us."));
 }
 
 void loop() {
-  unsigned long throttlePulse =
-    pulseIn(THROTTLE_INPUT_PIN, HIGH, SIGNAL_TIMEOUT_US);
+  const unsigned long pulse =
+      pulseIn(THROTTLE_INPUT_PIN, HIGH, SIGNAL_TIMEOUT_US);
 
-  // No valid receiver signal: force ESC to neutral.
-  if (throttlePulse == 0) {
+  if (pulse == 0 || pulse < 800 || pulse > 2200) {
     esc.writeMicroseconds(ESC_NEUTRAL);
     throttleEnabled = false;
-
-    Serial.println("NO SIGNAL -> ESC NEUTRAL");
-    delay(100);
+    if (millis() - lastSerialMs >= SERIAL_INTERVAL_MS) {
+      Serial.println(F("NO VALID CH2 SIGNAL -> ESC NEUTRAL; control disarmed"));
+      lastSerialMs = millis();
+    }
     return;
   }
 
-  // Keep startup locked until the throttle is physically near center.
   if (!throttleEnabled) {
     esc.writeMicroseconds(ESC_NEUTRAL);
-
-    if (abs((int)throttlePulse - THROTTLE_CENTER) <= ARM_DEADZONE) {
+    if (abs((int)pulse - THROTTLE_CENTER) <= ARM_DEADZONE_US) {
       throttleEnabled = true;
-      Serial.println("THROTTLE CENTERED -> CONTROL ENABLED");
-    } else {
-      Serial.print("ARMING: throttle = ");
-      Serial.print(throttlePulse);
-      Serial.println(" us; return throttle to center.");
+      Serial.println(F("CH2 centered -> control enabled"));
+    } else if (millis() - lastSerialMs >= SERIAL_INTERVAL_MS) {
+      Serial.print(F("WAITING FOR CENTER; CH2="));
+      Serial.print(pulse);
+      Serial.println(F(" us; ESC remains neutral"));
+      lastSerialMs = millis();
     }
-
-    delay(50);
     return;
   }
 
-  // Convert receiver pulse width directly into the ESC's
-  // bidirectional command range.
-  int escCommand = map(
-    throttlePulse,
-    THROTTLE_MIN,
-    THROTTLE_MAX,
-    ESC_REVERSE,
-    ESC_FORWARD
-  );
+  int command = ESC_NEUTRAL;
 
-  escCommand = constrain(
-    escCommand,
-    ESC_REVERSE,
-    ESC_FORWARD
-  );
-
-  // Maintain a true 1500 us neutral point.
-  if (abs((int)throttlePulse - THROTTLE_CENTER) <= ARM_DEADZONE) {
-    escCommand = ESC_NEUTRAL;
+  // Center deadband: release the stick and command neutral.
+  if (abs((int)pulse - THROTTLE_CENTER) > ARM_DEADZONE_US) {
+    // Right-stick up (larger pulse) is provisionally mapped to forward.
+    // Right-stick down (smaller pulse) is provisionally mapped to reverse.
+    command = (int)map((long)pulse,
+                       THROTTLE_MIN, THROTTLE_MAX,
+                       ESC_REVERSE_TEST, ESC_FORWARD_TEST);
+    command = constrain(command, ESC_REVERSE_TEST, ESC_FORWARD_TEST);
   }
 
-  esc.writeMicroseconds(escCommand);
+  esc.writeMicroseconds(command);
 
-  Serial.print("CH3: ");
-  Serial.print(throttlePulse);
-  Serial.print(" us -> ESC: ");
-  Serial.print(escCommand);
-  Serial.println(" us");
-
-  delay(50);
+  if (millis() - lastSerialMs >= SERIAL_INTERVAL_MS) {
+    Serial.print(F("CH2="));
+    Serial.print(pulse);
+    Serial.print(F(" us -> ESC="));
+    Serial.print(command);
+    Serial.println(F(" us"));
+    lastSerialMs = millis();
+  }
 }
