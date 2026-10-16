@@ -1374,3 +1374,18 @@ The shopping list at `docs/power-system/ASV_Power_System_Shopping_List.md` has b
 - Leave the SyRen's 5 V BEC unused for now. Power Arduino/ER8 from the planned separate regulated supply; avoid paralleling 5 V sources.
 - Next steps when it arrives: inspect exact board/revision and included connectors; verify no-solder signal hookup and terminal requirements; read the exact manual; confirm PA-14P pinout before wiring; design a fused, current-aware bench setup; test short extension/retraction commands first; then develop feedback control and fault handling.
 - Waterproofing is no longer a requirement for the motor driver; final installation can use a protected enclosure inside the hull.
+
+### 2026-10-16 — POC 6 throttle input and conservative test sketch updated
+
+The POC 6 sketch was updated in the repository before the first powered U10 test.
+
+- Sketch: `sketches/01_basics/06_u10_esc_throttle/06_u10_esc_throttle.ino`
+- Control chain: T8L **right joystick Y (spring-centered)** → ER8 **CH2** → Arduino **D3** → Arduino **D9** → APISQUEEN bidirectional ESC → U10.
+- Steering is intentionally out of scope for this test.
+- Arduino remains USB-powered; the ESC BEC powers the ER8. The ER8, Arduino, and ESC control signal share a common ground.
+- Sketch starts at 1500 µs neutral, requires valid centered CH2 input before enabling, commands neutral on invalid/lost receiver signal, and reports CH2 pulse width and ESC command over Serial at 115200 baud.
+- Initial ESC command range is deliberately limited to **1450–1550 µs** (±50 µs around nominal neutral) to attempt only a very-low-throttle forward/neutral/reverse functional check. This range may fall inside the ESC's neutral deadband; if the thruster does not spin, do not increase the range blindly.
+- The CH2 calibration baseline (approximately 984 / 1493 / 2002 µs) and assumed direction mapping are provisional for this test and should be checked in Serial Monitor and with brief, restrained tests.
+- Before powering: verify ESC input polarity, correct ER8 power-pin orientation and BEC compatibility, secure the U10 and fully submerge it. NANKADF GC3010H is limited to 10 A; this is not a full-power U10 test.
+- Status: **Sketch updated; physical test not yet reported as run.**
+
