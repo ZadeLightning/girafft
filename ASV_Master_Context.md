@@ -1424,3 +1424,15 @@ Assessment:
 #### Clarification — expected startup signal-loss messages
 
 The user clarified that the initial `NO VALID CH2 SIGNAL` messages in the 2026-10-16 bench test occurred after the Arduino was connected over USB but **before the ESC/its BEC was powered**, so the ER8 receiver was not yet powered and could not provide CH2 pulses. Those initial messages are expected in that power-up sequence and should not be treated as evidence of a signal-quality fault. After the ESC/BEC powered the ER8, the receiver signal appeared and remained stable throughout the reported joystick test.
+
+
+### 2026-10-17 — POC 6 ESC command window widened for next test
+
+At the user's request, the POC 6 sketch's initial ESC output limits were widened from **1450–1550 µs (±50 µs)** to **1400–1600 µs (±100 µs)** around 1500 µs neutral. This is a controlled diagnostic step to test whether the previous range was inside the ESC's neutral deadband.
+
+- Changed `ESC_REVERSE_TEST` to **1400 µs** and `ESC_FORWARD_TEST` to **1600 µs**.
+- Updated the sketch's startup message and comments to reflect the new limits.
+- CH2 calibration, 50 ms input timeout, centered-stick interlock, neutral-on-signal-loss behavior, and 1500 µs neutral command are unchanged.
+- The Arduino Serial Monitor previously verified that the input and mapping work, but the ESC/U10 physical response has not yet been verified.
+- During the next test, keep the U10 fully submerged and mechanically secured, start at neutral, use brief movements only, and monitor NANKADF voltage/current. If the motor does not respond, stop and proceed to the ESC's documented arming procedure rather than widening the range repeatedly or jumping to full endpoints.
+- The bench supply's 10 A maximum means this remains a limited functional test, not a full-power U10 test.
