@@ -1419,3 +1419,8 @@ Assessment:
 - **Arduino D9 ESC command generation and conservative software limits: verified in Serial output only; physical ESC/motor response not yet verified.**
 - The 50 ms timeout appears to have improved observed behavior, but the initial startup messages remain expected/possible during receiver startup/binding; root cause is not conclusively established.
 - Next step: keep the U10 disconnected and verify ESC power/BEC/arming behavior as appropriate, then prepare a brief, low-power U10 test with the thruster mechanically secured and fully submerged. Do not infer actual motor direction or deadband from the Arduino serial output alone.
+
+
+#### Clarification — expected startup signal-loss messages
+
+The user clarified that the initial `NO VALID CH2 SIGNAL` messages in the 2026-10-16 bench test occurred after the Arduino was connected over USB but **before the ESC/its BEC was powered**, so the ER8 receiver was not yet powered and could not provide CH2 pulses. Those initial messages are expected in that power-up sequence and should not be treated as evidence of a signal-quality fault. After the ESC/BEC powered the ER8, the receiver signal appeared and remained stable throughout the reported joystick test.
