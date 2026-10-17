@@ -39,8 +39,9 @@ const int ESC_FORWARD_TEST = 1550;
 // Require stick to be close to center at startup before enabling.
 const int ARM_DEADZONE_US = 30;
 
-// A pulseIn timeout indicates missing/invalid receiver signal.
-const unsigned long SIGNAL_TIMEOUT_US = 25000UL;
+// Allow more time for pulseIn() to synchronize with the repeating ER8 PWM signal.
+// Diagnostic increase from 25 ms to 50 ms after intermittent timeouts during bench test.
+const unsigned long SIGNAL_TIMEOUT_US = 50000UL;
 const unsigned long SERIAL_INTERVAL_MS = 200UL;
 
 Servo esc;
