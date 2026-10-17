@@ -1389,3 +1389,14 @@ The POC 6 sketch was updated in the repository before the first powered U10 test
 - Before powering: verify ESC input polarity, correct ER8 power-pin orientation and BEC compatibility, secure the U10 and fully submerge it. NANKADF GC3010H is limited to 10 A; this is not a full-power U10 test.
 - Status: **Sketch updated; physical test not yet reported as run.**
 
+
+
+### 2026-10-16 — POC 6 receiver signal timeout diagnostic update
+
+During the first Serial Monitor check, the Arduino correctly read ER8 CH2 across the stick's travel (roughly 970–1986 µs observed), but intermittent `NO VALID CH2 SIGNAL` messages caused repeated disarm/re-arm transitions while the stick was held still or moved.
+
+- Increased `SIGNAL_TIMEOUT_US` in `sketches/01_basics/06_u10_esc_throttle/06_u10_esc_throttle.ino` from **25,000 µs (25 ms)** to **50,000 µs (50 ms)** as a diagnostic to allow more time for `pulseIn()` to synchronize with the repeating receiver PWM signal.
+- The existing fail-safe remains: a timeout or out-of-range pulse commands ESC neutral and disarms control.
+- The existing centered-stick interlock and 1450–1550 µs ESC command limits are unchanged.
+- This is a diagnostic change, not a confirmed root-cause fix. Re-test with the U10 disconnected; if dropouts persist, inspect wiring/ground/power and consider a more robust receiver-pulse capture implementation.
+- Status: **Code updated; revised sketch has not yet been physically tested.**
