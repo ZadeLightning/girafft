@@ -9,13 +9,13 @@
 //   - Starts with ESC command at neutral (1500 us).
 //   - Requires CH2 to be detected near center before enabling control.
 //   - Invalid/lost receiver signal commands neutral and disarms control.
-//   - First-test output is restricted to 1450–1550 us (only +/-50 us
+//   - First-test output is restricted to 1400–1600 us (only +/-100 us
 //     from neutral). This may be too narrow to overcome the ESC's neutral
 //     deadband; if the motor does not spin, do not increase it blindly.
 //   - Use only with the U10 securely restrained and fully submerged.
 //
 // IMPORTANT:
-//   1450–1550 us is a deliberately conservative initial test window, not
+//   1400–1600 us is a deliberately conservative initial test window, not
 //   a verified U10/ESC operating range. Confirm ESC arming/neutral behavior
 //   and test direction briefly. Keep clear of the propeller.
 
@@ -32,9 +32,9 @@ const int THROTTLE_MAX = 2002;
 // Typical bidirectional ESC servo-pulse convention; verify on this ESC.
 const int ESC_NEUTRAL = 1500;
 
-// Extremely limited first-test window: +/-50 us around neutral.
-const int ESC_REVERSE_TEST = 1450;
-const int ESC_FORWARD_TEST = 1550;
+// Extremely limited first-test window: +/-100 us around neutral.
+const int ESC_REVERSE_TEST = 1400;
+const int ESC_FORWARD_TEST = 1600;
 
 // Require stick to be close to center at startup before enabling.
 const int ARM_DEADZONE_US = 30;
@@ -59,7 +59,7 @@ void setup() {
   Serial.println(F("Input: ER8 CH2 -> D3; output: D9 -> ESC signal"));
   Serial.println(F("ESC command held at NEUTRAL (1500 us) at startup."));
   Serial.println(F("Center the spring-loaded right joystick Y to enable."));
-  Serial.println(F("Test window limited to 1450–1550 us."));
+  Serial.println(F("Test window limited to 1400–1600 us."));
 }
 
 void loop() {
