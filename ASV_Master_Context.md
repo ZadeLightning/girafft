@@ -1400,3 +1400,22 @@ During the first Serial Monitor check, the Arduino correctly read ER8 CH2 across
 - The existing centered-stick interlock and 1450–1550 µs ESC command limits are unchanged.
 - This is a diagnostic change, not a confirmed root-cause fix. Re-test with the U10 disconnected; if dropouts persist, inspect wiring/ground/power and consider a more robust receiver-pulse capture implementation.
 - Status: **Code updated; revised sketch has not yet been physically tested.**
+
+
+### 2026-10-16 — POC 6 receiver input bench test passed
+
+The user uploaded the revised POC 6 sketch with the CH2 signal timeout increased to 50 ms and tested the T8L → ER8 → Arduino input path with the U10 not connected to the ESC.
+
+Observed results:
+- On initial power-up, the Serial Monitor printed repeated `NO VALID CH2 SIGNAL` messages before valid CH2 pulses appeared. The receiver then centered and enabled control.
+- With the stick untouched, CH2 readings remained stable around **1489–1496 µs**, and the sketch commanded **1500 µs neutral**.
+- Moving right joystick Y upward produced smoothly increasing CH2 readings, reaching about **1993 µs**, while ESC commands increased to **1549 µs** (limited to the 1550 µs test maximum).
+- Moving the stick downward produced smoothly decreasing CH2 readings, reaching about **984 µs**, while ESC commands decreased to **1450 µs** (limited to the 1450 µs test minimum).
+- Returning the stick to center consistently restored the **1500 µs neutral** command.
+- No further signal-loss messages were present during the long stable joystick-travel sequence provided by the user.
+
+Assessment:
+- **T8L → ER8 CH2 → Arduino D3 input and mapping: PASS for bench signal test.**
+- **Arduino D9 ESC command generation and conservative software limits: verified in Serial output only; physical ESC/motor response not yet verified.**
+- The 50 ms timeout appears to have improved observed behavior, but the initial startup messages remain expected/possible during receiver startup/binding; root cause is not conclusively established.
+- Next step: keep the U10 disconnected and verify ESC power/BEC/arming behavior as appropriate, then prepare a brief, low-power U10 test with the thruster mechanically secured and fully submerged. Do not infer actual motor direction or deadband from the Arduino serial output alone.
