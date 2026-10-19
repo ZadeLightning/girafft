@@ -1436,3 +1436,16 @@ At the user's request, the POC 6 sketch's initial ESC output limits were widened
 - The Arduino Serial Monitor previously verified that the input and mapping work, but the ESC/U10 physical response has not yet been verified.
 - During the next test, keep the U10 fully submerged and mechanically secured, start at neutral, use brief movements only, and monitor NANKADF voltage/current. If the motor does not respond, stop and proceed to the ESC's documented arming procedure rather than widening the range repeatedly or jumping to full endpoints.
 - The bench supply's 10 A maximum means this remains a limited functional test, not a full-power U10 test.
+
+
+### 2026-10-18 — POC 6 U10 first successful rotation and approximate neutral deadband
+
+The user reports that the APISQUEEN U10 now responds physically to the T8L → ER8 → Arduino → ESC chain with the sketch's **1400–1600 µs** output limits.
+
+- Approximate no-rotation/deadband region observed: **1450–1540 µs**. Treat this as a preliminary observation, not a precisely characterized threshold; record the actual ESC output pulse width shown in Serial Monitor when rotation first starts in each direction.
+- Reported peak bench-supply current during these limited tests: **just over 1.5 A forward** and **just over 1.0 A reverse**. The NANKADF was set to **24 V** with a **2 A current limit**, so these are low-power functional-test readings, not U10 full-load measurements.
+- Direction/orientation remains unresolved: the user notes that either the software's forward/reverse mapping is opposite to expectation, or the assumed physical facing/orientation of the U10 is reversed. Do **not** change the code mapping yet. First define the thruster's physical reference direction relative to the hull (which end of the U10 faces the bow/stern and which way thrust is directed), then compare that with the observed flow/thrust direction at each ESC command. “Forward” in the ESC's pulse-width convention is not automatically the boat's forward direction.
+- Keep the U10 fully submerged and mechanically secured; keep tests brief and the bench supply at its 2 A limit. The 10 A bench supply cannot support full-power U10 testing (published working current is around 32 A).
+- Next step: determine and record the approximate **ESC output pulse width** at which rotation begins below neutral and above neutral, and explicitly label the observed physical thrust direction for each. Return to 1500 µs neutral between checks. Do not increase the current limit or approach full throttle on this supply.
+- Sketch mapping and output limits remain unchanged pending these observations.
+
