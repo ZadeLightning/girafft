@@ -167,3 +167,15 @@ Keep the work bite-sized:
 - The User's Guide specifies the supply-plus-battery recommendation and explains regeneration and the ATX approach. The ATX guide is written for an ATX computer supply and its recommended 12 V SLA buffer; it does not explicitly validate the NANKADF GC3010H.
 - The supplied documents disagree on the simplified serial byte mapping/stop value. Resolve this using the exact board configuration and current manufacturer resources before using the command values in a powered test.
 - No exact PA-14P connector pinout is established in this SyRen document; actuator-specific wiring must be verified separately.
+
+
+## 12. POC 7 battery and NANKADF reference update (2026-10-20)
+
+The user supplied the NANKADF manual: https://manuals.plus/ae/1005007258762095. It describes adjustable voltage/current and automatic CV/CC operation, but does not establish reverse-current sinking capability or an approved complete lead-calcium charging/termination profile. Do not use the NANKADF alone as SyRen motor power, and do not assume it is an appropriate battery charger based only on CV/CC functionality.
+
+The user also supplied the exact matching specification sheet for the **Precision Consumer Products Group B LA12V 7.0A**, a sealed 12 V, 7 Ah lead-calcium battery:
+https://images.thdstatic.com/catalog/pdfImages/49/493e4612-f613-4662-ab03-c053b0bc3bb5.pdf
+
+The spec sheet reports 70 A maximum discharge for 5 seconds, approx. 30 mΩ internal resistance when fully charged at 77°F, and F1 0.187-inch terminals. The battery's physical label specifies standby 13.5–13.8 V and cyclic 14.4–15.0 V, with maximum initial charging current 1.75 A. The PDF gives somewhat different float/current values; use the physical label's more conservative 1.75 A maximum initial charge current and do not exceed the label's standby voltage range without manufacturer clarification.
+
+**Charging recommendation:** use a dedicated 12 V charger explicitly compatible with sealed lead-calcium/VRLA batteries rather than charging from the NANKADF until the battery maker confirms a safe procedure. For the SyRen/actuator POC, this battery is a promising standalone motor supply candidate; verify condition, fuse, wiring, polarity, and connections before powering.
