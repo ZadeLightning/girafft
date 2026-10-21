@@ -1641,3 +1641,24 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - Manual does **not specify receiver supply-current consumption**. Therefore, it does not yet establish that the SyRen 10's 5 V output is an adequate ER8 supply.
 - SyRen manual reference: its 5 V output limit is stated as 100 mA when driver input voltage is 12.6 V or less, and 10 mA above 12.6 V. The temporary battery measured 12.7 V at rest, so receiver current compatibility remains **unverified**. Do not claim the ER8 exceeds 10 mA without evidence; obtain a current specification or measure consumption safely before relying on the SyRen 5 V terminal.
 - ER8 receiver pinout/labels shown in the manual include BATT and CH1–CH8. The manual describes battery input as 4.5–8.4 V. Use the actual receiver markings and manual diagram when wiring; do not connect the 12 V actuator battery directly to receiver power pins.
+
+
+### 2026-10-21 — PA-14P User Manual V1.03 added to inventory references
+
+- User-uploaded manual: **PA-14P datasheet.pdf** (Progressive Automations PA-14P User Manual, V1.03, 8 pages). The user-uploaded copy is available in the project conversation; use this inventory note and the original file for future reference.
+- Manual content: actuator specifications, dimensions, speed/current-vs-load charts, six-position Molex Mini-Fit Jr. connector/potentiometer feedback pinout, and internal components.
+- Electrical table (page 3): for the 35 lb version at 12 V DC, no-load current 1.0 A and full-load current 5.0 A. No-load speed 2.00 in/s and full-load speed 1.38 in/s. These are published operating figures; actual test current will depend on load.
+- Duty cycle (page 3): **25%**, stated as 5 minutes on / 15 minutes off. Respect this during testing; brief initial tests are preferable.
+- Internal non-adjustable limit switches; potentiometer feedback is a separate feature. The internal limit switches are not a substitute for Arduino position-feedback control.
+- Page 6 connector pinout (verify the diagram's orientation against the actual connector before wiring):
+  1. Potentiometer +5 VDC — **yellow**
+  2. Potentiometer GND — **white**
+  3. Unused
+  4. Potentiometer wiper — **blue**
+  5. Motor + — **black**
+  6. Motor − — **red**
+- Page 6 feedback potentiometer: 0–10 kΩ, 10 turns, ±5% tolerance; actual resistance can vary with stroke length.
+- Page 6 lists Molex Mini-Fit Jr. 6-pin receptacle housing 39012060 and mating part number 39013063; terminal part numbers 39000038 and 39000040 are listed. Confirm which housing/terminal corresponds to the exact cable/connector gender before ordering or crimping.
+- POC 7 wiring implications: actuator motor leads (pins 5 and 6, black/red per manual) go to SyRen M1/M2, not Arduino pins. Potentiometer supply/ground/wiper (pins 1, 2, and 4) go to regulated +5 V, Arduino GND, and an Arduino **analog input** respectively. Pin 3 is unused. Confirm exact pin numbering/orientation on the physical connector before connecting; do not rely on wire colors alone.
+- Arduino Uno analog inputs A0–A5 are the correct input type for reading the potentiometer wiper. Example allocation could be A0 for feedback, with other pins reserved for receiver PWM input and SyRen serial output. Digital pins 6/7/8 are not the natural choice for analog position measurement (although some support special functions, they do not replace analog input for this potentiometer).
+- Source caveat: the manual's feedback drawing specifies +5 VDC and GND for the potentiometer. It does not explicitly guarantee the Arduino's 5 V reference/current compatibility or describe calibration values for the exact actuator stroke. Calibrate measured ADC values at the usable retracted/extended endpoints before implementing closed-loop position control.
