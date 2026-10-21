@@ -1662,3 +1662,26 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - POC 7 wiring implications: actuator motor leads (pins 5 and 6, black/red per manual) go to SyRen M1/M2, not Arduino pins. Potentiometer supply/ground/wiper (pins 1, 2, and 4) go to regulated +5 V, Arduino GND, and an Arduino **analog input** respectively. Pin 3 is unused. Confirm exact pin numbering/orientation on the physical connector before connecting; do not rely on wire colors alone.
 - Arduino Uno analog inputs A0–A5 are the correct input type for reading the potentiometer wiper. Example allocation could be A0 for feedback, with other pins reserved for receiver PWM input and SyRen serial output. Digital pins 6/7/8 are not the natural choice for analog position measurement (although some support special functions, they do not replace analog input for this potentiometer).
 - Source caveat: the manual's feedback drawing specifies +5 VDC and GND for the potentiometer. It does not explicitly guarantee the Arduino's 5 V reference/current compatibility or describe calibration values for the exact actuator stroke. Calibrate measured ADC values at the usable retracted/extended endpoints before implementing closed-loop position control.
+
+### 2026-10-21 — POC 7 wiring decisions and actuator duty-cycle clarification
+
+#### Agreed POC 7 control/power plan
+
+- This work is specifically **POC 7: power and control the PA-14P actuator through the SyRen 10**, using the temporary 12 V / 7 Ah sealed lead-acid battery for motor power and the Mac USB connection to power the Arduino Uno.
+- **NANKADF GC3010H is not used in the SyRen/actuator motor-power circuit.**
+- The Radiomaster T8L left joystick horizontal X axis is the desired steering/position command. The user confirmed this axis is received on **ER8 channel 4**.
+- **ER8 CH4 signal → Arduino D4**. D4 is selected for ease of remembering; confirm the pulse signal in the sketch before commanding motion.
+- The Arduino will read the PA-14P potentiometer wiper on **A0** for closed-loop position feedback.
+- PA-14P potentiometer wiring per PA-14P User Manual V1.03, page 6: pin 1 yellow = potentiometer +5 V; pin 2 white = potentiometer GND; pin 4 blue = wiper; pin 3 unused; pin 5 black = motor +; pin 6 red = motor −. Verify physical connector orientation/pin numbering before connecting.
+- **Potentiometer yellow (+5 V) → Arduino 5 V**, potentiometer white (GND) → Arduino GND, potentiometer blue (wiper) → A0. This is a passive sensor powered by the Arduino's USB-derived 5 V rail and is an intended connection; it is not a second power supply.
+- Do **not** connect the SyRen's 5V output to the Arduino's 5V rail while the Arduino is powered by USB. Keep the SyRen 5 V output and Arduino 5 V rail separate. Connect Arduino GND to SyRen 0V for the serial control reference, and connect ER8 signal/power grounds as required by the chosen receiver supply arrangement. Avoid paralleling 5 V sources.
+- **SyRen serial command:** intended Arduino serial TX output → SyRen S1, after confirming the DIP switches are set for the intended serial mode. SyRen S2 is not needed for the planned single-controller simplified-serial configuration and should remain unused unless the selected mode/manual requires otherwise.
+- The user's present plan is to power the ER8 from the SyRen 5V and 0V terminals, as previously discussed. Compatibility remains unverified because the ER8 manual does not specify current consumption and the SyRen 5 V current allowance depends on input voltage (100 mA at ≤12.6 V; 10 mA above 12.6 V). This is a planned test assumption, not a verified specification; do not connect the SyRen 5 V output to Arduino 5 V.
+- PA-14P motor leads (manual pin 5 black / pin 6 red) connect to SyRen M1/M2, not Arduino pins. Confirm actual connector orientation and motor direction with a brief controlled test.
+- Startup/failsafe behavior remains: no motor command until receiver input and feedback are valid; stop on receiver signal loss or invalid feedback; joystick left = 0% retracted target, center = 50%, right = 100% extended target; use closed-loop feedback and calibrated endpoints.
+
+#### PA-14P duty cycle
+
+- PA-14P User Manual V1.03, page 3, specifies a **25% duty cycle**, expressed as **5 minutes on, 15 minutes off**.
+- For this actuator, treat this as an operating/rest constraint: up to 5 minutes of energized operation followed by 15 minutes of rest, not a requirement to run for a full 5 minutes. Brief POC movements are compatible with this restriction; avoid sustained repeated operation without rest.
+- The manual also specifies 1.0 A no-load current and 5.0 A full-load current at 12 V for the 35 lb version. Actual current depends on mechanical load. The internal non-adjustable limit switches do not replace feedback-based position control.
