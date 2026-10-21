@@ -1545,4 +1545,36 @@ T8L LEFT joystick X
 6. Establish position feedback/reference strategy; only then implement and verify startup half-extension behavior.
 7. Record observed voltage/current and actual actuator response after testing.
 
+### 2026-10-20 — POC 7 control behavior clarified: joystick commands target position
+
+The user clarified the desired steering feel for POC 7: **the T8L horizontal joystick position should map directly to the PA-14P actuator's target extension**, rather than commanding motor direction/speed only.
+
+#### Desired position mapping
+
+- Joystick full left → **0% / fully retracted** target.
+- Joystick center → **50% / half-extension** target.
+- Joystick full right → **100% / fully extended** target.
+- Intermediate joystick positions map proportionally to intermediate actuator positions.
+- When the joystick is held off-center, the actuator should move toward the corresponding target and stop when it reaches that position.
+- When the joystick returns to center, the target becomes half extension; if the actuator is not centered, it should move toward half extension and stop once within tolerance.
+- This is **closed-loop position control**, not direct motor-speed control.
+
+#### Control-loop design
+
+- ER8 PWM signal provides desired joystick position.
+- Arduino maps the calibrated receiver pulse range to a normalized target position (0–100%).
+- The PA-14P's built-in potentiometer feedback provides measured actuator position to an Arduino analog input.
+- Arduino compares target and measured position, then commands the SyRen 10 to extend/retract as needed.
+- Add a configurable position deadband/tolerance to avoid hunting or constant motor twitching.
+- Calibrate actual feedback readings at the actuator's usable retracted and extended limits; do not assume potentiometer endpoints are exactly 0 V and 5 V or that ADC values span 0–1023.
+- Establish conservative software limits and stop behavior at each endpoint. Internal actuator end stops are additional protection, not a substitute for feedback-based control limits.
+- Verify the actual actuator's connector pinout and potentiometer wire colors from documentation/measurement before wiring. Do not connect potentiometer leads to motor power.
+- On startup, determine/reference actual position safely. The target should default to **50%**, and the actuator should move to half extension if needed once valid position feedback and receiver input are established. Do not move blindly if position feedback is invalid.
+- On receiver loss or invalid position feedback, stop motor output and report the fault rather than continuing to drive.
+
+#### Axis naming note
+
+The user's latest description says joystick movement left/right while referring to the "Y axis." Earlier POC 7 notes specify the **T8L left joystick X axis**. Physical left/right travel is normally the horizontal/X axis, but verify the actual ER8 channel and measured pulse response during calibration; don't hardcode a channel until confirmed.
+
+**Status:** Design behavior agreed; implementation and powered closed-loop testing remain pending.
 
