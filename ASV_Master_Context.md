@@ -1630,3 +1630,14 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - **NANKADF GC3010H is not used in the actuator/motor power circuit for this POC.**
 - The battery measured **12.7 V** with the multimeter before testing, consistent with a fully or nearly fully charged resting 12 V lead-acid battery.
 - User intends this battery to be temporary for POC 7 and plans to return it afterward; this does not determine the final propulsion-battery chemistry.
+
+
+### 2026-10-20 — RadioMaster ER8 receiver manual saved to inventory references
+
+- User-provided manufacturer manual: https://cdn.shopify.com/s/files/1/0609/8324/7079/files/ER8.pdf?v=1726133954
+- Component: **RadioMaster ER8 ELRS PWM receiver**, 2.4 GHz.
+- Manual specifications: supply **DC 4.5–8.4 V**; **8-channel PWM output**; CRSF bus interface; pre-installed ExpressLRS 3.3.0; dimensions 43 × 30 × 15 mm; weight 16.5 g; telemetry power up to 100 mW.
+- Manual's voltage telemetry range is 4.0–35 V, but that is the **voltage-sensing range**, not the receiver's power-supply input range. Power the receiver itself only within the stated 4.5–8.4 V range.
+- Manual does **not specify receiver supply-current consumption**. Therefore, it does not yet establish that the SyRen 10's 5 V output is an adequate ER8 supply.
+- SyRen manual reference: its 5 V output limit is stated as 100 mA when driver input voltage is 12.6 V or less, and 10 mA above 12.6 V. The temporary battery measured 12.7 V at rest, so receiver current compatibility remains **unverified**. Do not claim the ER8 exceeds 10 mA without evidence; obtain a current specification or measure consumption safely before relying on the SyRen 5 V terminal.
+- ER8 receiver pinout/labels shown in the manual include BATT and CH1–CH8. The manual describes battery input as 4.5–8.4 V. Use the actual receiver markings and manual diagram when wiring; do not connect the 12 V actuator battery directly to receiver power pins.
