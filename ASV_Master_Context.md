@@ -1591,3 +1591,22 @@ The user's latest description says joystick movement left/right while referring 
 ### 2026-10-20 — Dedicated SyRen 10 documentation created
 
 Created [`SyRen_10_Documentation.md`](SyRen_10_Documentation.md) as the focused reference for the SyRen 10 and POC 7. It consolidates the supplied Quick Start Guide and User's Guide with the manufacturer's product, Arduino-library, and ATX-supply resources. Key items flagged: the manufacturer's battery/battery-buffer recommendation for regenerative operation (NANKADF alone is not yet confirmed safe), voltage-dependent 5 V output current limits, using the DIP-switch wizard rather than guessing switch positions, and conflicting simplified-serial command mappings in the supplied documents that must be resolved before a powered command test. User clarified that the T8L input is the left joystick's horizontal **X axis**.
+
+
+### 2026-10-20 — NANKADF and POC 7 battery references saved to inventory
+
+#### NANKADF GC3010H — reference manual
+- Manual supplied by user: https://manuals.plus/ae/1005007258762095
+- Applies to the NANKADF GA/GC series, including GC3010H.
+- Relevant documented capabilities: adjustable voltage and current, constant-voltage/constant-current operation, OVP/OCP/over-temperature protection.
+- Safety interpretation: manual does **not** establish that the supply can sink regenerative current from a motor controller; do not use it alone as SyRen 10 motor power. It also does not establish a manufacturer-approved complete lead-acid charging profile for the battery below.
+
+#### Precision Consumer Products Group B LA12V 7.0A — sealed lead-calcium battery
+- Physical label photographed by user; 12 V, 7.0 Ah, sealed/non-spillable.
+- Exact matching Home Depot specification PDF supplied by user: https://images.thdstatic.com/catalog/pdfImages/49/493e4612-f613-4662-ab03-c053b0bc3bb5.pdf
+- Product spec: 7.0 Ah at 20-hour rate; maximum discharge 70 A for 5 seconds; internal resistance approx. 30 mΩ fully charged at 77°F; F1 (0.187 in) terminals.
+- Physical label charging instructions at 25°C: standby 13.5–13.8 V, no limit shown; cyclic 14.4–15.0 V, maximum initial charging current 1.75 A.
+- Matching product specification PDF reports float 13.7–13.9 V and maximum charging current 2.10 A, differing from the physical label on those values. Use the physical label's more conservative maximum initial charge current (1.75 A) and do not exceed its stated standby voltage range absent manufacturer clarification.
+- Assessment for SyRen 10 + PA-14P POC 7: 12 V and lead-acid chemistry are appropriate in principle; 70 A/5 s rating gives short-duration current headroom above the actuator's approx. 5 A full-load current. This does not specify continuous discharge current. Battery condition and fuse/wiring still require checks.
+- Charging decision: **do not charge from NANKADF yet**. Although the GC3010H manual describes adjustable CV/CC output, it does not establish a complete approved lead-calcium charging/termination/float procedure. Prefer a dedicated 12 V charger explicitly compatible with sealed lead-calcium/VRLA batteries.
+- The two other Home Depot PDFs supplied alongside the specification sheet are safety data sheets; the second link above is the exact model's useful electrical specification.
