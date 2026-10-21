@@ -1739,3 +1739,17 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - Use the Arduino Uno screw-terminal breakout for Arduino-side connections.
 - For ER8 male headers, retain the female Dupont connector and cut/strip the opposite end of a female-ended jumper when a female-Dupont-to-bare-wire lead is needed. User's Dupont jumpers are reported by customers to be typically 22 or 24 AWG; actual gauge is not confirmed.
 - The SyRen 10 screw-terminal documentation was reviewed and recorded as accepting 14–30 AWG wire, so both 18 AWG power leads and typical 22–24 AWG signal jumpers fall within that stated range. Keep motor-power wiring appropriately sized for current; Dupont leads are for low-current signal connections only.
+
+
+### 2026-10-21 — JRready Deutsch contact specifications
+
+Inventory contacts:
+- JRready 1060-16-0122: stamped Size 16 pin contact.
+- JRready 1062-16-0122: stamped Size 16 socket contact; matching pair.
+- Manufacturer wire range for both: **14–18 AWG** (about 0.75–2.0 mm²).
+- Compatible wire insulation diameter: **1.90–3.55 mm** (0.075–0.140 in).
+- Typical rated current: **13 A**; JRready lists 250 V and −40 to +125 °C.
+- Plating: nickel interface; tin-plated wire-crimp area, per JRready.
+- Manufacturer references: https://www.jrready.com/productinfo/1439516.html and https://www.jrready.com/productinfo/1439497.html. TE Connectivity listings corroborate the 14–18 AWG range.
+
+**PA-14P harness caution:** the user's red/black motor leads measured 20 AWG, which is outside these contacts' specified 14–18 AWG range. The blue/white/yellow feedback leads are still unmeasured and appear smaller, so they should not be assumed compatible either. The used PA-14P's DT06-6S connector does not prove it uses these exact contacts. Inspect the installed contacts or use appropriately rated smaller-wire contacts compatible with the housing, or make a properly rated splice/transition to suitable 18 AWG pigtails before using these contacts. Do not improvise by folding strands or doubling conductors to fill the crimp.
