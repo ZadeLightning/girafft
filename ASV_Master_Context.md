@@ -1703,3 +1703,39 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - Sketch reports CH4 pulse width and feedback ADC readings. Motor output is deliberately disabled by default because the supplied SyRen documents conflict on simplified-serial stop/direction command mapping, and PA-14P feedback endpoints have not yet been calibrated. Do not enable motor output until both are resolved and direction is verified safely.
 - PA-14P manual V1.03 saved as the component reference. Its pinout is yellow +5 V, white GND, blue wiper, black motor +, red motor −; verify physical connector orientation before wiring. Manual rates the 35 lb / 12 V actuator at 1 A no-load, 5 A full-load, and 25% duty cycle (5 min on / 15 min off).
 - Sketch is a commissioning baseline, not yet approved for powered actuator motion. Final closed-loop behavior requires measured feedback endpoints and verified SyRen command mapping/direction.
+
+
+### 2026-10-21 — PA-14P wire-gauge observations and new wiring tools
+
+#### PA-14P-6-35 factory lead wires
+- User inspected the five populated conductors exiting the PA-14P's six-position connector.
+- **Red and black motor leads measured/identified by the user as 20 AWG stranded.** The user has not yet determined the gauges of the blue, white, and yellow potentiometer-feedback leads; they appear smaller. User plans to measure/identify them after the new 22–30 AWG wire stripper arrives.
+- This is a physical observation, not a published manufacturer wire-gauge specification. Keep the remaining three wire gauges marked **unknown pending measurement**.
+- The used PA-14P is already terminated in a Deutsch DT06-6S connector, which is encouraging evidence that the actuator's factory leads can be terminated in the project's Deutsch system. However, do not assume a particular Deutsch contact supports every conductor gauge: verify the exact contact's supported wire range and insulation diameter before crimping. Confirm crimp retention with a tug test and inspect the conductor crimp.
+- PA-14P connector pinout remains per User Manual V1.03: yellow = potentiometer +5 V; white = potentiometer GND; blue = potentiometer wiper; black = motor +; red = motor −; pin 3 unused. Verify physical connector orientation before wiring.
+
+#### Newly acquired / ordered wiring tools and adapters
+
+**DOWELL wire stripper, 22–30 AWG**
+- Product listing: “DOWELL Wire Stripper, 22–30 AWG Wire Cutter, Stripping Tool.”
+- Listed stripping range: 22–30 AWG; cutting functionality included.
+- Intended use: strip thinner Dupont jumper conductors and identify/prepare the PA-14P's smaller potentiometer leads.
+- User expects delivery on 2026-10-22. Exact gauge of the PA-14P blue/white/yellow leads remains unconfirmed until inspected.
+
+**Electronics-Salon Arduino Uno R3 screw-terminal breakout module**
+- Product listing: “Arduino Screw Terminal Block Breakout Module, for Arduino UNO R3.”
+- 40-contact IDC/header interface; PCB-mounted screw terminals.
+- Listed terminal pitch: 3.5 mm (0.138 in).
+- Listed wire range: 26–16 AWG; listed strip length: 5 mm; M2 screw terminals.
+- Intended use: provide screw-terminal access to Arduino Uno pins without soldering wires directly to the Uno.
+- User has ordered this module. This listed 26–16 AWG range accommodates the user's 18 AWG wire and typical 22–24 AWG Dupont jumper conductors, subject to secure clamping.
+
+**EDGELEC alligator-clip test leads**
+- Product listing: “12pcs/20in. Alligator Clips Electrical with Wires UL1015/18AWG, 6 Colors Jumper Test Leads Set, 1.77in. Clips Soldered with Wires.”
+- 12 leads, 20 in (50 cm) long, six colors, listed UL1015 18 AWG wire; clips are factory attached.
+- Intended use: temporary bench testing and convenient test-point connections. Not a substitute for secure, strain-relieved connections in the final boat harness.
+
+#### Wiring-interface decision
+- Use the Arduino Uno screw-terminal breakout for Arduino-side connections.
+- For ER8 male headers, retain the female Dupont connector and cut/strip the opposite end of a female-ended jumper when a female-Dupont-to-bare-wire lead is needed. User's Dupont jumpers are reported by customers to be typically 22 or 24 AWG; actual gauge is not confirmed.
+- The SyRen 10 screw-terminal documentation was reviewed and recorded as accepting 14–30 AWG wire, so both 18 AWG power leads and typical 22–24 AWG signal jumpers fall within that stated range. Keep motor-power wiring appropriately sized for current; Dupont leads are for low-current signal connections only.
