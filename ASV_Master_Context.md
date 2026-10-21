@@ -1449,3 +1449,42 @@ The user reports that the APISQUEEN U10 now responds physically to the T8L → E
 - Next step: determine and record the approximate **ESC output pulse width** at which rotation begins below neutral and above neutral, and explicitly label the observed physical thrust direction for each. Return to 1500 µs neutral between checks. Do not increase the current limit or approach full throttle on this supply.
 - Sketch mapping and output limits remain unchanged pending these observations.
 
+### 2026-10-20 — SyRen 10 received; actuator-control POC plan
+
+The Dimension Engineering **SyRen 10 regenerative brushed-DC motor driver** has arrived. Exact product listing: https://www.robotshop.com/products/dimension-engineering-syren-10  
+Manufacturer product/docs: https://www.dimensionengineering.com/products/syren10
+
+#### Known hardware details
+
+- Motor-driver supply range: **6–24 V DC**.
+- Rated as a **10 A continuous-class** regenerative motor driver; prior product research noted **15 A peak**. Check the current manufacturer manual for conditions/limits before relying on peak rating.
+- Regenerative drive: returned energy can flow back toward the supply during braking/deceleration. Do not assume the NANKADF GC3010H bench supply can absorb returned energy; confirm a safe manufacturer-approved bench arrangement before powered actuator tests.
+- User-observed screw terminals (8 total):
+  - Control side, left-to-right in the user's stated board orientation: **0V, 5V, S1, S2**.
+  - Motor/power side, left-to-right in the user's stated board orientation: **M1, B−, B+, M2**.
+  - **B+ / B−** are motor-driver power input; **M1 / M2** connect to the actuator motor leads; **0V / 5V / S1 / S2** are control-related terminals. Verify exact terminal functions and control wiring against the manufacturer manual before energizing.
+- User reports all six DIP switches currently appear flipped toward the **ON** marking. Do not change them until the manual's mode table is checked. Prior guidance identified all-ON as **Analog Independent** mode; the intended Arduino-control mode is **serial**, so the exact DIP configuration and baud rate still need confirmation from the manufacturer documentation.
+- The SyRen 5 V terminal has a stated **10 mA external-current limit** in the quick-start guidance. This is a conservative allowance to avoid reduced driver performance; it is **not proof** that the ER8 draws more than 10 mA. ER8 current consumption remains unverified. Do not assume the SyRen 5 V terminal can power the ER8.
+- Potential POC receiver power: Arduino Uno is planned to be powered from the Mac over USB; powering the ER8 from the Arduino 5 V rail is a candidate only after checking the total USB/current budget and the receiver's actual draw. A separate regulated supply is an alternative. Keep Arduino, ER8, and SyRen control grounds referenced together as required by the selected interface; do not connect or parallel power rails blindly.
+
+#### Intended actuator POC control behavior
+
+- Actuator: **Progressive Automations PA-14P-6-35**, 12 V DC, 6-inch stroke, 35 lb force.
+- Controller: SyRen 10, with Arduino Uno generating commands.
+- Radio chain: **Radiomaster T8L → ER8 → Arduino Uno → SyRen 10 → PA-14P actuator**.
+- User-selected input: **T8L left joystick, X axis**.
+- Direction mapping: joystick right = **extend** actuator; joystick left = **retract** actuator; centered joystick = **stop**.
+- Desired startup behavior: when the Arduino first detects the actuator/system, automatically move the actuator to **half extension**. Important unresolved limitation: this requires position knowledge/feedback and a known reference. Do not assume the Arduino can determine half extension from motor run time alone. Confirm the PA-14P potentiometer wiring, feedback range, and safe homing/reference strategy before implementing automatic centering.
+- Arduino power for the bench POC: Mac USB.
+- SyRen motor-driver power: NANKADF GC3010H bench supply to B+ and B−, **subject to confirming regenerative-supply safety**.
+- Actuator motor leads: SyRen M1/M2 to the actuator's factory 6-position connector/pigtail (the user reports 5 of 6 positions are occupied). The exact connector/pinout must be verified against the specific new actuator before connecting; preserve the factory cable.
+- Startup/failsafe requirements: command motor stop/neutral until a valid receiver signal is present; stop on receiver-signal loss; use conservative initial motion commands and monitor current during the first powered test. Do not require a separate pre-test measurement of actuator startup/stall current: the user has explicitly chosen to observe actual current during the SyRen-connected test instead.
+
+#### Open items for next session
+
+1. Verify the exact SyRen DIP-switch configuration for serial control and the supported serial command protocol/baud rate.
+2. Verify safe power arrangement for a regenerative driver when using the NANKADF bench supply.
+3. Confirm PA-14P connector pinout, motor leads, and potentiometer feedback wires from manufacturer documentation or measurements.
+4. Confirm ER8 current draw or otherwise select a safe receiver power source; do not claim its draw exceeds 10 mA without evidence.
+5. Implement and bench-test the Arduino signal path with T8L left joystick X, right=extend, left=retract, center=stop, and a safe startup/failsafe strategy.
+
