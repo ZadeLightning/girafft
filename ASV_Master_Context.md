@@ -1620,3 +1620,13 @@ Created [`SyRen_10_Documentation.md`](SyRen_10_Documentation.md) as the focused 
 - No charging is indicated before the initial brief test based solely on the 12.7 V reading. Continue to use appropriate battery-terminal fusing and wiring, secure the battery, and monitor voltage/current during controlled testing.
 - **Critical outstanding safety gate remains unchanged:** the SyRen 10 is regenerative. Do not power the SyRen + actuator from the NANKADF GC3010H alone unless a manufacturer-approved arrangement that can safely handle returned energy is established. Do not improvise a battery/bench-supply parallel connection.
 - Long-term propulsion battery chemistry/charger selection is deferred. Current temporary POC battery choice does not imply a lead-acid choice for the U10 propulsion system.
+
+
+### 2026-10-20 — POC 7 power arrangement confirmed
+
+The user explicitly confirmed the planned POC 7 power arrangement:
+- **12 V, 7 Ah lead-acid battery only** supplies the SyRen 10 motor driver and PA-14P actuator.
+- **Arduino Uno is powered from the Mac via USB.**
+- **NANKADF GC3010H is not used in the actuator/motor power circuit for this POC.**
+- The battery measured **12.7 V** with the multimeter before testing, consistent with a fully or nearly fully charged resting 12 V lead-acid battery.
+- User intends this battery to be temporary for POC 7 and plans to return it afterward; this does not determine the final propulsion-battery chemistry.
