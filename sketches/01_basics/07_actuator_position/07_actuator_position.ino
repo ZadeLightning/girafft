@@ -58,16 +58,15 @@ const unsigned long RX_VALID_MAX_US = 2100;
 
 // Position controller tuning — start conservatively.
 const int POSITION_DEADBAND_ADC = 12;
-const uint8_t MOTOR_COMMAND = 35; // Simplified serial drive level, 0..127 or 129..255 per protocol
 const unsigned long LOOP_DELAY_MS = 20;
 const unsigned long STATUS_INTERVAL_MS = 250;
 
 // Simplified-serial command bytes stated by the supplied Quick Start Guide.
 // The supplied User's Guide has conflicting direction/stop descriptions.
 // These are not used while ENABLE_MOTOR_OUTPUT is false.
-const uint8_t SYREN_REVERSE_CMD = 0;   // Verify direction before enabling
-const uint8_t SYREN_STOP_CMD = 128;    // Verify stop byte before enabling
-const uint8_t SYREN_FORWARD_CMD = 255; // Verify direction before enabling
+const uint8_t SYREN_REVERSE_CMD = 120;  // Conservative near-stop candidate; verify before enabling
+const uint8_t SYREN_STOP_CMD = 128;     // Quick Start value; verify before enabling
+const uint8_t SYREN_FORWARD_CMD = 136;  // Conservative near-stop candidate; verify before enabling
 
 unsigned long lastStatusMs = 0;
 unsigned long lastValidReceiverMs = 0;
@@ -121,7 +120,9 @@ void commandSyRenTowardTarget(int targetAdc, int actualAdc) {
 
   // Potentiometer direction and motor direction must be confirmed empirically.
   // These assignments are placeholders until a short direction test establishes
-  // which command moves the actuator toward increasing ADC readings.
+  // which command moves the actuator toward increasing ADC readings. The candidate
+  // commands are intentionally close to neutral, but must not be used until the
+  // stop-byte discrepancy is resolved and a safe direction test is planned.
   if (error > 0) {
     syrenSerial.write(SYREN_FORWARD_CMD);
   } else {
