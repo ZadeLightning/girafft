@@ -1610,3 +1610,13 @@ Created [`SyRen_10_Documentation.md`](SyRen_10_Documentation.md) as the focused 
 - Assessment for SyRen 10 + PA-14P POC 7: 12 V and lead-acid chemistry are appropriate in principle; 70 A/5 s rating gives short-duration current headroom above the actuator's approx. 5 A full-load current. This does not specify continuous discharge current. Battery condition and fuse/wiring still require checks.
 - Charging decision: **do not charge from NANKADF yet**. Although the GC3010H manual describes adjustable CV/CC output, it does not establish a complete approved lead-calcium charging/termination/float procedure. Prefer a dedicated 12 V charger explicitly compatible with sealed lead-calcium/VRLA batteries.
 - The two other Home Depot PDFs supplied alongside the specification sheet are safety data sheets; the second link above is the exact model's useful electrical specification.
+
+
+### 2026-10-20 — POC 7 temporary lead-acid battery checked
+
+- User measured the Precision Consumer Products Group **B LA12V 7.0A**, 12 V / 7 Ah sealed lead-calcium battery with a multimeter and observed **12.7 V** at rest.
+- Interpretation: this is consistent with a fully or nearly fully charged 12 V lead-acid battery, provided it has been disconnected from charging and allowed to rest. Open-circuit voltage alone does not prove capacity or battery health.
+- User intends to use this battery temporarily for the **SyRen 10 + PA-14P actuator POC**, then return it rather than retain it for the final boat.
+- No charging is indicated before the initial brief test based solely on the 12.7 V reading. Continue to use appropriate battery-terminal fusing and wiring, secure the battery, and monitor voltage/current during controlled testing.
+- **Critical outstanding safety gate remains unchanged:** the SyRen 10 is regenerative. Do not power the SyRen + actuator from the NANKADF GC3010H alone unless a manufacturer-approved arrangement that can safely handle returned energy is established. Do not improvise a battery/bench-supply parallel connection.
+- Long-term propulsion battery chemistry/charger selection is deferred. Current temporary POC battery choice does not imply a lead-acid choice for the U10 propulsion system.
