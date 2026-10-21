@@ -1488,3 +1488,61 @@ Manufacturer product/docs: https://www.dimensionengineering.com/products/syren10
 4. Confirm ER8 current draw or otherwise select a safe receiver power source; do not claim its draw exceeds 10 mA without evidence.
 5. Implement and bench-test the Arduino signal path with T8L left joystick X, right=extend, left=retract, center=stop, and a safe startup/failsafe strategy.
 
+### POC 7 — Control linear actuator position with T8L
+
+**Goal:** Use the Radiomaster T8L left joystick X axis to control the PA-14P-6-35 linear actuator through the SyRen 10 and Arduino Uno. This POC tests the full manual steering command path.
+
+**Status:** Planning / hardware received; wiring and powered actuator test not yet confirmed.
+
+#### Intended signal path
+
+```
+T8L LEFT joystick X
+  right = extend; left = retract; center = stop
+             ↓ wireless ELRS
+           ER8 receiver
+             ↓ PWM channel (exact channel to verify)
+          Arduino Uno
+             ↓ serial command (SyRen mode/configuration to verify)
+           SyRen 10
+             ↓ M1 / M2
+      PA-14P-6-35 actuator
+```
+
+#### Required behavior
+
+- T8L **left joystick X axis** is the steering input for this POC.
+- Joystick moved **right**: extend actuator.
+- Joystick moved **left**: retract actuator.
+- Joystick centered: stop actuator.
+- At startup, the desired behavior is to move the actuator to **half extension** once the system can safely establish actuator position.
+- The Arduino must command stop until receiver input is valid, stop on receiver signal loss, and use conservative initial movement commands.
+- Do not assume the actuator can be centered by elapsed motor runtime alone. Automatic half-extension requires usable position feedback and a known/referenceable position. Verify the PA-14P potentiometer feedback wiring/range and define a safe homing/reference method before implementing this feature.
+
+#### Planned power arrangement (bench POC)
+
+- Arduino Uno: powered by Mac over USB.
+- SyRen 10: NANKADF GC3010H bench supply connected to B+ and B−, only after confirming a safe supply arrangement for regenerative operation.
+- PA-14P motor leads: SyRen M1/M2 to the correct actuator motor wires through the factory 6-position connector/pigtail; the user reports five of six positions are occupied. Confirm exact connector pinout before connection and preserve the factory cable.
+- ER8 receiver: power source not yet finalized. The SyRen 5 V terminal has a 10 mA external-current allowance; this does not prove ER8 consumption exceeds 10 mA. Evaluate Arduino USB-powered 5 V rail only after checking current budget and receiver draw, or use an appropriately rated regulated supply.
+- Establish the required common signal ground among Arduino, ER8, and SyRen control interface. Do not parallel separate 5 V supplies.
+
+#### Known SyRen configuration facts / open checks
+
+- User-observed terminal labels: control side **0V, 5V, S1, S2**; power/motor side **M1, B−, B+, M2** in the user's described orientation.
+- All six DIP switches were observed by the user as flipped toward the ON marking. Prior guidance indicates all-ON corresponds to Analog Independent mode; verify against the official manual before changing switches.
+- Arduino serial mode, switch settings, baud rate, and command protocol must be confirmed from the manufacturer's documentation before connecting/control testing.
+- The SyRen is regenerative; do not assume the NANKADF bench supply can absorb returned energy. Resolve this before powered actuator testing.
+- Do not make a pre-test startup/stall-current measurement a prerequisite. The user's plan is to connect the actuator through the SyRen and monitor current during a controlled first test.
+
+#### POC 7 acceptance criteria
+
+1. Verify receiver channel and joystick calibration from Serial Monitor.
+2. Verify SyRen serial mode/configuration and safe power arrangement.
+3. Confirm motor leads and potentiometer feedback pinout.
+4. With actuator mechanically clear and setup secured, confirm right = extend, left = retract, center = stop using brief, conservative commands.
+5. Confirm receiver loss/invalid input commands stop.
+6. Establish position feedback/reference strategy; only then implement and verify startup half-extension behavior.
+7. Record observed voltage/current and actual actuator response after testing.
+
+
