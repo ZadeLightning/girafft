@@ -1578,3 +1578,11 @@ The user's latest description says joystick movement left/right while referring 
 
 **Status:** Design behavior agreed; implementation and powered closed-loop testing remain pending.
 
+
+
+### 2026-10-21 — POC 7 axis clarification and regenerative-power safety priority
+
+- Confirmed the intended T8L input is the **left joystick horizontal X axis** (not Y). Expected mapping remains left = retract / 0% target, center = half-extension / 50% target, right = extend / 100% target. The corresponding ER8 channel still must be identified by observing PWM readings during calibration.
+- The user explicitly flagged the SyRen 10's **regenerative behavior** as an issue to resolve before powered actuator testing. Treat safe handling of returned energy as a gating item, not a footnote: the NANKADF GC3010H bench supply must not be assumed capable of sinking current. Confirm the manufacturer's recommended setup for regenerative operation and whether the exact proposed supply arrangement is approved. Do not proceed with SyRen + actuator powered tests from the NANKADF alone until this is resolved. Do not improvise by adding a battery or connecting power sources in parallel without confirming the correct topology, ratings, polarity, and protection.
+- Connector reminder: the unused PA-14P factory connector is a 6-position Molex-style connector with five populated conductors recorded as red, black, white, green, and yellow. Exact pin/function mapping remains unverified; preserve the factory cable and identify motor versus potentiometer-feedback wires before wiring. The used actuator is recorded with a Deutsch DT06-6S connector.
+
