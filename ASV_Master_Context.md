@@ -1693,3 +1693,13 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - SyRen DIP wizard choices previously recorded: battery type **Other/non-lithium**, TTL serial for microcontroller, **simplified serial**, one driver/no slave-select, **9600 baud**, 8N1. Recorded intended switch pattern from that wizard session: **1 ON, 2 OFF, 3 ON, 4 OFF, 5 ON, 6 ON**.
 - Important configuration caveat: notes also record that the physical board was later observed with all six switches toward ON, and all-ON was understood to correspond to Analog Independent mode. Therefore, the wizard selections were completed, but the physical switch positions still need a final power-off visual check against the wizard's displayed pattern before applying battery power. Do not repeat the wizard unnecessarily; verify the actual switch bank matches the previously recorded result.
 - Battery-only POC power arrangement remains: 12 V lead-acid battery to SyRen/actuator, Arduino via USB, no NANKADF in motor-power circuit.
+
+
+### 2026-10-21 — POC 7 initial Arduino sketch added
+
+- Added `sketches/01_basics/07_actuator_position/07_actuator_position.ino` for POC 7.
+- Pin plan: ER8 CH4 (T8L left joystick X) to Arduino D4; PA-14P potentiometer wiper to A0, yellow +5 V to Arduino 5 V, white GND to Arduino GND; Arduino SoftwareSerial TX on D8 to SyRen S1; Arduino GND to SyRen 0V. SyRen S2 unused for the intended one-controller simplified-serial mode.
+- Arduino USB powers the Uno. Temporary 12 V lead-acid battery powers SyRen/actuator. Do not connect SyRen 5 V to Arduino 5 V. NANKADF is not used for motor power.
+- Sketch reports CH4 pulse width and feedback ADC readings. Motor output is deliberately disabled by default because the supplied SyRen documents conflict on simplified-serial stop/direction command mapping, and PA-14P feedback endpoints have not yet been calibrated. Do not enable motor output until both are resolved and direction is verified safely.
+- PA-14P manual V1.03 saved as the component reference. Its pinout is yellow +5 V, white GND, blue wiper, black motor +, red motor −; verify physical connector orientation before wiring. Manual rates the 35 lb / 12 V actuator at 1 A no-load, 5 A full-load, and 25% duty cycle (5 min on / 15 min off).
+- Sketch is a commissioning baseline, not yet approved for powered actuator motion. Final closed-loop behavior requires measured feedback endpoints and verified SyRen command mapping/direction.
