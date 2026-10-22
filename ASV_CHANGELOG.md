@@ -245,3 +245,11 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Both G2 models support TTL serial, I²C, RC pulse, analog, and USB control, plus configurable current limiting. They offer only full braking or full coasting, not variable braking. Their documentation does not by itself establish that either eliminates the supply-rail regeneration issue; this must be explicitly resolved before considering either a solution.
 - Current conclusion: neither Pololu product is established as a better-value or simpler replacement for the SyRen 10. Keep the SyRen as incumbent; no purchase recommendation.
 - Manufacturer pages: https://www.pololu.com/product/1364 and https://www.pololu.com/product/1362 ; G2 guide: https://www.pololu.com/docs/0J77/all
+
+
+## 2026-10-22 — Narrowed SyRen power architecture to three options
+
+- Retained the SyRen 10 as the incumbent after alternative-driver screening.
+- Recorded three power architectures: (1) dedicated 12 V battery for SyRen, (2) main 24 V battery through a regenerative-compatible 24-to-12 V converter, or (3) converter plus a compatible battery buffer on the 12 V rail.
+- Preliminary priority is simplicity and total cost. Option 1 is the most straightforward way to give regeneration a battery sink; Option 2 could be cheapest if the converter's behavior is explicitly verified; Option 3 has the highest integration/charging complexity.
+- No final architecture or purchase decision.
