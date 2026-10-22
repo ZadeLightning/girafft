@@ -786,6 +786,23 @@ For battery recommendations, verify:
 Do not assume 3.6 V and 3.7 V nominal cells are interchangeable without checking the device requirements.
 
 
+
+### 2026-10-22 — BEC current-capacity reasoning was too categorical
+
+**Mistake:**  
+During the Arduino/ER8 power-architecture discussion, I treated the SyRen 10's documented 100 mA 5 V output rating at input voltages ≤12.6 V as though it were established that this was insufficient for the ER8, without a published ER8 current-draw figure or a measurement of our actual setup. I did not clearly separate the driver's maximum output rating from the connected devices' actual current requirements.
+
+**Impact:**  
+This overstated what we knew and risked ruling out a possible low-voltage POC arrangement on an unsupported assumption. The separate conclusion for the planned 24 V-class system remains: the SyRen's documented 10 mA output limit above 12.6 V is not a suitable basis for powering the Arduino, and ER8 compatibility at that limit is unverified. Do not claim that the ER8 itself draws more than 10 mA unless a source or measurement establishes it.
+
+**Prevention:**  
+- Separate published supply limits from measured load requirements.
+- Check the exact model's manual and manufacturer specifications before asserting current draw.
+- If a current specification is unavailable, mark it unknown and measure the actual load safely where practical.
+- Compare measured/credible worst-case load with the source rating and retain appropriate margin.
+- Evaluate candidate architectures before recommending an extra converter or purchase; do not assume a converter is required until voltage compatibility and load budget have been assessed.
+
+
 ## 2026-09-29 — Trolling-motor control requirements
 
 The current Option C investigation is looking for a trolling-motor solution that can plausibly become final-boat hardware while remaining compatible with the project's simple T8L → ER8 → Arduino architecture.
