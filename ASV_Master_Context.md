@@ -1783,6 +1783,26 @@ Inventory contacts:
 - BEC clarification to retain: a BEC's 5 V output powers a load; its 0 V/GND terminal provides the common reference. A 5 V connection is not inherently required just to establish common ground. Do not parallel separate regulated 5 V outputs or connect incompatible supply rails. POC 7's SyRen 0V + 5V connection to ER8 reflected powering the receiver from the SyRen, not a universal ground-only requirement. Verify SyRen model-specific BEC current limits and ER8 requirements before using it in the final boat.
 
 
+
+
+## 2026-10-22 — Candidate onboard power architecture (not yet finalized)
+
+The user proposed the following simplified power distribution for the eventual 24 V-class battery system:
+
+- **Main 24 V battery → APISQUEEN ESC directly → U10 thruster.** Do not add a 24 V-to-12 V converter in the ESC's main propulsion supply path; confirm the selected battery's full-charge voltage is within the ESC's allowed input range before purchase/final wiring.
+- **APISQUEEN ESC BEC (5.5 V / 3 A) → ER8 receiver only.** 5.5 V is within the ER8's documented 4.5–8.4 V supply range.
+- **Main 24 V battery → 24 V-to-12 V DC-DC converter → SyRen 10 supply and Arduino Uno VIN.** This gives the PA-14P its intended 12 V supply through the SyRen, and provides 12 V to the Uno's recommended 7–12 V VIN/barrel input range.
+- This is a **candidate architecture only**; no converter has been selected or purchased, and the user's electrical diagram is awaiting correction/upload.
+
+Important engineering checks before selecting the converter:
+- The SyRen 10 manual lists 6–24 V nominal input (30 V absolute maximum); 12 V is not an intrinsic requirement of the SyRen electronics. The 12 V conversion is needed here to avoid applying a 24 V supply to the 12 V PA-14P actuator.
+- SyRen is a synchronous regenerative motor driver and can return energy to its supply during deceleration/reversal. A generic buck converter may not tolerate reverse current or a rising output rail. Verify converter behavior and the full SyRen/PA-14P power arrangement; do not assume any 24-to-12 V buck is suitable.
+- Verify the ESC input range against the chosen battery's maximum fully charged voltage, not only its nominal voltage.
+- Verify common-ground/reference wiring between Arduino, ER8 signal ground, ESC signal ground, and SyRen control ground. Do not connect separate regulated positive outputs together.
+- The APISQUEEN BEC's 3 A rating is a supply capability, not current forced through the ER8. ER8 current draw remains undocumented in the reviewed manufacturer materials; measure or obtain a specification where practical.
+- No new hardware purchase is authorized by this note.
+
+
 ## 2026-10-21 — TODO 1 research: Arduino / ER8 onboard power and BEC comparison
 
 - Reviewed POC 6 README, SyRen 10 documentation, saved RadioMaster ER8 manual/specification, Arduino Uno Rev3 manufacturer specifications, and the APISQUEEN ESC product listing.
