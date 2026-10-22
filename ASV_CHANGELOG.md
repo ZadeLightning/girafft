@@ -235,3 +235,13 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Added a Previous Mistakes entry to `ASV_Master_Context.md` documenting that repeatedly raising undocumented PA-14P startup/stall current as a generic blocker was unhelpful after the user clarified the limit of available evidence.
 - Prevention: use documented specs, distinguish known facts from unknowns, and do not repeat this caveat unless a practical test becomes available and the result would materially change the decision.
 - Also corrected the Pololu review: the previously linked 18v7 is an older generation not recommended for new designs. The current G2 family is the relevant reference; the appropriate 24 V-class models are the 24v12 or 24v19, which are relatively expensive and therefore not automatically attractive alternatives to the SyRen.
+
+
+## 2026-10-22 — Mistake logged and Pololu G2 links reviewed
+
+- Added a Previous Mistakes / Lessons Learned entry in `ASV_Master_Context.md` for repeatedly raising undocumented PA-14P startup/stall current as a generic objection after the user had already clarified the information is unavailable at this stage.
+- Reviewed the user's current-generation Pololu links: G2 24v12 (product 1364) and G2 18v15 (product 1362). Both are currently listed at about US$149 with connectors soldered, so they are expensive alternatives to the SyRen.
+- The 18v15 is electrically appropriate for a 12 V controller supply based on its 6.5–30 V operating range and 15 A continuous rating. The 24v12 is a higher-voltage variant with a 12 A continuous rating and appears unnecessary if the controller is supplied from the planned 12 V rail.
+- Both G2 models support TTL serial, I²C, RC pulse, analog, and USB control, plus configurable current limiting. They offer only full braking or full coasting, not variable braking. Their documentation does not by itself establish that either eliminates the supply-rail regeneration issue; this must be explicitly resolved before considering either a solution.
+- Current conclusion: neither Pololu product is established as a better-value or simpler replacement for the SyRen 10. Keep the SyRen as incumbent; no purchase recommendation.
+- Manufacturer pages: https://www.pololu.com/product/1364 and https://www.pololu.com/product/1362 ; G2 guide: https://www.pololu.com/docs/0J77/all
