@@ -183,3 +183,9 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Removed the rough generated SVG reconstruction after user review: it was visually poor, routed lines through boxes, and omitted detail from the original drawing.
 - The user's original drawing, edited in their Google Drawings instance and uploaded when updated, remains the source of truth. Do not recreate the diagram unless explicitly asked.
 - The five power-architecture TODOs remain tracked in [GitHub issue #1](https://github.com/ZadeLightning/girraft/issues/1).
+
+
+## 2026-10-21 — Original full electrical system diagram uploaded
+
+- User added the original PDF unchanged at [`diagrams/MVP Full Electrical System.pdf`](https://github.com/ZadeLightning/girraft/blob/main/diagrams/MVP%20Full%20Electrical%20System.pdf). This is the authoritative diagram; no SVG recreation is used.
+- Master context and GitHub issue #1 link to the original PDF. User will edit the diagram in Google Drawings and upload new exports as needed.
