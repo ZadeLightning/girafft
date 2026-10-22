@@ -1826,3 +1826,18 @@ Important engineering checks before selecting the converter:
 - Pololu Simple Motor Controller G2 18v7 is a possible candidate to investigate, not an approved replacement. Published current capacity is 7 A continuous without additional cooling, while the PA-14P actuator is rated 5 A at full load; actuator startup/stall current still needs verification. Review its exact G2 energy path and control compatibility before deciding. Pololu G2 manual: https://www.pololu.com/docs/0J77/all ; comparison/reference manual: https://www.pololu.com/docs/0J44/all
 - A relay-based reversing arrangement is another architectural option, but would trade electronic speed control for directional on/off control and require safe interlocking, coil drive, and transient suppression. Progressive Automations AC-27-10-12 is a 12 V DPDT relay with 10 A contacts, but is not a complete controller: https://www.progressiveautomations.com/products/ac-27-10-12
 - No alternative has yet been shown to be a clearly superior drop-in replacement for the SyRen 10. Do not buy a replacement or power converter on the basis of this initial screening.
+
+
+### 2026-10-22 — Repeatedly asserting unknown actuator startup/stall current as a gating requirement
+
+**Mistake:**  
+I repeatedly brought up the PA-14P actuator's unknown startup/stall current as though it were a decisive objection to a candidate controller, even after the user clarified that the value is not available from the documentation they have and cannot be established without a functioning controller/test setup. This repeated the same unhelpful caveat instead of making progress with the evidence actually available.
+
+**Impact:**  
+It distracted from the real design decision, made the comparison feel circular, and placed an unresolvable-at-this-stage unknown ahead of actionable documented facts. The user has specifically asked me to stop repeating this point.
+
+**Prevention:**  
+- Do not keep repeating unknown startup/stall current as a generic caveat in controller comparisons.
+- Use the documented actuator rating and documented controller specifications to make the best current assessment, clearly labeling what is known versus unknown.
+- Revisit measured startup/stall behavior only if a practical, safe test becomes available and the result would change a decision. Do not imply that documentation contains a value when it does not.
+- Do not let an unmeasured parameter become an endless blocker or repeat the same caveat across turns after the user has corrected the approach.
