@@ -189,3 +189,12 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 
 - User added the original PDF unchanged at [`diagrams/MVP Full Electrical System.pdf`](https://github.com/ZadeLightning/girraft/blob/main/diagrams/MVP%20Full%20Electrical%20System.pdf). This is the authoritative diagram; no SVG recreation is used.
 - Master context and GitHub issue #1 link to the original PDF. User will edit the diagram in Google Drawings and upload new exports as needed.
+
+
+## 2026-10-21 — TODO 1 BEC comparison
+
+- Compared the Uno Rev3, ER8, APISQUEEN ESC BEC, and SyRen 10 BEC using saved project records and manufacturer documentation.
+- Uno Rev3 operates at 5 V; Arduino recommends 7–12 V input via VIN/barrel and warns that 5 V pin injection bypasses its regulator. No single official board-current requirement is specified.
+- ER8 input is 4.5–8.4 V; its current draw is not published in the reviewed manual/listing.
+- APISQUEEN ESC BEC is 5.5 V / 3 A and is voltage-compatible with ER8. SyRen 10 BEC is limited to 10 mA when its input is above 12.6 V, so it should not power ER8 from the planned 24 V-class battery.
+- Preliminary options recorded in master context: ESC BEC for ER8 plus a 24 V-to-7–9 V converter into Arduino VIN/barrel; or a suitable 24 V-to-regulated-5 V DC-DC rail for both logic devices. Do not parallel BEC positive outputs. No final wiring/purchase decision yet.
