@@ -176,3 +176,10 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Added `diagrams/MVP_Full_Electrical_System.svg` as the latest connection-level full electrical system diagram. Power conversion, exact electrical ratings, wire sizing, and fusing are marked unresolved rather than assumed.
 - Created [GitHub issue #1](https://github.com/ZadeLightning/girraft/issues/1) as the diagram-associated TODO list: onboard Arduino/ER8 power; 24 V lithium-ion battery choice and rough sizing/cost; 24 V to 12 V conversion for PA-14P/SyRen; 24 V to ~5 V logic/receiver power; and BEC/common-ground strategy.
 - Updated `ASV_Master_Context.md` to point to the diagram and checklist and capture the key BEC distinction: 5 V supplies power, 0 V/GND establishes the reference; do not parallel BEC outputs.
+
+
+## 2026-10-21 — Electrical diagram workflow corrected
+
+- Removed the rough generated SVG reconstruction after user review: it was visually poor, routed lines through boxes, and omitted detail from the original drawing.
+- The user's original drawing, edited in their Google Drawings instance and uploaded when updated, remains the source of truth. Do not recreate the diagram unless explicitly asked.
+- The five power-architecture TODOs remain tracked in [GitHub issue #1](https://github.com/ZadeLightning/girraft/issues/1).
