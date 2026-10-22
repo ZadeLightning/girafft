@@ -228,3 +228,10 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Flagged Pololu Simple Motor Controller G2 18v7 for further technical verification only: its 7 A continuous rating is nominally above the actuator's 5 A full-load rating, but actuator startup/stall current and exact regenerative-energy behavior/control fit remain unresolved.
 - Recorded relay-based reversing as a possible simpler on/off architecture, with trade-offs and protection/interlock requirements.
 - No replacement selected and no purchase authorized.
+
+
+## 2026-10-22 — Record repeated unsupported actuator-current caveat
+
+- Added a Previous Mistakes entry to `ASV_Master_Context.md` documenting that repeatedly raising undocumented PA-14P startup/stall current as a generic blocker was unhelpful after the user clarified the limit of available evidence.
+- Prevention: use documented specs, distinguish known facts from unknowns, and do not repeat this caveat unless a practical test becomes available and the result would materially change the decision.
+- Also corrected the Pololu review: the previously linked 18v7 is an older generation not recommended for new designs. The current G2 family is the relevant reference; the appropriate 24 V-class models are the 24v12 or 24v19, which are relatively expensive and therefore not automatically attractive alternatives to the SyRen.
