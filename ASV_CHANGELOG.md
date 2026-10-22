@@ -204,3 +204,9 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Added a lesson to **Previous Mistakes / Lessons Learned** in `ASV_Master_Context.md`: I was too categorical in treating the SyRen 10's 100 mA low-input-voltage BEC rating as proven insufficient for the ER8 without an ER8 current specification or measurement.
 - Corrected reasoning: 100 mA may or may not support the ER8/Arduino combination; actual load must be sourced or measured. At the planned >12.6 V / 24 V-class SyRen input, the documented 10 mA output is not an appropriate supply for the Arduino, and ER8 compatibility remains unverified.
 - Prevention: distinguish source limits from load requirements, mark unknown current draw explicitly, measure where practical, and assess existing BEC options before recommending an extra converter or purchase.
+
+## 2026-10-22 — Candidate onboard power architecture
+
+- Recorded the user's candidate power plan in `ASV_Master_Context.md`: 24 V battery directly to APISQUEEN ESC/U10; ESC's 5.5 V / 3 A BEC to ER8 only; 24 V-to-12 V DC-DC converter to the SyRen 10 and Arduino VIN.
+- Corrected the diagram assumptions in the documentation: the ESC propulsion supply should remain on the main 24 V-class rail, while the PA-14P actuator requires a 12 V rail through the SyRen.
+- Added open engineering checks: validate ESC input range against battery full-charge voltage, and verify that the 24-to-12 V converter can safely handle the SyRen's regenerative energy behavior. Architecture is provisional; no converter purchase or final wiring decision yet.
