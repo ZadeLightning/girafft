@@ -219,3 +219,12 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Recorded the user's candidate power plan in `ASV_Master_Context.md`: 24 V battery directly to APISQUEEN ESC/U10; ESC's 5.5 V / 3 A BEC to ER8 only; 24 V-to-12 V DC-DC converter to the SyRen 10 and Arduino VIN.
 - Corrected the diagram assumptions in the documentation: the ESC propulsion supply should remain on the main 24 V-class rail, while the PA-14P actuator requires a 12 V rail through the SyRen.
 - Added open engineering checks: validate ESC input range against battery full-charge voltage, and verify that the 24-to-12 V converter can safely handle the SyRen's regenerative energy behavior. Architecture is provisional; no converter purchase or final wiring decision yet.
+
+
+## 2026-10-22 — Scrutinized initial SyRen alternative screening
+
+- Reaffirmed SyRen 10 as the incumbent rather than presuming replacement is preferable.
+- Rejected Cytron MD10C for solving the regenerative-supply issue because its manufacturer explicitly specifies regenerative braking and says it lacks overcurrent protection.
+- Flagged Pololu Simple Motor Controller G2 18v7 for further technical verification only: its 7 A continuous rating is nominally above the actuator's 5 A full-load rating, but actuator startup/stall current and exact regenerative-energy behavior/control fit remain unresolved.
+- Recorded relay-based reversing as a possible simpler on/off architecture, with trade-offs and protection/interlock requirements.
+- No replacement selected and no purchase authorized.
