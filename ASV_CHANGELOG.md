@@ -169,3 +169,10 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 - Recorded: **117.5 × 95.5 mm**, **24 V / 6S LiPo**, **1.9 A no-load**, **40 A load current**, **300 KV**, **900 W**, **10 kg thrust at 24 V**, **100 A continuous ESC**, **5 V / 1 A BEC**, **9 mm wire diameter**, **M3 mounting holes**, **20 × 16 mm mounting-hole spacing**, **800 g in air / 350 g in water**, and fresh-/sea-water operation.
 - Clarified that M3 mounting hardware should be readily available; final screw length depends on the fabricated mount/plate thickness and required thread engagement.
 - Recorded a design caution not to interpret the 20 × 16 mm value as hole diameter; treat it as mounting-hole spacing/layout until the physical thruster is inspected.
+
+
+## 2026-10-21 — Full electrical system diagram and power TODOs
+
+- Added `diagrams/MVP_Full_Electrical_System.svg` as the latest connection-level full electrical system diagram. Power conversion, exact electrical ratings, wire sizing, and fusing are marked unresolved rather than assumed.
+- Created [GitHub issue #1](https://github.com/ZadeLightning/girraft/issues/1) as the diagram-associated TODO list: onboard Arduino/ER8 power; 24 V lithium-ion battery choice and rough sizing/cost; 24 V to 12 V conversion for PA-14P/SyRen; 24 V to ~5 V logic/receiver power; and BEC/common-ground strategy.
+- Updated `ASV_Master_Context.md` to point to the diagram and checklist and capture the key BEC distinction: 5 V supplies power, 0 V/GND establishes the reference; do not parallel BEC outputs.
