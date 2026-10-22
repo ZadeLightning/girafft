@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#444"/></marker><style>
+text{font-family:Arial,Helvetica,sans-serif;fill:#222}.title{font-size:27px;font-weight:bold}.sub{font-size:15px;fill:#555}.name{font-size:18px;font-weight:bold}.detail{font-size:14px}.small{font-size:12px;fill:#555}.power{stroke:#d33;stroke-width:4;fill:none}.gnd{stroke:#222;stroke-width:3;fill:none}.signal{stroke:#e0a020;stroke-width:3;fill:none}.sensor{stroke:#4c83c3;stroke-width:3;fill:none}.block{stroke:#444;stroke-width:1.5;rx:8}
+</style></defs>
+<rect width="1400" height="900" fill="#fff"/>
+<text x="40" y="45" class="title">MVP Full Electrical System — Working Diagram</text>
+<text x="40" y="72" class="sub">Latest architecture draft • Connection overview only; ratings, wire sizing, and power conversion remain TBD</text>
+<!-- Battery -->
+<rect x="1030" y="120" width="300" height="115" fill="#fff4a8" class="block"/>
+<text x="1180" y="153" text-anchor="middle" class="name">24 V Lithium-Ion Battery</text><text x="1180" y="177" text-anchor="middle" class="detail">TBD: chemistry, capacity, BMS</text><text x="1180" y="201" text-anchor="middle" class="detail">Fuse / main disconnect TBD</text>
+<!-- Syren -->
+<rect x="750" y="310" width="250" height="155" fill="#eadcf0" class="block"/>
+<text x="875" y="342" text-anchor="middle" class="name">SyRen Motor Driver</text><text x="875" y="367" text-anchor="middle" class="detail">S1 / S2: control interface</text><text x="875" y="390" text-anchor="middle" class="detail">B+ / B−: motor supply</text><text x="875" y="413" text-anchor="middle" class="detail">M1 / M2: actuator motor</text><text x="875" y="440" text-anchor="middle" class="detail">0V / 5V BEC: TBD</text>
+<!-- actuator -->
+<rect x="350" y="330" width="250" height="105" fill="#f0d8e2" class="block"/>
+<text x="475" y="365" text-anchor="middle" class="name">PA-14P Actuator</text><text x="475" y="390" text-anchor="middle" class="detail">12 V DC • 6 in • 35 lb</text><text x="475" y="413" text-anchor="middle" class="detail">Deutsch 6-pin harness</text>
+<!-- U10 ESC -->
+<rect x="1020" y="335" width="310" height="145" fill="#e5b0ab" class="block"/>
+<text x="1175" y="367" text-anchor="middle" class="name">APISQUEEN ESC</text><text x="1175" y="392" text-anchor="middle" class="detail">XT60 power input</text><text x="1175" y="416" text-anchor="middle" class="detail">3-pin: GND / 5V BEC / SIGNAL</text><text x="1175" y="442" text-anchor="middle" class="detail">BEC use TBD</text>
+<rect x="650" y="120" width="250" height="100" fill="#d4e7ef" class="block"/><text x="775" y="155" text-anchor="middle" class="name">U10 Thruster</text><text x="775" y="180" text-anchor="middle" class="detail">24 V-class propulsion</text><text x="775" y="201" text-anchor="middle" class="detail">ESC phase wires</text>
+<!-- Arduino and ER8 -->
+<rect x="390" y="565" width="280" height="155" fill="#cfe0f7" class="block"/><text x="530" y="598" text-anchor="middle" class="name">Arduino Uno R3</text><text x="530" y="622" text-anchor="middle" class="detail">D8 TX → SyRen S1 (POC7)</text><text x="530" y="646" text-anchor="middle" class="detail">D9 / selected pin → ESC signal</text><text x="530" y="670" text-anchor="middle" class="detail">A0 ← PA-14P feedback wiper</text><text x="530" y="696" text-anchor="middle" class="detail">Onboard power conversion TBD</text>
+<rect x="80" y="565" width="220" height="155" fill="#d8e8ce" class="block"/><text x="190" y="598" text-anchor="middle" class="name">RadioMaster ER8</text><text x="190" y="622" text-anchor="middle" class="detail">CH4 → Arduino D4</text><text x="190" y="646" text-anchor="middle" class="detail">CH2 → throttle input</text><text x="190" y="670" text-anchor="middle" class="detail">PWR 4.5–8.4 V</text><text x="190" y="696" text-anchor="middle" class="detail">T8L wireless link</text>
+<rect x="80" y="780" width="220" height="70" fill="#eee" class="block"/><text x="190" y="810" text-anchor="middle" class="name">RadioMaster T8L</text><text x="190" y="833" text-anchor="middle" class="detail">CH4 steering • CH2 throttle</text>
+<!-- Conversion blocks -->
+<rect x="1030" y="565" width="300" height="80" fill="#fff" stroke="#cf8a20" stroke-width="2" stroke-dasharray="7 5" rx="8"/><text x="1180" y="594" text-anchor="middle" class="name">24 V → 12 V DC-DC</text><text x="1180" y="619" text-anchor="middle" class="detail">Required for SyRen / actuator rail</text>
+<rect x="1030" y="685" width="300" height="80" fill="#fff" stroke="#cf8a20" stroke-width="2" stroke-dasharray="7 5" rx="8"/><text x="1180" y="714" text-anchor="middle" class="name">24 V → ~5 V DC-DC</text><text x="1180" y="739" text-anchor="middle" class="detail">Candidate alternative to BEC power</text>
+<!-- connections -->
+<path d="M1030 170 H900" class="power"/><path d="M900 170 H775 V120" class="power"/><text x="925" y="155" class="small">Main supply (TBD fuse/wire)</text>
+<path d="M1180 235 V290 H1175 V335" class="power"/><path d="M1030 210 H970 V290 H875 V310" class="power"/>
+<path d="M1020 390 H1000" class="power"/><path d="M750 390 H600" class="power"/><text x="620" y="315" class="small">12 V actuator motor path</text>
+<path d="M670 645 H720 V460 H750" class="signal"/><text x="680" y="630" class="small">Arduino TX / control</text>
+<path d="M670 610 H990 V455 H1020" class="signal"/><text x="800" y="595" class="small">PWM signal to ESC</text>
+<path d="M300 625 H390" class="signal"/><text x="310" y="611" class="small">PWM signals</text>
+<path d="M190 720 V780" stroke="#b25bd4" stroke-width="3" stroke-dasharray="6 5" fill="none"/>
+<path d="M475 435 V520 H530 V565" class="sensor"/><text x="540" y="512" class="small">PA-14P feedback (wiper / 5V / GND)</text>
+<path d="M1030 605 H980 V260 H1180 V235" stroke="#cf8a20" stroke-width="2.5" stroke-dasharray="7 5" fill="none"/><path d="M1030 725 H950 V750 H530 V720" stroke="#cf8a20" stroke-width="2.5" stroke-dasharray="7 5" fill="none"/><path d="M1030 725 H1010 V490 H1175 V480" stroke="#cf8a20" stroke-width="2.5" stroke-dasharray="7 5" fill="none"/>
+<!-- ground concept -->
+<path d="M190 565 V535 H530 V565" class="gnd"/><path d="M530 720 V755 H875 V465" class="gnd"/><path d="M875 465 V500 H1175 V480" class="gnd"/>
+<text x="345" y="535" class="small">Common signal reference required (exact wiring TBD)</text>
+<text x="40" y="880" class="small">Not a wiring authorization: confirm manufacturer manuals, current limits, fuse sizing, wire gauge, connector pinout, and regulator compatibility before energizing.</text>
+</svg>
