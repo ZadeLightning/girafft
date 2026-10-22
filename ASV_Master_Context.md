@@ -1857,3 +1857,16 @@ This created circular discussion, repeatedly reopened a point that cannot curren
 - Do not imply that the actuator documentation contains a startup/stall figure when it does not.
 - Revisit a measurement only if a safe, practical test becomes available and the result is needed to decide between specific options.
 - When the user has explicitly corrected a repeated reasoning pattern, apply that correction in subsequent turns rather than restating the same caveat.
+
+
+## SyRen power architecture — three options under comparison (2026-10-22)
+
+SyRen 10 remains the selected actuator controller. Do not reopen controller replacement unless new evidence presents a materially simpler or cheaper option.
+
+Three power architectures are under consideration, with simplicity and low total cost prioritized:
+
+1. **Dedicated 12 V battery for SyRen.** SyRen is powered directly from the auxiliary battery, which can buffer regenerative current. Arduino power arrangement remains to be decided; consider whether the same battery can supply Arduino through an appropriate regulator to avoid unnecessary additional converters. Battery chemistry, capacity, protection, charging, and Arduino input voltage must be verified.
+2. **24 V main battery → 24-to-12 V DC-DC → SyRen and Arduino.** Potentially the lowest-component-count/lowest-cost solution, but only if the converter or added protection is explicitly suitable for the SyRen's regenerative energy. A generic buck converter is not assumed to sink reverse current or tolerate output-voltage rise.
+3. **24 V main battery → DC-DC → 12 V bus with compatible battery buffer.** Potentially absorbs regeneration, but requires compatible battery charging/protection and converter behavior when connected to a battery-held bus. Do not assume a generic buck converter can safely be paralleled with a battery.
+
+Preliminary ranking: investigate Option 1 as the most straightforward regeneration solution; investigate Option 2 as the potential lowest-cost solution if a manufacturer-verified converter/energy-absorption approach exists; retain Option 3 as a fallback because it adds the most integration work. No option finalized and no purchase authorized.
