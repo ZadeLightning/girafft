@@ -1,5 +1,14 @@
 # ASV Project Changelog
 
+## 2026-10-22 — SyRen regeneration manual review / converter selection gate
+
+- Read the manufacturer's SyRen 10/25 User's Guide, specifically page 18's packetized-serial **Max Voltage** section.
+- Confirmed the manual explicitly warns that a power supply unable to sink current can experience a rising input voltage during regeneration. The SyRen can hard-brake above a configured voltage limit as a fallback, but the manual describes that behavior as inefficient; it says a battery handles the issue under the described conditions.
+- The manual does not explicitly validate a generic DC-DC buck converter connected to the SyRen input. A 24 V-to-12 V converter must therefore remain an unapproved candidate until its reverse-current/transient behavior is documented or a correctly engineered energy-absorption path is designed.
+- Reaffirmed that a battery-plus-supply arrangement must not be improvised: the manufacturer's specific ATX supply guidance does not automatically validate the NANKADF GC3010H or the final onboard power architecture.
+- No converter selected or purchased. Next step is to obtain a manufacturer-backed answer for candidate converter behavior or investigate a suitable battery-compatible architecture.
+
+
 Chronological history of notable changes, discoveries, decisions, and project milestones for the Autonomous Surface Vessel (ASV) project.
 
 > **Source of truth split:** `ASV_Master_Context.md` contains the current project state, architecture, inventory, decisions, open questions, and operational lessons. This file contains the detailed historical record.
