@@ -1893,3 +1893,17 @@ Created a separate pre-test sketch at [`sketches/01_basics/07-1_pre_test/07-1_pr
 - Existing actuator-position error deadband remains `POSITION_DEADBAND_ADC = 12`; this is separate from the new joystick-input deadband. If residual motion persists while the stick is centered, inspect the live CH4 pulse and computed target ADC before increasing either deadband.
 - Current receiver center is assumed to be 1500 µs; verify actual CH4 center if needed. Current feedback endpoint values in the sketch are still placeholders (100 and 900) unless the user has separately calibrated them locally; do not assume they represent measured physical endpoints.
 - Commit for joystick deadband update: `ccf791bdc23024155b5f17943d4c8cd63d625804`.
+
+
+## 2026-10-23 — POC 7 actuator speed and position deadband adjustment
+
+- Following successful verification of the joystick-center input deadband, the user reported that the PA-14P actuator was moving too slowly and that feedback readings varied while returning to the centered target.
+- Updated `sketches/01_basics/07_actuator_position/07_actuator_position.ino` for the next controlled test:
+  - SyRen reverse command: **97 → 80**
+  - SyRen stop command: **127 (unchanged)**
+  - SyRen forward command: **157 → 175**
+  - Position error deadband: **12 → 30 ADC counts**
+  - Joystick-center deadband remains **±30 µs around 1500 µs**, mapping to midpoint target ADC 500 with the current endpoint placeholders.
+- The larger SyRen command values are intended to increase drive power/speed; actual speed change is empirical and not assumed to be linear with command-byte distance from neutral. The wider position deadband should reduce control corrections caused by small feedback fluctuations around the target.
+- Before the change, with the stick centered, target ADC was consistently 500 while feedback readings varied roughly from 485 to 517 in the reported sample. This shows the target was stable, but does not by itself establish whether the feedback variation is electrical noise, mechanical motion, or both.
+- Next test: upload the revised sketch; test with the actuator mechanically clear and be ready to remove 12 V power if movement is unexpected. Confirm that motion is faster and that the actuator settles at center without persistent hunting. If it does not settle, review actual feedback behavior and controller logic before making further tuning changes.
