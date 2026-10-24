@@ -2009,3 +2009,10 @@ At the user's request, updated `sketches/01_basics/07-2_center_testing/07-2_cent
 The initial target remains ADC 363; Serial Monitor controls remain `a` to decrement the target by 1 and `d` to increment it by 1. No wiring changes. The existing four-sample average remains enabled. This deadband is intended to prevent rapid direction switching when feedback fluctuates near the target.
 
 Sketch update commit: `c89a37499812018ac1ae4f158a9ae3f35532b141`.
+
+
+## 2026-10-24 — POC 7-2 position deadband increased to 10 ADC counts
+
+At the user's request, increased the position deadband in `sketches/01_basics/07-2_center_testing/07-2_center_testing.ino` from ±5 to **±10 ADC counts** around the adjustable target. The controller commands forward below target −10, stops from target −10 through target +10 (inclusive), and commands reverse above target +10. Initial target remains ADC 363; Serial Monitor controls remain `a` to decrement target by 1 and `d` to increment it by 1. No wiring changes.
+
+Sketch update commit: `ada2577b4f27b1c98abba74a29a1549e7657c16f`.
