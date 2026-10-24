@@ -2016,3 +2016,10 @@ Sketch update commit: `c89a37499812018ac1ae4f158a9ae3f35532b141`.
 At the user's request, increased the position deadband in `sketches/01_basics/07-2_center_testing/07-2_center_testing.ino` from ±5 to **±10 ADC counts** around the adjustable target. The controller commands forward below target −10, stops from target −10 through target +10 (inclusive), and commands reverse above target +10. Initial target remains ADC 363; Serial Monitor controls remain `a` to decrement target by 1 and `d` to increment it by 1. No wiring changes.
 
 Sketch update commit: `ada2577b4f27b1c98abba74a29a1549e7657c16f`.
+
+
+## 2026-10-24 — POC 7 center target hardcoded to ADC 366
+
+At the user's request, made one control-logic change in `sketches/01_basics/07_actuator_position/07_actuator_position.ino`: the center target is now a fixed ADC value of **366**, rather than being calculated as the midpoint between `FEEDBACK_RETRACTED_ADC` and `FEEDBACK_EXTENDED_ADC`. Other sketch logic and constants were left unchanged.
+
+Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
