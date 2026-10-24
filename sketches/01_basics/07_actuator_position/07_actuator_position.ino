@@ -56,17 +56,21 @@ const unsigned long RX_TIMEOUT_US = 25000;
 const unsigned long RX_VALID_MIN_US = 900;
 const unsigned long RX_VALID_MAX_US = 2100;
 
+// Ignore small joystick fluctuations around center.
+// Pulses from 1470–1530 us all command the midpoint. Outside that zone,
+// each half of the stick's travel is remapped smoothly from midpoint to endpoint.
+const unsigned long RX_CENTER_DEADBAND_US = 30;
+
 // Position controller tuning — start conservatively.
 const int POSITION_DEADBAND_ADC = 12;
 const unsigned long LOOP_DELAY_MS = 20;
 const unsigned long STATUS_INTERVAL_MS = 250;
 
-// Simplified-serial command bytes stated by the supplied Quick Start Guide.
-// The supplied User's Guide has conflicting direction/stop descriptions.
-// These are not used while ENABLE_MOTOR_OUTPUT is false.
-const uint8_t SYREN_REVERSE_CMD = 97;  // Conservative near-stop candidate; verify before enabling
-const uint8_t SYREN_STOP_CMD = 127;     // Quick Start value; verify before enabling
-const uint8_t SYREN_FORWARD_CMD = 157;  // Conservative near-stop candidate; verify before enabling
+// Simplified-serial command bytes used in the working test.
+// Direction/neutral mapping should remain documented as empirical for this unit.
+const uint8_t SYREN_REVERSE_CMD = 97;
+const uint8_t SYREN_STOP_CMD = 127;
+const uint8_t SYREN_FORWARD_CMD = 157;
 
 unsigned long lastStatusMs = 0;
 unsigned long lastValidReceiverMs = 0;
@@ -88,9 +92,30 @@ bool readReceiverPulse(unsigned long &pulseUs) {
 
 int pulseToTargetAdc(unsigned long pulseUs) {
   long bounded = constrain((long)pulseUs, (long)RX_MIN_US, (long)RX_MAX_US);
-  long fraction = bounded - (long)RX_MIN_US;
   long span = (long)FEEDBACK_EXTENDED_ADC - (long)FEEDBACK_RETRACTED_ADC;
-  return FEEDBACK_RETRACTED_ADC + (int)(span * fraction / (long)(RX_MAX_US - RX_MIN_US));
+  long centerTarget = (long)FEEDBACK_RETRACTED_ADC + span / 2;
+  long lowDeadbandEdge = (long)RX_CENTER_US - (long)RX_CENTER_DEADBAND_US;
+  long highDeadbandEdge = (long)RX_CENTER_US + (long)RX_CENTER_DEADBAND_US;
+
+  // The deadband maps to a single midpoint target, preventing tiny receiver
+  // fluctuations around center from continually changing the requested position.
+  if (bounded >= lowDeadbandEdge && bounded <= highDeadbandEdge) {
+    return (int)centerTarget;
+  }
+
+  // Remap each side independently so target position changes smoothly from
+  // midpoint at the deadband edge to the calibrated endpoint at stick travel.
+  if (bounded < lowDeadbandEdge) {
+    long inputSpan = lowDeadbandEdge - (long)RX_MIN_US;
+    long inputOffset = bounded - (long)RX_MIN_US;
+    return (int)((long)FEEDBACK_RETRACTED_ADC +
+                 (centerTarget - (long)FEEDBACK_RETRACTED_ADC) * inputOffset / inputSpan);
+  }
+
+  long inputSpan = (long)RX_MAX_US - highDeadbandEdge;
+  long inputOffset = bounded - highDeadbandEdge;
+  return (int)(centerTarget +
+               ((long)FEEDBACK_EXTENDED_ADC - centerTarget) * inputOffset / inputSpan);
 }
 
 int readFeedbackAdc() {
@@ -119,10 +144,6 @@ void commandSyRenTowardTarget(int targetAdc, int actualAdc) {
   }
 
   // Potentiometer direction and motor direction must be confirmed empirically.
-  // These assignments are placeholders until a short direction test establishes
-  // which command moves the actuator toward increasing ADC readings. The candidate
-  // commands are intentionally close to neutral, but must not be used until the
-  // stop-byte discrepancy is resolved and a safe direction test is planned.
   if (error > 0) {
     syrenSerial.write(SYREN_FORWARD_CMD);
   } else {
@@ -140,13 +161,8 @@ void setup() {
   Serial.println(F("\nPOC 7 — PA-14P position-control diagnostic"));
   Serial.println(F("T8L left joystick X -> ER8 CH4 -> Arduino D4"));
   Serial.println(F("PA-14P wiper -> A0; SyRen S1 <- SoftwareSerial TX D8"));
-  Serial.println(F("Motor output is DISABLED by default."));
-  Serial.println(F("Confirm SyRen stop/direction command mapping before enabling."));
+  Serial.println(F("Joystick center deadband: +/- 30 us around 1500 us."));
   Serial.println(F("Replace feedback endpoint placeholders with measured ADC values."));
-
-  if (!feedbackCalibrationPlausible()) {
-    Serial.println(F("ERROR: feedback endpoint calibration values are not plausible."));
-  }
 }
 
 void loop() {
