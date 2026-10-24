@@ -45,7 +45,7 @@ const bool ENABLE_MOTOR_OUTPUT = true;
 // PA-14P feedback calibration placeholders only.
 // Replace with measured analogRead() values at usable retracted and extended endpoints.
 // Values must be distinct and between 0 and 1023.
-const int FEEDBACK_RETRACTED_ADC = 70; // TEST VALUE — user-requested lower retraction target; verify safely
+const int FEEDBACK_RETRACTED_ADC = 0; // User-requested test target; observe actuator carefully
 const int FEEDBACK_EXTENDED_ADC  = 900; // PLACEHOLDER — measure before enabling
 
 // Receiver calibration observed on previous T8L/ER8 testing; verify CH4 specifically.
