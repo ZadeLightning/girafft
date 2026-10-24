@@ -248,7 +248,6 @@ The double-ended metal tool has been the preferred method for releasing terminal
 The used PA-14p-6-35 actuator has a **DT06-6S male** connector.
 
 The user does not currently have the complete hull physically available for inspection. There is a good chance the hull contains additional Deutsch connectors, potentially including **6P**, **4P**, and/or **3P** housings. These must be physically inspected before assuming compatibility.
-
 ---
 
 ### 3.7 Batteries / battery packs found with the hull
@@ -497,7 +496,6 @@ Goal: integrate the wireless steering signal with the D646WP while also observin
 - No propulsion hardware is connected or controlled.
 
 **Final POC 5 result:** COMPLETE. Both receiver channels are captured simultaneously using Arduino Uno hardware interrupts; CH1 steering is mapped through the ±30 µs dead zone to the D646WP, and CH3 throttle is observed independently over Serial.
-
 Repository sketch:
 `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino`
 
@@ -747,7 +745,6 @@ The Master Context intentionally does not retain a detailed chronological change
 This section exists specifically to prevent repeating known recommendation and verification failures. These are not merely historical notes; they are required checks when making future ASV purchasing, wiring, and architecture recommendations.
 
 ### 2026-09-16 — BOJACK 130-piece breadboard kit / connector mismatch
-
 **Mistake:**  
 Recommended the BOJACK 130-piece breadboard jumper-wire kit for the early ER8/Arduino POC without verifying its actual contents against the required physical connections. The kit contains male-to-male jumper wires only. The ER8 exposes male header pins, so female-ended wiring is required for a direct connection.
 
@@ -997,8 +994,7 @@ The user supplied an empty-hull shell baseline of approximately **20 lb**. This 
 
 A published APISQUEEN U10 test table gives the following full-throttle forward/reverse data:
 
-| Voltage | Forward current | Forward thrust | Reverse current | Reverse thrust |
-|---:|---:|---:|---:|---:|
+| Voltage | Forward current | Forward thrust | Reverse current | Reverse thrust ||---:|---:|---:|---:|---:|
 | 14 V | 16 A | 4.6 kg / 10.1 lb | 16 A | 4.3 kg / 9.5 lb |
 | 16 V | 17 A | 5.6 kg / 12.3 lb | 17 A | 5.2 kg / 11.5 lb |
 | 18 V | 20 A | 6.9 kg / 15.2 lb | 21 A | 6.1 kg / 13.4 lb |
@@ -1247,8 +1243,7 @@ ESC signal input
 
 The POC 6 sequence should initially emphasize **low-risk functional verification**, not maximum-thrust testing:
 1. Verify the ESC wiring, polarity, connectors, and signal connection before applying propulsion power.
-2. Confirm the bench supply can provide the required voltage/current for the intended test range.
-3. Start with the U10 submerged and mechanically restrained by the temporary wood fixture.
+2. Confirm the bench supply can provide the required voltage/current for the intended test range.3. Start with the U10 submerged and mechanically restrained by the temporary wood fixture.
 4. Establish the ESC's stop/neutral command before commanding forward or reverse.
 5. Increase command gradually and observe motor response, bench-supply current, ESC behavior, and mechanical stability.
 6. Keep the first runs brief and avoid unnecessary full-throttle operation.
@@ -1498,7 +1493,6 @@ Manufacturer product/docs: https://www.dimensionengineering.com/products/syren10
 - Startup/failsafe requirements: command motor stop/neutral until a valid receiver signal is present; stop on receiver-signal loss; use conservative initial motion commands and monitor current during the first powered test. Do not require a separate pre-test measurement of actuator startup/stall current: the user has explicitly chosen to observe actual current during the SyRen-connected test instead.
 
 #### Open items for next session
-
 1. Verify the exact SyRen DIP-switch configuration for serial control and the supported serial command protocol/baud rate.
 2. Verify safe power arrangement for a regenerative driver when using the NANKADF bench supply.
 3. Confirm PA-14P connector pinout, motor leads, and potentiometer feedback wires from manufacturer documentation or measurements.
@@ -1747,8 +1741,7 @@ The user explicitly confirmed the planned POC 7 power arrangement:
 - Intended use: provide screw-terminal access to Arduino Uno pins without soldering wires directly to the Uno.
 - User has ordered this module. This listed 26–16 AWG range accommodates the user's 18 AWG wire and typical 22–24 AWG Dupont jumper conductors, subject to secure clamping.
 
-**EDGELEC alligator-clip test leads**
-- Product listing: “12pcs/20in. Alligator Clips Electrical with Wires UL1015/18AWG, 6 Colors Jumper Test Leads Set, 1.77in. Clips Soldered with Wires.”
+**EDGELEC alligator-clip test leads**- Product listing: “12pcs/20in. Alligator Clips Electrical with Wires UL1015/18AWG, 6 Colors Jumper Test Leads Set, 1.77in. Clips Soldered with Wires.”
 - 12 leads, 20 in (50 cm) long, six colors, listed UL1015 18 AWG wire; clips are factory attached.
 - Intended use: temporary bench testing and convenient test-point connections. Not a substitute for secure, strain-relieved connections in the final boat harness.
 
@@ -1891,3 +1884,12 @@ Created a separate pre-test sketch at [`sketches/01_basics/07-1_pre_test/07-1_pr
 - Prints ER8 CH4 pulse width and PA-14P feedback ADC reading.
 - This is manual jog/observation only; CH4 and feedback are monitored, not used to command motor movement.
 - SyRen simplified-serial direction/neutral mapping remains unresolved across the supplied documents. Candidate commands 124/128/132 are not verified against the actual unit. Start only with the actuator mechanically clear and a safe power setup; if it moves or creeps unexpectedly, disconnect battery power. Do not treat the software stop as guaranteed until tested.
+
+
+## 2026-10-23 — POC 7 actuator control: joystick center deadband
+
+- User confirmed the PA-14P actuator now responds under the original POC 7 position-control sketch after increasing the extend/retract command values farther from neutral. The working empirical command values in the current sketch are reverse = 97, stop = 127, forward = 157. The user suspects the stop byte may have contributed to the earlier failure; do not state that as proven.
+- Updated `sketches/01_basics/07_actuator_position/07_actuator_position.ino` to add `RX_CENTER_DEADBAND_US = 30`: receiver pulses from 1470–1530 µs map to the midpoint target. Outside the deadband, each side is remapped from the deadband edge to its calibrated endpoint, avoiding a discontinuity in target position at the edge.
+- Existing actuator-position error deadband remains `POSITION_DEADBAND_ADC = 12`; this is separate from the new joystick-input deadband. If residual motion persists while the stick is centered, inspect the live CH4 pulse and computed target ADC before increasing either deadband.
+- Current receiver center is assumed to be 1500 µs; verify actual CH4 center if needed. Current feedback endpoint values in the sketch are still placeholders (100 and 900) unless the user has separately calibrated them locally; do not assume they represent measured physical endpoints.
+- Commit for joystick deadband update: `ccf791bdc23024155b5f17943d4c8cd63d625804`.
