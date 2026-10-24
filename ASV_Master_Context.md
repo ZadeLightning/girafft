@@ -1942,3 +1942,16 @@ The user repeated the CH4 test with the system powered, but with the SyRen-to-ac
 - SyRen 10 manual specification to verify against the actual power setup: 5 V output capacity is 100 mA at source voltage ≤12.6 V and 10 mA above 12.6 V. BEC overload can cause driver electronics to brown out. Whether this is relevant depends on whether the SyRen 5 V terminal is actually powering the ER8 (and what else is connected to it).
 - Next step: confirm the ER8 power source. If it is powered from the SyRen BEC, repeat with a separate regulated 5 V supply for the ER8, retaining a common ground and never tying two 5 V outputs together. If the issue persists, investigate motor-noise coupling and ground/power wiring; keep CH4 signal wiring away from motor leads.
 - Keep endpoint ADC calibration and controller tuning deferred until the signal issue is isolated.
+
+
+## 2026-10-24 — POC 7 CH4 stability improved by powering ER8 from Arduino USB 5 V rail
+
+The user changed exactly one thing from the previous test: moved ER8 positive power from the SyRen's 5 V BEC output to the Arduino Uno's 5 V rail, with the Arduino powered by USB from the computer. Grounds remained common; the CH4 signal and other system wiring were unchanged.
+
+**Observed result:** actuator motion is now much smoother, and the user reports no CH4 disconnects at all.
+
+- This is strong evidence that the issue is associated with the previous ER8 power arrangement through the SyRen BEC, or with electrical noise/voltage disturbance on that power path. Since only one wire/power-source connection changed, this is a high-value diagnostic result.
+- Do not yet claim the SyRen BEC itself is definitively faulty: the change also changes the receiver's power path and may alter how noise or transients couple into the receiver.
+- Keep ER8 powered from Arduino 5 V for the current USB-powered POC, and do not connect SyRen 5 V BEC positive to ER8 positive in parallel.
+- Before making any further code/tuning changes, repeat a few controlled extension/retraction cycles and confirm both smoothness and CH4 stability. Continue watching for unexpected motion and be ready to disconnect actuator battery power.
+- Endpoint ADC values remain uncalibrated (current placeholders: retracted 100, extended 900). Previous lower-end reading plateau around 118–120 and upper-end readings around 680–684 still need a separate endpoint calibration pass once motion/signal behavior is stable.
