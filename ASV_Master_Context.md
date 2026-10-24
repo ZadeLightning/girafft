@@ -1972,3 +1972,14 @@ At the user's request, changed `FEEDBACK_RETRACTED_ADC` in `sketches/01_basics/0
 ## 2026-10-24 — POC 7 calibration guard now permits retracted ADC target zero
 
 After setting `FEEDBACK_RETRACTED_ADC = 0`, the sketch reported `feedback=invalid / not calibrated` and stopped position control because `feedbackCalibrationPlausible()` required the retracted endpoint to be >= 1. Changed only that lower-bound check to allow >= 0; all other plausibility checks are unchanged. Endpoint settings remain retracted 0 and extended 900. At centered joystick, expected target is now ADC 450. The endpoint 0 is a requested control target, not a measured physical endpoint; monitor actuator movement carefully and do not allow it to push against a hard stop.
+
+
+## 2026-10-24 — POC 7 endpoint observations and upper-end feedback statistics
+
+The user reports that the actuator stops itself cleanly at both its lower and upper travel limits, without concern about the controller continuing to request extension/retraction at the endpoints.
+
+- Lower-end feedback is consistently approximately ADC **51–53** (reported by user; use this as the observed lower-end value rather than the old ~118–120 plateau, which came from earlier testing/configuration).
+- At the upper end, the actuator is stationary and appears happy at full extension, but the feedback ADC reading varies. Sample values (18 readings): 678, 697, 661, 681, 664, 640, 656, 679, 669, 679, 674, 688, 681, 682, 684, 709, 684, 688.
+- Upper-end sample statistics: **mean 677.44**, **median 680**, **mode is tied at 679, 681, 684, and 688** (each occurs twice); min 640, max 709, range 69 ADC counts. Sample standard deviation approximately 15.6 ADC counts.
+- For a provisional representative upper endpoint, median **680** is a robust candidate; mean rounds to 677. The spread (640–709) is large relative to the stationary actuator, so before hardcoding an endpoint, inspect feedback wiring/ADC stability and collect another sample if needed. Do not treat the placeholder FEEDBACK_EXTENDED_ADC = 900 as calibrated; it should be replaced only after confirming the desired calibration behavior.
+- Current sketch's retracted target was set to 0 by request, but the observed lower endpoint is about 51–53. The software target and measured physical endpoint are distinct; consider setting the retracted target to a measured/reasonable value after discussing the control behavior, rather than assuming zero is physically reachable.
