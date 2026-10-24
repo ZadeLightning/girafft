@@ -1955,3 +1955,10 @@ The user changed exactly one thing from the previous test: moved ER8 positive po
 - Keep ER8 powered from Arduino 5 V for the current USB-powered POC, and do not connect SyRen 5 V BEC positive to ER8 positive in parallel.
 - Before making any further code/tuning changes, repeat a few controlled extension/retraction cycles and confirm both smoothness and CH4 stability. Continue watching for unexpected motion and be ready to disconnect actuator battery power.
 - Endpoint ADC values remain uncalibrated (current placeholders: retracted 100, extended 900). Previous lower-end reading plateau around 118–120 and upper-end readings around 680–684 still need a separate endpoint calibration pass once motion/signal behavior is stable.
+
+
+## 2026-10-24 — POC 7 retracted target changed from ADC 100 to 70
+
+At the user's request, changed `FEEDBACK_RETRACTED_ADC` in `sketches/01_basics/07_actuator_position/07_actuator_position.ino` from 100 to **70**. This is the requested software target value, not a measured physical endpoint. The previously observed lower-end feedback plateau was approximately ADC 118–120, so this change asks the controller to target farther below that observed reading. Test cautiously; do not assume the actuator can safely reach ADC 70 or force it against a mechanical stop. The extended endpoint remains 900 and is still an uncalibrated placeholder.
+
+The sketch's power comments were also corrected to reflect the current POC wiring: Arduino powered by USB, ER8 powered from Arduino 5 V/GND, and SyRen BEC positive disconnected from the ER8.
