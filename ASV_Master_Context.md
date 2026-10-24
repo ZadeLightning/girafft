@@ -1870,3 +1870,24 @@ Three power architectures are under consideration, with simplicity and low total
 3. **24 V main battery → DC-DC → 12 V bus with compatible battery buffer.** Potentially absorbs regeneration, but requires compatible battery charging/protection and converter behavior when connected to a battery-held bus. Do not assume a generic buck converter can safely be paralleled with a battery.
 
 Preliminary ranking: investigate Option 1 as the most straightforward regeneration solution; investigate Option 2 as the potential lowest-cost solution if a manufacturer-verified converter/energy-absorption approach exists; retain Option 3 as a fallback because it adds the most integration work. No option finalized and no purchase authorized.
+
+
+## POC 7-1 — Actuator pre-test jog sketch (2026-10-23)
+
+Created a separate pre-test sketch at [`sketches/01_basics/07-1_pre_test/07-1_pre_test.ino`](https://github.com/ZadeLightning/girraft/blob/main/sketches/01_basics/07-1_pre_test/07-1_pre_test.ino). This is separate from the POC 7 closed-loop position-control sketch and is intended to let the user manually jog the PA-14P actuator to establish SyRen command behavior before implementing closed-loop control.
+
+**Current wiring captured in the sketch**
+- RadioMaster T8L wireless link to ER8 receiver.
+- ER8 CH4 signal → Arduino Uno D4.
+- PA-14P potentiometer: yellow → Arduino 5V; white → Arduino GND; blue wiper → A0.
+- Arduino D8 TX → SyRen S1 using `SoftwareSerial(7, 8)`; Arduino D7 RX is unused.
+- Arduino GND → SyRen 0V.
+- PA-14P motor leads → SyRen M1/M2 per the established actuator wiring plan.
+- Arduino powered by Mac USB; SyRen/actuator powered by the fused temporary 12 V battery. Do not use the NANKADF bench supply alone for SyRen motor power.
+
+**Sketch behavior**
+- Serial Monitor at 115200 baud accepts `a` (command 132 for 250 ms), `b` (command 124 for 250 ms), and `s` (send candidate stop command 128).
+- SyRen serial baud rate is 9600.
+- Prints ER8 CH4 pulse width and PA-14P feedback ADC reading.
+- This is manual jog/observation only; CH4 and feedback are monitored, not used to command motor movement.
+- SyRen simplified-serial direction/neutral mapping remains unresolved across the supplied documents. Candidate commands 124/128/132 are not verified against the actual unit. Start only with the actuator mechanically clear and a safe power setup; if it moves or creeps unexpectedly, disconnect battery power. Do not treat the software stop as guaranteed until tested.
