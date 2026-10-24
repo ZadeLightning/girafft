@@ -21,13 +21,13 @@ SoftwareSerial syrenSerial(7, 8);
 // Candidate simplified-serial commands.
 // IMPORTANT: SyRen documentation conflicts on neutral and direction.
 // These values are not yet verified against this specific unit.
-const uint8_t STOP_CMD = 128;
-const uint8_t JOG_A = 132;
-const uint8_t JOG_B = 124;
+const uint8_t STOP_CMD = 127;
+const uint8_t JOG_A = 160;
+const uint8_t JOG_B = 96;
 
-const unsigned long JOG_DURATION_MS = 250;
+const unsigned long JOG_DURATION_MS = 1000;
 const unsigned long RECEIVER_TIMEOUT_US = 30000;
-const unsigned long STATUS_INTERVAL_MS = 250;
+const unsigned long STATUS_INTERVAL_MS = 1000;
 
 unsigned long lastStatusMs = 0;
 

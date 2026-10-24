@@ -40,7 +40,7 @@ SoftwareSerial syrenSerial(SYREN_RX_UNUSED_PIN, SYREN_TX_PIN); // RX, TX
 
 // ----- Commissioning interlocks -----
 // Keep false until serial command mapping and feedback calibration are confirmed.
-const bool ENABLE_MOTOR_OUTPUT = false;
+const bool ENABLE_MOTOR_OUTPUT = true;
 
 // PA-14P feedback calibration placeholders only.
 // Replace with measured analogRead() values at usable retracted and extended endpoints.
@@ -64,9 +64,9 @@ const unsigned long STATUS_INTERVAL_MS = 250;
 // Simplified-serial command bytes stated by the supplied Quick Start Guide.
 // The supplied User's Guide has conflicting direction/stop descriptions.
 // These are not used while ENABLE_MOTOR_OUTPUT is false.
-const uint8_t SYREN_REVERSE_CMD = 120;  // Conservative near-stop candidate; verify before enabling
-const uint8_t SYREN_STOP_CMD = 128;     // Quick Start value; verify before enabling
-const uint8_t SYREN_FORWARD_CMD = 136;  // Conservative near-stop candidate; verify before enabling
+const uint8_t SYREN_REVERSE_CMD = 97;  // Conservative near-stop candidate; verify before enabling
+const uint8_t SYREN_STOP_CMD = 127;     // Quick Start value; verify before enabling
+const uint8_t SYREN_FORWARD_CMD = 157;  // Conservative near-stop candidate; verify before enabling
 
 unsigned long lastStatusMs = 0;
 unsigned long lastValidReceiverMs = 0;
