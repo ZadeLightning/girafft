@@ -1983,3 +1983,16 @@ The user reports that the actuator stops itself cleanly at both its lower and up
 - Upper-end sample statistics: **mean 677.44**, **median 680**, **mode is tied at 679, 681, 684, and 688** (each occurs twice); min 640, max 709, range 69 ADC counts. Sample standard deviation approximately 15.6 ADC counts.
 - For a provisional representative upper endpoint, median **680** is a robust candidate; mean rounds to 677. The spread (640–709) is large relative to the stationary actuator, so before hardcoding an endpoint, inspect feedback wiring/ADC stability and collect another sample if needed. Do not treat the placeholder FEEDBACK_EXTENDED_ADC = 900 as calibrated; it should be replaced only after confirming the desired calibration behavior.
 - Current sketch's retracted target was set to 0 by request, but the observed lower endpoint is about 51–53. The software target and measured physical endpoint are distinct; consider setting the retracted target to a measured/reasonable value after discussing the control behavior, rather than assuming zero is physically reachable.
+
+
+## 2026-10-24 — Added POC 7-2 adjustable center-position test sketch
+
+Created `sketches/01_basics/07-2_center_testing/07-2_center_testing.ino` for testing actuator position around a target feedback ADC value without rewiring.
+
+- Uses the existing wiring: PA-14P potentiometer wiper on A0; Arduino D8 SoftwareSerial TX to SyRen S1; shared Arduino/SyRen ground; existing actuator motor wiring; Arduino USB power; ER8 remains on Arduino 5 V/GND and SyRen BEC positive remains disconnected from ER8.
+- Starts with target ADC **363**.
+- Arduino Serial Monitor at **115200 baud** accepts `a` to decrease target by 1 and `d` to increase target by 1, bounded to 0–1023.
+- Reuses the current SyRen command bytes: reverse 33, stop 127, forward 223.
+- Applies **no ADC position deadband**: feedback below target commands forward; above target commands reverse; exact equality commands stop. This can cause hunting or rapid direction changes because ADC readings may not land exactly on the target. Monitor continuously and disconnect actuator power if behavior is unexpected.
+- Retains a four-sample average for each feedback reading; this is averaging, not a position deadband. The existing CH4 input is not used by this test sketch, but no physical wiring changes are required.
+- New sketch commit: `8dbce73e3cf531f8a24f1a64b4ea207ec78ca90d`.
