@@ -66,11 +66,11 @@ const int POSITION_DEADBAND_ADC = 30;
 const unsigned long LOOP_DELAY_MS = 20;
 const unsigned long STATUS_INTERVAL_MS = 250;
 
-// Simplified-serial command bytes: stronger drive commands for the next speed test.
+// Simplified-serial command bytes: commands with twice the previous distance from stop for the next speed test.
 // These values are empirical for this unit; stop remains 127.
-const uint8_t SYREN_REVERSE_CMD = 80;
+const uint8_t SYREN_REVERSE_CMD = 33;
 const uint8_t SYREN_STOP_CMD = 127;
-const uint8_t SYREN_FORWARD_CMD = 175;
+const uint8_t SYREN_FORWARD_CMD = 223;
 
 unsigned long lastStatusMs = 0;
 unsigned long lastValidReceiverMs = 0;
