@@ -1907,3 +1907,15 @@ Created a separate pre-test sketch at [`sketches/01_basics/07-1_pre_test/07-1_pr
 - The larger SyRen command values are intended to increase drive power/speed; actual speed change is empirical and not assumed to be linear with command-byte distance from neutral. The wider position deadband should reduce control corrections caused by small feedback fluctuations around the target.
 - Before the change, with the stick centered, target ADC was consistently 500 while feedback readings varied roughly from 485 to 517 in the reported sample. This shows the target was stable, but does not by itself establish whether the feedback variation is electrical noise, mechanical motion, or both.
 - Next test: upload the revised sketch; test with the actuator mechanically clear and be ready to remove 12 V power if movement is unexpected. Confirm that motion is faster and that the actuator settles at center without persistent hunting. If it does not settle, review actual feedback behavior and controller logic before making further tuning changes.
+
+
+## 2026-10-23 — POC 7 actuator speed increase and deferred tuning issues
+
+- User requested approximately double the previous motor-command distance from the SyRen stop command to increase actuator movement speed. Updated POC 7 command values by doubling their distance from stop byte 127:
+  - Reverse: **80 → 33** (distance from stop: 47 → 94)
+  - Stop: **127 (unchanged)**
+  - Forward: **175 → 223** (distance from stop: 48 → 96)
+- This doubles the command-byte offset, **not guaranteed physical speed**; actual movement speed must be tested. These are more aggressive commands, so test with the actuator mechanically clear and be ready to disconnect the 12 V battery if movement is unexpected. Do not change additional tuning parameters until this test is observed.
+- Deferred issue 1 — **midpoint approach bounce / settling:** when the joystick is centered while the actuator is extending or retracting, it bounces around the midpoint. The input deadband commands a fixed midpoint target, while the position deadband stops corrections within ±30 ADC counts. The actuator may therefore stop short of exact midpoint and make intermittent small corrections as feedback changes. Revisit later; determine whether this is controller deadband/hysteresis behavior, mechanical inertia/backlash, feedback noise, or a combination before changing the control strategy.
+- Deferred issue 2 — **physical endpoint behavior:** at the extended/max end, the actuator exhibits unexplained jumping; cause is not yet known to be software or hardware. At the retracted/min end, it does not reach the expected minimum position; the position deadband and the uncalibrated endpoint placeholders may contribute. Revisit later by safely characterizing actual feedback ADC values and physical travel limits, then separating calibration/mapping issues from mechanical or electrical behavior. Do not assume the current endpoint constants (100 and 900) are measured values.
+- Current priority: test the doubled command offsets first; keep both behavior investigations explicitly deferred for a later troubleshooting pass.
