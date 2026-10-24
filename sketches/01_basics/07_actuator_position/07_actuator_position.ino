@@ -93,7 +93,7 @@ bool readReceiverPulse(unsigned long &pulseUs) {
 int pulseToTargetAdc(unsigned long pulseUs) {
   long bounded = constrain((long)pulseUs, (long)RX_MIN_US, (long)RX_MAX_US);
   long span = (long)FEEDBACK_EXTENDED_ADC - (long)FEEDBACK_RETRACTED_ADC;
-  long centerTarget = (long)FEEDBACK_RETRACTED_ADC + span / 2;
+  const long centerTarget = 366; // User-calibrated fixed center target ADC
   long lowDeadbandEdge = (long)RX_CENTER_US - (long)RX_CENTER_DEADBAND_US;
   long highDeadbandEdge = (long)RX_CENTER_US + (long)RX_CENTER_DEADBAND_US;
 
