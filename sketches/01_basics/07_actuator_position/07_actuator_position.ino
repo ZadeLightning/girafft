@@ -61,16 +61,16 @@ const unsigned long RX_VALID_MAX_US = 2100;
 // each half of the stick's travel is remapped smoothly from midpoint to endpoint.
 const unsigned long RX_CENTER_DEADBAND_US = 30;
 
-// Position controller tuning — start conservatively.
-const int POSITION_DEADBAND_ADC = 12;
+// Position controller tuning. Increase the ADC error deadband to reduce hunting around the target.
+const int POSITION_DEADBAND_ADC = 30;
 const unsigned long LOOP_DELAY_MS = 20;
 const unsigned long STATUS_INTERVAL_MS = 250;
 
-// Simplified-serial command bytes used in the working test.
-// Direction/neutral mapping should remain documented as empirical for this unit.
-const uint8_t SYREN_REVERSE_CMD = 97;
+// Simplified-serial command bytes: stronger drive commands for the next speed test.
+// These values are empirical for this unit; stop remains 127.
+const uint8_t SYREN_REVERSE_CMD = 80;
 const uint8_t SYREN_STOP_CMD = 127;
-const uint8_t SYREN_FORWARD_CMD = 157;
+const uint8_t SYREN_FORWARD_CMD = 175;
 
 unsigned long lastStatusMs = 0;
 unsigned long lastValidReceiverMs = 0;
