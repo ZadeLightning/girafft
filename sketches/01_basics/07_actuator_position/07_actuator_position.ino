@@ -11,8 +11,8 @@
   Power:
     12 V lead-acid battery -> fused SyRen B+ / B-
     Mac USB -> Arduino Uno
-    ER8 is planned to be powered from SyRen 5V / 0V for this test.
-    DO NOT connect SyRen 5V to Arduino 5V. Grounds must share a reference.
+    Arduino 5V / GND -> ER8 power rail (current POC test arrangement)
+    SyRen 5V BEC positive is NOT connected to ER8. Grounds share a reference.
 
   SAFETY / COMMISSIONING:
     - Motor output is intentionally DISABLED by default.
@@ -45,7 +45,7 @@ const bool ENABLE_MOTOR_OUTPUT = true;
 // PA-14P feedback calibration placeholders only.
 // Replace with measured analogRead() values at usable retracted and extended endpoints.
 // Values must be distinct and between 0 and 1023.
-const int FEEDBACK_RETRACTED_ADC = 100; // PLACEHOLDER — measure before enabling
+const int FEEDBACK_RETRACTED_ADC = 70; // TEST VALUE — user-requested lower retraction target; verify safely
 const int FEEDBACK_EXTENDED_ADC  = 900; // PLACEHOLDER — measure before enabling
 
 // Receiver calibration observed on previous T8L/ER8 testing; verify CH4 specifically.
