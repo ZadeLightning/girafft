@@ -1967,3 +1967,8 @@ The sketch's power comments were also corrected to reflect the current POC wirin
 ## 2026-10-24 — POC 7 retracted target changed from ADC 70 to 0
 
 At the user's request, changed `FEEDBACK_RETRACTED_ADC` in `sketches/01_basics/07_actuator_position/07_actuator_position.ino` from 70 to **0**. This is a software target, not a measured physical endpoint. The previously observed lower-end feedback plateau was approximately ADC 118–120, so the controller will request further retraction and may continue driving against a physical limit if the feedback never approaches zero. Test cautiously, watch the actuator closely, and disconnect actuator power if it pushes against a mechanical stop. The extended endpoint remains 900 and is still an uncalibrated placeholder.
+
+
+## 2026-10-24 — POC 7 calibration guard now permits retracted ADC target zero
+
+After setting `FEEDBACK_RETRACTED_ADC = 0`, the sketch reported `feedback=invalid / not calibrated` and stopped position control because `feedbackCalibrationPlausible()` required the retracted endpoint to be >= 1. Changed only that lower-bound check to allow >= 0; all other plausibility checks are unchanged. Endpoint settings remain retracted 0 and extended 900. At centered joystick, expected target is now ADC 450. The endpoint 0 is a requested control target, not a measured physical endpoint; monitor actuator movement carefully and do not allow it to push against a hard stop.
