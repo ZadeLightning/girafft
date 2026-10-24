@@ -1962,3 +1962,8 @@ The user changed exactly one thing from the previous test: moved ER8 positive po
 At the user's request, changed `FEEDBACK_RETRACTED_ADC` in `sketches/01_basics/07_actuator_position/07_actuator_position.ino` from 100 to **70**. This is the requested software target value, not a measured physical endpoint. The previously observed lower-end feedback plateau was approximately ADC 118–120, so this change asks the controller to target farther below that observed reading. Test cautiously; do not assume the actuator can safely reach ADC 70 or force it against a mechanical stop. The extended endpoint remains 900 and is still an uncalibrated placeholder.
 
 The sketch's power comments were also corrected to reflect the current POC wiring: Arduino powered by USB, ER8 powered from Arduino 5 V/GND, and SyRen BEC positive disconnected from the ER8.
+
+
+## 2026-10-24 — POC 7 retracted target changed from ADC 70 to 0
+
+At the user's request, changed `FEEDBACK_RETRACTED_ADC` in `sketches/01_basics/07_actuator_position/07_actuator_position.ino` from 70 to **0**. This is a software target, not a measured physical endpoint. The previously observed lower-end feedback plateau was approximately ADC 118–120, so the controller will request further retraction and may continue driving against a physical limit if the feedback never approaches zero. Test cautiously, watch the actuator closely, and disconnect actuator power if it pushes against a mechanical stop. The extended endpoint remains 900 and is still an uncalibrated placeholder.
