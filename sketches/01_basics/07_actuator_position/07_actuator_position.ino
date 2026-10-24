@@ -78,7 +78,7 @@ bool receiverHasBeenValid = false;
 bool printedNoReceiver = false;
 
 bool feedbackCalibrationPlausible() {
-  return FEEDBACK_RETRACTED_ADC >= 1 &&
+  return FEEDBACK_RETRACTED_ADC >= 0 &&
          FEEDBACK_RETRACTED_ADC <= 1022 &&
          FEEDBACK_EXTENDED_ADC >= 1 &&
          FEEDBACK_EXTENDED_ADC <= 1022 &&
