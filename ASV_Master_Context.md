@@ -1996,3 +1996,16 @@ Created `sketches/01_basics/07-2_center_testing/07-2_center_testing.ino` for tes
 - Applies **no ADC position deadband**: feedback below target commands forward; above target commands reverse; exact equality commands stop. This can cause hunting or rapid direction changes because ADC readings may not land exactly on the target. Monitor continuously and disconnect actuator power if behavior is unexpected.
 - Retains a four-sample average for each feedback reading; this is averaging, not a position deadband. The existing CH4 input is not used by this test sketch, but no physical wiring changes are required.
 - New sketch commit: `8dbce73e3cf531f8a24f1a64b4ea207ec78ca90d`.
+
+
+## 2026-10-24 — POC 7-2 position deadband set to 5 ADC counts
+
+At the user's request, updated `sketches/01_basics/07-2_center_testing/07-2_center_testing.ino` to apply a **5-count position deadband** around the adjustable target. The controller now commands:
+
+- **Forward** when feedback ADC is below target by more than 5 counts.
+- **Stop** when feedback ADC is within target ±5 counts, inclusive.
+- **Reverse** when feedback ADC is above target by more than 5 counts.
+
+The initial target remains ADC 363; Serial Monitor controls remain `a` to decrement the target by 1 and `d` to increment it by 1. No wiring changes. The existing four-sample average remains enabled. This deadband is intended to prevent rapid direction switching when feedback fluctuates near the target.
+
+Sketch update commit: `c89a37499812018ac1ae4f158a9ae3f35532b141`.
