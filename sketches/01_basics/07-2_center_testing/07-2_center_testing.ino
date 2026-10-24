@@ -18,7 +18,7 @@
     SyRen M1/M2 remain connected to PA-14P motor leads.
 
   Control behavior:
-    - Position deadband is 5 ADC counts: stop when feedback is within
+    - Position deadband is 10 ADC counts: stop when feedback is within
       target +/- 5 counts; drive forward below that band and reverse above it.
     - This should reduce rapid direction changes caused by ADC noise.
     - The existing actuator endpoint switches reportedly stop the motor at
@@ -60,11 +60,11 @@ int readFeedbackAdc() {
 void commandTowardTarget(int actualAdc) {
   if (!ENABLE_MOTOR_OUTPUT) return;
 
-  // Stop when feedback is within +/- 5 ADC counts of the target.
+  // Stop when feedback is within +/- 10 ADC counts of the target.
   const int error = actualAdc - targetAdc;
-  if (error < -5) {
+  if (error < -10) {
     syrenSerial.write(SYREN_FORWARD_CMD);
-  } else if (error > 5) {
+  } else if (error > 10) {
     syrenSerial.write(SYREN_REVERSE_CMD);
   } else {
     syrenSerial.write(SYREN_STOP_CMD);
@@ -96,7 +96,7 @@ void setup() {
   Serial.println(F("\nPOC 7-2 — PA-14P center-position testing"));
   Serial.println(F("Initial target ADC: 363"));
   Serial.println(F("Press 'a' to lower target by 1; 'd' to raise target by 1."));
-  Serial.println(F("ADC position deadband: +/- 5 counts."));
+  Serial.println(F("ADC position deadband: +/- 10 counts."));
 }
 
 void loop() {
