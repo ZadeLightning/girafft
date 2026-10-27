@@ -2031,3 +2031,11 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - At that location, the transom surface is at a **slight angle rather than exactly 90° to the deck**; user describes the angle as close to 90°. The exact angle has not yet been measured.
 - Next step: measure the transom angle before finalizing the rudder-stock support/bracket design. This will determine whether the stock can be mounted directly or needs angled spacer/wedge plates to establish the intended shaft axis.
 - Rudder-stock support concept remains preliminary. The user is considering 316 stainless handrail center brackets with a nominal 1-inch bore as affordable shaft guides; suitability as actual bearings and structural supports is not yet established.
+
+
+## 2026-10-27 — Rudder-stock transom angle measured
+
+- User measured the transom/deck angle at the intended rudder-stock location as approximately **79° rather than 90°**.
+- Transom orientation: the **bottom of the transom is farther forward (toward the bow) than the top**. In other words, the transom slopes aft as it rises.
+- This is approximately **11° away from perpendicular to the deck**, assuming the 79° measurement is the interior angle between the deck and transom.
+- Design implication: a bracket mounted directly to this transom will orient its bore along the transom normal, not automatically along a vertical rudder-stock axis. Confirm the intended shaft axis before choosing direct mounting versus angled spacer/wedge plates. Keep both shaft supports coaxial to prevent binding.
