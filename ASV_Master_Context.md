@@ -2049,3 +2049,10 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - User is weighing the closer propeller placement of the raked stock against concern that the actuator's push/pull plane may not match the tilted stock's tiller rotation plane.
 - No final decision yet. Design note: stock rake alone does not necessarily cause binding, but the tiller arm sweeps in a plane perpendicular to the stock axis. Ideally, the actuator mounting/line of action and end-joint articulation should accommodate that plane. A spherical rod end can accommodate angular misalignment at a joint, but should not be relied on to absorb persistent actuator side-load or a geometrically incompatible linkage.
 - Next design check: establish the actuator body pivot/mount location and tiller-arm geometry, then verify free movement through the full steering range and propeller clearance before choosing the stock angle or fabricating wedges.
+
+
+## 2026-10-27 — Rudder actuator mounting orientation and linkage direction
+
+- User confirmed the PA-14P actuator body will be mounted flat/horizontally relative to the boat deck, pointing aft (toward the stern). It will be mounted near the boat midpoint using an existing built-in mount; changing this actuator-body orientation is not preferred because the existing mount makes horizontal installation easiest.
+- User's current design direction is to retain the rudder stock at the transom's natural approximately 11° rake (79° deck/transom angle), preserving the estimated closer propeller clearance (2.5–3 inches before bracket gap), and investigate a **spherical rod end / Heim joint** at the actuator-to-tiller connection to accommodate angular misalignment.
+- This is a provisional direction, not a finalized design. A spherical rod end can accommodate angular articulation at the joint but does not by itself eliminate side loading from a poorly aligned linkage. Verify articulation range, actuator end-fitting compatibility (existing 1/4-inch vertical-axis hole), joint and pin ratings, and free movement/propeller clearance through full steering travel before fabrication.
