@@ -2039,3 +2039,13 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - Transom orientation: the **bottom of the transom is farther forward (toward the bow) than the top**. In other words, the transom slopes aft as it rises.
 - This is approximately **11° away from perpendicular to the deck**, assuming the 79° measurement is the interior angle between the deck and transom.
 - Design implication: a bracket mounted directly to this transom will orient its bore along the transom normal, not automatically along a vertical rudder-stock axis. Confirm the intended shaft axis before choosing direct mounting versus angled spacer/wedge plates. Keep both shaft supports coaxial to prevent binding.
+
+
+## 2026-10-27 — Rudder stock rake vs. vertical mounting: tradeoff under consideration
+
+- Transom/deck angle is confirmed as **79°**; the transom slopes aft as it rises, making it approximately 11° off the 90°/vertical-stock mounting geometry under consideration.
+- With the stock following the transom angle, the rudder is estimated to sit **2.5–3 inches from the propeller** before accounting for the mounting-bracket gap (top of rudder about 3 inches away, bottom about 2.5 inches). The propeller is flat/horizontal relative to the hull bottom.
+- With spacer wedges keeping the stock vertical, the estimated propeller-to-rudder gap is **about 5.5 inches**, before accounting for the bracket gap.
+- User is weighing the closer propeller placement of the raked stock against concern that the actuator's push/pull plane may not match the tilted stock's tiller rotation plane.
+- No final decision yet. Design note: stock rake alone does not necessarily cause binding, but the tiller arm sweeps in a plane perpendicular to the stock axis. Ideally, the actuator mounting/line of action and end-joint articulation should accommodate that plane. A spherical rod end can accommodate angular misalignment at a joint, but should not be relied on to absorb persistent actuator side-load or a geometrically incompatible linkage.
+- Next design check: establish the actuator body pivot/mount location and tiller-arm geometry, then verify free movement through the full steering range and propeller clearance before choosing the stock angle or fabricating wedges.
