@@ -2023,3 +2023,11 @@ Sketch update commit: `ada2577b4f27b1c98abba74a29a1549e7657c16f`.
 At the user's request, made one control-logic change in `sketches/01_basics/07_actuator_position/07_actuator_position.ino`: the center target is now a fixed ADC value of **366**, rather than being calculated as the midpoint between `FEEDBACK_RETRACTED_ADC` and `FEEDBACK_EXTENDED_ADC`. Other sketch logic and constants were left unchanged.
 
 Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
+
+
+## 2026-10-27 — Rudder-stock mounting geometry: preliminary transom measurement
+
+- User measured the transom height at the tallest point—the intended location for the rudder stock—as **9.5 inches**.
+- At that location, the transom surface is at a **slight angle rather than exactly 90° to the deck**; user describes the angle as close to 90°. The exact angle has not yet been measured.
+- Next step: measure the transom angle before finalizing the rudder-stock support/bracket design. This will determine whether the stock can be mounted directly or needs angled spacer/wedge plates to establish the intended shaft axis.
+- Rudder-stock support concept remains preliminary. The user is considering 316 stainless handrail center brackets with a nominal 1-inch bore as affordable shaft guides; suitability as actual bearings and structural supports is not yet established.
