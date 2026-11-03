@@ -2056,3 +2056,36 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - User confirmed the PA-14P actuator body will be mounted flat/horizontally relative to the boat deck, pointing aft (toward the stern). It will be mounted near the boat midpoint using an existing built-in mount; changing this actuator-body orientation is not preferred because the existing mount makes horizontal installation easiest.
 - User's current design direction is to retain the rudder stock at the transom's natural approximately 11° rake (79° deck/transom angle), preserving the estimated closer propeller clearance (2.5–3 inches before bracket gap), and investigate a **spherical rod end / Heim joint** at the actuator-to-tiller connection to accommodate angular misalignment.
 - This is a provisional direction, not a finalized design. A spherical rod end can accommodate angular articulation at the joint but does not by itself eliminate side loading from a poorly aligned linkage. Verify articulation range, actuator end-fitting compatibility (existing 1/4-inch vertical-axis hole), joint and pin ratings, and free movement/propeller clearance through full steering travel before fabrication.
+
+## 2026-11-03 — Battery inventory and charging notes
+
+### Actuator battery — bench-tested
+
+**Precision Consumer Products Group (PCG) B LA12V 7.0A**
+
+- Nominal voltage: **12 V**
+- Capacity: **7.0 Ah**
+- Chemistry/construction: **sealed lead-calcium**, rechargeable, non-spillable
+- User has successfully bench-tested this battery with the **SyRen 10A regenerative motor driver and PA-14P actuator** without observed trouble.
+- Label charging specifications at 25°C:
+  - Standby/float: **13.5–13.8 V**; label states “no limit” for initial current in this mode.
+  - Cyclic use: **14.4–15.0 V**, **1.75 A maximum initial charge current**.
+- The label does not state a maximum regenerative-current acceptance rating. Successful bench operation is an observation, not proof of unlimited regenerative-current tolerance.
+- Current use: actuator subsystem candidate; user may use this existing battery rather than purchase another battery, subject to onboard fit/secure mounting and continued testing.
+
+### Propulsion battery — selected/discussed
+
+**Used Tattu Plus 16,000 mAh 22.2 V 6S1P LiPo**
+
+- Chemistry: LiPo
+- Nominal voltage: **22.2 V**; fully charged: **25.2 V**
+- Capacity: **16 Ah**
+- Connector: **AS150 + XT150**; ESC-side connection adaptation remains to be addressed.
+- User selected/discussed this used pack for the U10 propulsion system. Actual capacity/health of the used pack is unknown; runtime estimates are provisional and depend on load and condition.
+- Requires a charger specifically designed for **6S LiPo**, with cell balancing and the correct charge termination voltage (4.20 V/cell; 25.2 V pack total). Do not charge it with a lead-acid charger.
+
+### Charger distinction
+
+- The 6S LiPo propulsion pack and 12V sealed lead-calcium actuator battery require **different chemistry-specific charging profiles**. Use separate appropriate chargers or a multi-chemistry charger explicitly configured for each battery type.
+- For the PCG battery, follow the label's cyclic/float voltage and 1.75 A maximum initial cyclic charge-current specification. Do not interpret the standby “no limit” wording as permission for unlimited current.
+
