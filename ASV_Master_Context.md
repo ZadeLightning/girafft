@@ -2089,3 +2089,11 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - The 6S LiPo propulsion pack and 12V sealed lead-calcium actuator battery require **different chemistry-specific charging profiles**. Use separate appropriate chargers or a multi-chemistry charger explicitly configured for each battery type.
 - For the PCG battery, follow the label's cyclic/float voltage and 1.75 A maximum initial cyclic charge-current specification. Do not interpret the standby “no limit” wording as permission for unlimited current.
 
+
+
+### Tattu battery product reference and connector clarification
+
+- Exact product listing: [Adorama — Tattu Plus 16000mAh 22.2V 15C 6S1P LiPo Battery, AS150 + XT150](https://www.adorama.com/tattu-plus-16000mah-22-2v-15c-6s1p-lipo-battery-as150-xt150/p/tap15166as15)
+- The AS150 and XT150 connector families have mating male/female versions. Connector gender is commonly described by the metal contact (bullet vs. socket), while housing appearance can be confusing; match the exact connector family and polarity rather than relying on “male/female” wording alone.
+- Battery configuration as listed: AS150 positive (+) and XT150 negative (−). Verify polarity against the actual battery/connector markings before connecting any adapter or ESC.
+- ESC interface currently documented: APISQUEEN 2–6S 100A Feather ESC has an XT60 male power connector. A suitable adapter would mate with the battery's AS150/XT150 pair and terminate in an XT60 female, with polarity preserved. Confirm adapter wire/current rating and connector orientation before use.
