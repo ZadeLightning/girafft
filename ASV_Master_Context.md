@@ -2097,3 +2097,11 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - The AS150 and XT150 connector families have mating male/female versions. Connector gender is commonly described by the metal contact (bullet vs. socket), while housing appearance can be confusing; match the exact connector family and polarity rather than relying on “male/female” wording alone.
 - Battery configuration as listed: AS150 positive (+) and XT150 negative (−). Verify polarity against the actual battery/connector markings before connecting any adapter or ESC.
 - ESC interface currently documented: APISQUEEN 2–6S 100A Feather ESC has an XT60 male power connector. A suitable adapter would mate with the battery's AS150/XT150 pair and terminate in an XT60 female, with polarity preserved. Confirm adapter wire/current rating and connector orientation before use.
+
+
+## 2026-11-04 — Website project scaffold started
+
+- Added `website/README.md` as a Codex starter brief for a future React + Vite project website.
+- The brief directs Codex to read this master context as the source of truth, keep the website isolated in `website/`, preserve existing Arduino sketches and unrelated files, use accurate project facts, and avoid presenting placeholders as actual boat imagery.
+- Initial website direction: a responsive single-page marine/engineering project showcase and build log, with a small dependency footprint.
+- Expected GitHub Pages URL: `https://zadelightning.github.io/girraft/`; Vite should use the `/girraft/` base path and a GitHub Actions workflow can publish the built `dist/` output. Deployment is not yet configured or verified.
