@@ -1,0 +1,2 @@
+# Keep raw candidates and working media local; only selected assets live outside these folders.
+**/all/
