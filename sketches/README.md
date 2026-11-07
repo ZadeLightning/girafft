@@ -1,6 +1,6 @@
-# ASV Arduino Sketches
+# USV Arduino Sketches
 
-This directory contains Arduino sketches for the ASV project's incremental proof-of-concept work.
+This directory contains Arduino sketches for the USV project's incremental proof-of-concept work.
 
 ## Organization
 
@@ -19,4 +19,4 @@ sketches/
         └── 03_servo_sweep.ino
 ```
 
-The sketches should follow the ASV project's incremental POC approach: prove one thing at a time before adding system complexity.
+The sketches should follow the USV project's incremental POC approach: prove one thing at a time before adding system complexity.

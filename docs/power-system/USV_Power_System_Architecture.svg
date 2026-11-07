@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1200" viewBox="0 0 1600 1200" role="img" aria-labelledby="title desc">
-<title id="title">ASV proposed power-system architecture and battery sizing</title>
+<title id="title">USV proposed power-system architecture and battery sizing</title>
 <desc id="desc">Proposed 6S battery architecture with separate propulsion, 12 volt actuator and 5 volt control branches, plus conservative 30-minute battery sizing calculations.</desc>
 <defs>
   <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker>
@@ -11,7 +11,7 @@
   </style>
 </defs>
 <rect class="bg" width="1600" height="1200"/>
-<text x="64" y="64" class="title">ASV — Proposed Power-System Architecture</text>
+<text x="64" y="64" class="title">USV — Proposed Power-System Architecture</text>
 <text x="64" y="98" class="sub">Working design • 30-minute high-power target • D646WP servo excluded</text>
 
 <rect x="470" y="130" width="660" height="115" class="box power"/>

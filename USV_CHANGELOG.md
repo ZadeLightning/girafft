@@ -1,4 +1,10 @@
-# ASV Project Changelog
+# USV Project Changelog
+
+## 2026-11-04 — Project terminology updated
+
+- Standardized the project term to **USV (Unmanned Surface Vehicle)** because Girraft is currently manually controlled, not autonomous.
+- Renamed the master context and power-system documents to use `USV` in their filenames; updated related references.
+- Autonomy remains a long-term possibility and is not a current capability claim.
 
 ## 2026-10-22 — SyRen regeneration manual review / converter selection gate
 
@@ -9,15 +15,15 @@
 - No converter selected or purchased. Next step is to obtain a manufacturer-backed answer for candidate converter behavior or investigate a suitable battery-compatible architecture.
 
 
-Chronological history of notable changes, discoveries, decisions, and project milestones for the Autonomous Surface Vessel (ASV) project.
+Chronological history of notable changes, discoveries, decisions, and project milestones for the Unmanned Surface Vehicle (USV) project.
 
-> **Source of truth split:** `ASV_Master_Context.md` contains the current project state, architecture, inventory, decisions, open questions, and operational lessons. This file contains the detailed historical record.
+> **Source of truth split:** `USV_Master_Context.md` contains the current project state, architecture, inventory, decisions, open questions, and operational lessons. This file contains the detailed historical record.
 
 ---
 
 ## 2026-09-17
 
-- Created a dedicated **`sketches/`** directory in the repository for Arduino/ASV POC sketches.
+- Created a dedicated **`sketches/`** directory in the repository for Arduino/USV POC sketches.
 - Added **`sketches/README.md`** documenting the intended organization and incremental POC approach.
 - Restructured project documentation so the Master Context remains focused on current state while historical changes are maintained separately in this changelog.
 - Created **`sketches/01_basics/`** as the first Arduino sketch group.
@@ -30,7 +36,7 @@ Chronological history of notable changes, discoveries, decisions, and project mi
 
 ## 2026-09-16
 
-- Created the initial **ASV Master Context**.
+- Created the initial **USV Master Context**.
 - Established the document as the working source of truth for the project.
 - Recorded known hull specifications.
 - Recorded current RC/Arduino architecture.
@@ -42,7 +48,7 @@ Chronological history of notable changes, discoveries, decisions, and project mi
 
 ## Historical lessons captured in Master Context
 
-Known recommendation and verification failures are intentionally kept in `ASV_Master_Context.md` under **Previous Mistakes / Lessons Learned** because they are operational safeguards for future decisions, rather than merely historical events.
+Known recommendation and verification failures are intentionally kept in `USV_Master_Context.md` under **Previous Mistakes / Lessons Learned** because they are operational safeguards for future decisions, rather than merely historical events.
 
 ### BOJACK 130-piece breadboard kit / connector mismatch
 
@@ -174,7 +180,7 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 
 ## 2026-10-01 — U10 exact specification baseline and mounting hardware
 
-- User supplied a U10 specification table and it has been recorded in ASV_Master_Context.md as the exact current baseline for the U10 under consideration.
+- User supplied a U10 specification table and it has been recorded in USV_Master_Context.md as the exact current baseline for the U10 under consideration.
 - Recorded: **117.5 × 95.5 mm**, **24 V / 6S LiPo**, **1.9 A no-load**, **40 A load current**, **300 KV**, **900 W**, **10 kg thrust at 24 V**, **100 A continuous ESC**, **5 V / 1 A BEC**, **9 mm wire diameter**, **M3 mounting holes**, **20 × 16 mm mounting-hole spacing**, **800 g in air / 350 g in water**, and fresh-/sea-water operation.
 - Clarified that M3 mounting hardware should be readily available; final screw length depends on the fabricated mount/plate thickness and required thread engagement.
 - Recorded a design caution not to interpret the 20 × 16 mm value as hole diameter; treat it as mounting-hole spacing/layout until the physical thruster is inspected.
@@ -184,7 +190,7 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 
 - Added `diagrams/MVP_Full_Electrical_System.svg` as the latest connection-level full electrical system diagram. Power conversion, exact electrical ratings, wire sizing, and fusing are marked unresolved rather than assumed.
 - Created [GitHub issue #1](https://github.com/ZadeLightning/girraft/issues/1) as the diagram-associated TODO list: onboard Arduino/ER8 power; 24 V lithium-ion battery choice and rough sizing/cost; 24 V to 12 V conversion for PA-14P/SyRen; 24 V to ~5 V logic/receiver power; and BEC/common-ground strategy.
-- Updated `ASV_Master_Context.md` to point to the diagram and checklist and capture the key BEC distinction: 5 V supplies power, 0 V/GND establishes the reference; do not parallel BEC outputs.
+- Updated `USV_Master_Context.md` to point to the diagram and checklist and capture the key BEC distinction: 5 V supplies power, 0 V/GND establishes the reference; do not parallel BEC outputs.
 
 
 ## 2026-10-21 — Electrical diagram workflow corrected
@@ -210,13 +216,13 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 
 ## 2026-10-22 — BEC current-capacity reasoning correction
 
-- Added a lesson to **Previous Mistakes / Lessons Learned** in `ASV_Master_Context.md`: I was too categorical in treating the SyRen 10's 100 mA low-input-voltage BEC rating as proven insufficient for the ER8 without an ER8 current specification or measurement.
+- Added a lesson to **Previous Mistakes / Lessons Learned** in `USV_Master_Context.md`: I was too categorical in treating the SyRen 10's 100 mA low-input-voltage BEC rating as proven insufficient for the ER8 without an ER8 current specification or measurement.
 - Corrected reasoning: 100 mA may or may not support the ER8/Arduino combination; actual load must be sourced or measured. At the planned >12.6 V / 24 V-class SyRen input, the documented 10 mA output is not an appropriate supply for the Arduino, and ER8 compatibility remains unverified.
 - Prevention: distinguish source limits from load requirements, mark unknown current draw explicitly, measure where practical, and assess existing BEC options before recommending an extra converter or purchase.
 
 ## 2026-10-22 — Candidate onboard power architecture
 
-- Recorded the user's candidate power plan in `ASV_Master_Context.md`: 24 V battery directly to APISQUEEN ESC/U10; ESC's 5.5 V / 3 A BEC to ER8 only; 24 V-to-12 V DC-DC converter to the SyRen 10 and Arduino VIN.
+- Recorded the user's candidate power plan in `USV_Master_Context.md`: 24 V battery directly to APISQUEEN ESC/U10; ESC's 5.5 V / 3 A BEC to ER8 only; 24 V-to-12 V DC-DC converter to the SyRen 10 and Arduino VIN.
 - Corrected the diagram assumptions in the documentation: the ESC propulsion supply should remain on the main 24 V-class rail, while the PA-14P actuator requires a 12 V rail through the SyRen.
 - Added open engineering checks: validate ESC input range against battery full-charge voltage, and verify that the 24-to-12 V converter can safely handle the SyRen's regenerative energy behavior. Architecture is provisional; no converter purchase or final wiring decision yet.
 
@@ -232,14 +238,14 @@ The Hohm LIFE⁴ 18650 cells were recommended for the Radiomaster T8L without ad
 
 ## 2026-10-22 — Record repeated unsupported actuator-current caveat
 
-- Added a Previous Mistakes entry to `ASV_Master_Context.md` documenting that repeatedly raising undocumented PA-14P startup/stall current as a generic blocker was unhelpful after the user clarified the limit of available evidence.
+- Added a Previous Mistakes entry to `USV_Master_Context.md` documenting that repeatedly raising undocumented PA-14P startup/stall current as a generic blocker was unhelpful after the user clarified the limit of available evidence.
 - Prevention: use documented specs, distinguish known facts from unknowns, and do not repeat this caveat unless a practical test becomes available and the result would materially change the decision.
 - Also corrected the Pololu review: the previously linked 18v7 is an older generation not recommended for new designs. The current G2 family is the relevant reference; the appropriate 24 V-class models are the 24v12 or 24v19, which are relatively expensive and therefore not automatically attractive alternatives to the SyRen.
 
 
 ## 2026-10-22 — Mistake logged and Pololu G2 links reviewed
 
-- Added a Previous Mistakes / Lessons Learned entry in `ASV_Master_Context.md` for repeatedly raising undocumented PA-14P startup/stall current as a generic objection after the user had already clarified the information is unavailable at this stage.
+- Added a Previous Mistakes / Lessons Learned entry in `USV_Master_Context.md` for repeatedly raising undocumented PA-14P startup/stall current as a generic objection after the user had already clarified the information is unavailable at this stage.
 - Reviewed the user's current-generation Pololu links: G2 24v12 (product 1364) and G2 18v15 (product 1362). Both are currently listed at about US$149 with connectors soldered, so they are expensive alternatives to the SyRen.
 - The 18v15 is electrically appropriate for a 12 V controller supply based on its 6.5–30 V operating range and 15 A continuous rating. The 24v12 is a higher-voltage variant with a 12 A continuous rating and appears unnecessary if the controller is supplied from the planned 12 V rail.
 - Both G2 models support TTL serial, I²C, RC pulse, analog, and USB control, plus configurable current limiting. They offer only full braking or full coasting, not variable braking. Their documentation does not by itself establish that either eliminates the supply-rail regeneration issue; this must be explicitly resolved before considering either a solution.

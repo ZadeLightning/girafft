@@ -1,33 +1,8 @@
-# ASV Website — Codex Starter Brief
+# Girraft project site
 
-## Purpose
+A responsive one-page portfolio and build log for Girraft. The main experience follows the project timeline with real boat photos and video clips tied to each milestone.
 
-Build a simple, polished project website that documents the user's hands-on surface-vessel build. This is a showcase and engineering build log—not a control interface for the boat.
-
-## Start here
-
-Before making changes, read the repository's `ASV_Master_Context.md`. Treat it as the authoritative source for project facts, hardware, progress, and terminology. Use documented details accurately; do not invent specifications, test outcomes, or claim the vessel is autonomous or water-tested unless the context supports that.
-
-## Initial website direction
-
-- Use **React + Vite**.
-- Keep the first iteration to a single responsive scrolling page.
-- Visual direction: clean, modern marine/engineering portfolio; restrained dark navy, neutral backgrounds, clear typography, strong project photography.
-- Potential sections: project overview/hero, vessel and hull, propulsion, control electronics, milestone/build log (including POC 6 and POC 7), gallery, current status/next milestone, repository link.
-- Use the user's actual photos, diagrams, and test results when supplied. Until then, use clearly marked placeholders rather than misleading stock photos presented as the actual boat.
-- Keep content editable and components straightforward. Avoid unnecessary animation and complexity.
-
-## Repository and scope constraints
-
-- The website lives in this `website/` directory, alongside existing Arduino sketches and project documentation.
-- Do not move, rename, reformat, or otherwise modify existing sketches or unrelated project files.
-- Do not add a backend, database, CMS, telemetry, or boat-control functionality.
-- Prefer a small dependency footprint and accessible, responsive HTML.
-- Do not publish secrets, private credentials, or sensitive information.
-
-## Build and local preview
-
-Use the commands from this directory:
+## Run locally
 
 ```bash
 npm install
@@ -36,20 +11,18 @@ npm run build
 npm run preview
 ```
 
-Check the production build with `npm run build` before considering a change complete.
+The Vite base path is `/girraft/` for the expected GitHub Pages project URL. Pages deployment is not configured or verified yet.
 
-## GitHub Pages deployment
+## Content and imagery
 
-The repository is `ZadeLightning/girraft`; the expected project-site URL is:
+- The timeline has six chapters matching the folders in `images/timeline/`.
+- Put candidate photos and videos in each chapter's `all/` folder. Put selected media directly in its chapter folder and give it a descriptive filename. Only the selected files appear on the site.
+- Each timeline item has its own swipeable, horizontally scrollable photo/video carousel with arrow buttons. Supported file types are JPG/JPEG, PNG, WebP, GIF, MP4, WebM, MOV, and M4V; MP4/H.264 is recommended for video compatibility.
+- The carousel reads selected files automatically from `images/timeline/<chapter>/*`; it ignores `images/timeline/<chapter>/all/*`. Chapters without selected media show a “Photos & video coming soon” card.
+- Photos in the hero/gallery continue to use optimized copies in `public/images/`; original photos stay in `images/`.
+- `boat-mockup.png` remains in the hero as a concept rendering and is labeled as such; the timeline now focuses on real project media.
+- Keep actual progress separate from the roadmap. The combined throttle-and-steering sketch and first MVP sea trial are still ahead; do not claim water-tested or autonomous operation without an update from the user.
 
-`https://zadelightning.github.io/girraft/`
+## Project context
 
-Configure Vite's `base` path for the repository subpath (`/girraft/`) when appropriate. Set up GitHub Actions to build and deploy the Vite `dist/` output to GitHub Pages. Do not assume Pages settings or workflow permissions are already configured; inspect and explain any required repository settings.
-
-## Working style
-
-1. Inspect the existing repository and this brief before editing.
-2. Implement the smallest useful first version; don't overbuild.
-3. Summarize files changed, design choices, and any assumptions.
-4. Run and report the build result. Do not claim a command ran if it did not.
-5. Update `ASV_Master_Context.md` when a meaningful website architecture, deployment, or project milestone decision is made.
+Read `../USV_Master_Context.md` before changing project facts, hardware descriptions, or status. It is the source of truth for the vessel and the user's website direction.

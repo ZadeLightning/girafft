@@ -7,6 +7,6 @@ void setup() {
 }
 
 void loop() {
-  Serial.println("Hello from the ASV Arduino!");
+  Serial.println("Hello from the USV Arduino!");
   delay(1000);
 }

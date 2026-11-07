@@ -1,7 +1,7 @@
-# ASV Master Context
+# USV Master Context
 
 **Status:** Living working document  
-**Purpose:** Single source of truth for the user's from-scratch Autonomous Surface Vessel (ASV) build. Update this file as hardware, architecture, wiring, tests, and decisions change.
+**Purpose:** Single source of truth for the user's from-scratch Unmanned Surface Vehicle (USV) build. Update this file as hardware, architecture, wiring, tests, and decisions change.
 
 > **Working rule:** When advising on this project, use the exact hardware and specifications documented here whenever possible. Avoid generic assumptions when the user's actual part number/spec is known. If a required detail is unknown, explicitly mark it as unknown rather than silently substituting a typical component.
 
@@ -9,7 +9,7 @@
 
 ## 1. Project Overview
 
-The project is a from-scratch, hands-on Autonomous Surface Vessel (ASV) build.
+The project is a from-scratch, hands-on Unmanned Surface Vehicle (USV) build.
 
 ### High-level project goal
 
@@ -67,18 +67,19 @@ Advanced autonomy/navigation features are explicitly out of scope for the curren
 
 - Length: **5 ft 8 in**
 - Width: **20 in**
-- Deck: **3 mm plywood**, epoxy finished
+- Deck: **plywood**, epoxy finished
+- Mast: **aluminum**
 - Bottom/sides: **Divinycell H80 foam core**, fiberglass
 - Construction: **resin infusion**
 - Resin: **vinylester**
-- Seller stated design was by **Morrelli & Melvin**
+- Designed by the naval architecture firm **Morrelli & Melvin** (site copy may describe them as world-renowned, per the user)
 - Seller stated it was built by a **professional boatbuilder**
 - Approximate payload capacity: **200 lb**
 - A long metal tube protrudes through the top of the hull from a previous installation/use.
 
 ### Hull status
 
-- Hull is intended to serve as the platform for the new simplified ASV system.
+- Hull is intended to serve as the platform for the new simplified USV system.
 - The project is **not** intended to reproduce the previous system installed in the hull.
 - The hull has a **finbox on the underside**, approximately amidships, that accepts the supplied stand-up-paddleboard-style fin.
 - The supplied fin appears intended to provide a fixed lateral stabilizing surface rather than act as a conventional steerable rudder.
@@ -104,7 +105,7 @@ This section is deliberately specific. Add manufacturer, exact model/part number
 - Protocol: ELRS
 - Frequency: 2.4 GHz
 - Battery: **2 × 18650 cells**
-- Intended use: manual ASV operator control
+- Intended use: manual USV operator control
 - User wants two independent controls for throttle and steering.
 - Current plan is to use one control for throttle and one for steering.
 
@@ -734,7 +735,7 @@ For every electrical component, capture **voltage, current, signal type, connect
 
 ## 10. Project History
 
-Detailed chronological history is maintained in **[`ASV_CHANGELOG.md`](./ASV_CHANGELOG.md)**.
+Detailed chronological history is maintained in **[`USV_CHANGELOG.md`](./USV_CHANGELOG.md)**.
 
 The Master Context intentionally does not retain a detailed chronological change log so that it remains focused on the current project state.
 
@@ -742,7 +743,7 @@ The Master Context intentionally does not retain a detailed chronological change
 
 ## 11. Previous Mistakes / Lessons Learned
 
-This section exists specifically to prevent repeating known recommendation and verification failures. These are not merely historical notes; they are required checks when making future ASV purchasing, wiring, and architecture recommendations.
+This section exists specifically to prevent repeating known recommendation and verification failures. These are not merely historical notes; they are required checks when making future USV purchasing, wiring, and architecture recommendations.
 
 ### 2026-09-16 — BOJACK 130-piece breadboard kit / connector mismatch
 **Mistake:**  
@@ -1325,8 +1326,8 @@ Use the U10 user-provided published 24 V test point of approximately **32 A** as
 ### Proposed power architecture
 
 A visual diagram and its calculation notes are in:
-- `docs/power-system/ASV_Power_System_Architecture.svg`
-- Shopping list: `docs/power-system/ASV_Power_System_Shopping_List.md`
+- `docs/power-system/USV_Power_System_Architecture.svg`
+- Shopping list: `docs/power-system/USV_Power_System_Shopping_List.md`
 
 Working architecture:
 
@@ -1357,7 +1358,7 @@ Working architecture:
 
 ### Shopping list tracking
 
-A detailed candidate BOM, purchase priorities, open verification items, and a staged “get the actuator moving first” list are maintained in `docs/power-system/ASV_Power_System_Shopping_List.md`. Treat it as a working shortlist, not authorization to buy all items. Initial purchasing should focus on the actuator controller and verified mating/signal/motor wiring; the 12 V converter is needed for the final 6S-powered architecture but is not necessarily needed for a current-limited actuator bench POC because the NANKADF GC3010H can supply regulated 12 V up to 10 A.
+A detailed candidate BOM, purchase priorities, open verification items, and a staged “get the actuator moving first” list are maintained in `docs/power-system/USV_Power_System_Shopping_List.md`. Treat it as a working shortlist, not authorization to buy all items. Initial purchasing should focus on the actuator controller and verified mating/signal/motor wiring; the 12 V converter is needed for the final 6S-powered architecture but is not necessarily needed for a current-limited actuator bench POC because the NANKADF GC3010H can supply regulated 12 V up to 10 A.
 
 
 
@@ -1373,7 +1374,7 @@ The user explicitly clarified the following connector decisions:
 - Do not force Deutsch connectors onto the high-current battery/propulsion path if a purpose-built, appropriately rated high-current connector is more suitable.
 - Maintain the project's broader rule: minimize soldering, avoid unnecessary tool/connector purchases, and check exact connector gender, pitch, terminal family, pinout, and end-to-end mating compatibility before recommending a part.
 
-The shopping list at `docs/power-system/ASV_Power_System_Shopping_List.md` has been updated to reflect this connector policy and to remove the false conflict about the new actuator.
+The shopping list at `docs/power-system/USV_Power_System_Shopping_List.md` has been updated to reflect this connector policy and to remove the false conflict about the new actuator.
 
 ### 2026-10-13 — SyRen 10 motor driver purchased
 
@@ -2108,7 +2109,8 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 
 ## 2026-11-04 — Website audience and creative direction
 
-- Primary audience is general visitors, including potential employers in the ASV field. The site should present the project as a personal portfolio and hands-on engineering build, suitable to link from the user's resume.
+- Primary audience is general visitors, including potential employers in the USV field. The site should present the project as a personal portfolio and hands-on engineering build, suitable to link from the user's resume.
+- The site location label should read **San Diego, California**.
 - Emphasize the user's work integrating propulsion, steering, electronics, and Arduino control. The hull is visually important but was purchased pre-assembled and has had limited modification (including a hatch); give it a concise section rather than implying the user designed or built the hull.
 - Hull backstory for a short section: the user found the barebones hull on Facebook Marketplace; it had been built for a SpaceX proof of concept. The user's work has been turning that floating shell into a manually driven RC boat. Treat this as user-provided history and avoid adding unsupported claims.
 - Project name **Girraft** combines “giraffe” and “raft.” A pole rises from the boat's center; the vision is to add a giraffe head at its top and paint it in giraffe colors. The site should balance polished, slick technology presentation with a playful, approachable tone and giraffe-inspired brown/tan accents; do not make the project feel overly serious.
@@ -2118,4 +2120,30 @@ Sketch commit: `4ae7df69b101af85c237e05c254845499b6ca723`.
 - The user's hoped-for first MVP sea trial is **this weekend (2026-11-07 or 2026-11-08)**. This is a plan only, not a completed test; do not claim water testing or trial results until the user confirms them.
 - Longer-term ideas/roadmap: add a keel for balance; increase steering angle for sharper turns; improve battery performance; add solar charging; add front payload capacity for drones; add remote feedback/monitoring (current RC link is command-only); paint giraffe colors and add a giraffe head; eventually add sensors and telemetry, with autonomy as a long-term goal. Distinguish all roadmap items from the current manual-control MVP and completed work.
 - Professional links approved for the site: LinkedIn [https://www.linkedin.com/in/justin-bartell-000/](https://www.linkedin.com/in/justin-bartell-000/) and email `justin@bartell.com`. A link to the public project repository is also acceptable: [https://github.com/ZadeLightning/girraft](https://github.com/ZadeLightning/girraft).
-- The giraffe-head concept image is undecided; the user expects to generate a sketch later. Until then, present the head/paint treatment as a future branding idea rather than completed imagery.
+- The user expects to generate or choose a giraffe-head concept sketch later. A supplied build photo shows a giraffe head staged above the center pole; treat it as concept imagery rather than evidence of a finished, installed feature unless the user confirms its status.
+
+## 2026-11-04 — First website implementation
+
+- Started the React + Vite website in `website/` as a responsive, single-page build portfolio.
+- The primary interaction is a six-part timeline: bare hull; aft deck hatch; propeller; steering; MVP final assembly; MVP sea trial. Each timeline item has its own carousel for real photos or videos. Do not use generated boat renders as a substitute for evidence of project progress. Chapters without selected media can show a simple “Photos & video coming soon” card.
+- The hero uses the provided `website/images/hull/boat-mockup.png` as a labeled concept rendering. Web-ready compressed copies of selected project images live in `website/public/images/hull/`; original files remain in `website/images/hull/`.
+- Current site copy presents propulsion and steering as installed, wiring as in its final stage, the combined Arduino control sketch as unfinished, and the first sea trial as planned rather than completed. It separates later ideas (keel, battery/solar, payload, feedback, giraffe finish, telemetry, autonomy) from the current manual-control MVP.
+- Local preview/build instructions and the current image/model handling are documented in `website/README.md`. Vite is configured for `/girraft/`; deployment remains unconfigured and unverified.
+
+## 2026-11-04 — Photo-guided boat rendering (retired)
+
+- Replaced the timeline's hand-drawn SVG with a generated 3D-style render guided by the user's hull, deck, and stern photos. This graphic was later retired when the user chose to focus the timeline on real build media.
+- The render is a single transparent PNG with a subtle CSS angle shift and chapter-specific focus label. It is not a manipulable 3D model, exact CAD geometry, or proof of any details not visible in the reference photos. Keep its caption explicit that it is a photo-based rendering and approximate.
+- The giraffe head and painted branding remain concept-stage and are intentionally omitted from this render.
+
+## 2026-11-04 — Real media timeline
+
+- The user chose to move away from the generated boat rendering in the timeline and showcase actual project photos and videos instead.
+- The timeline now has six build chapters, each with a horizontal, swipeable photo/video carousel. It loads supported media automatically from the matching chapter folder and orders carousel items by filename (natural numeric order).
+- Put candidate media inside each folder's `all/` directory. Copy chosen photos/videos to the parent chapter folder and use clear filenames; only files directly in that folder are displayed. The carousel supports JPG/JPEG, PNG, WebP, GIF, MP4, WebM, MOV, and M4V.
+
+## 2026-11-04 — Project terminology updated
+
+- Use **USV (Unmanned Surface Vehicle)** throughout project materials. Girraft is currently a manually controlled, unmanned boat; it is not autonomous.
+- Autonomy remains a possible long-term direction after the manual-control boat is reliable. Do not describe current Girraft as autonomous.
+- Renamed the master context, changelog, and power-system document files to use `USV` in their names and updated repository references.

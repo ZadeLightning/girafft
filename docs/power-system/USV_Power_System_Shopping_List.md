@@ -1,4 +1,4 @@
-# ASV Power-System Shopping List
+# USV Power-System Shopping List
 
 **Status:** Working shortlist — not a purchase authorization.  
 **Last updated:** 2026-10-09  
@@ -19,7 +19,7 @@ The U10's user-provided specifications list 24 V, 900 W, and 40 A load current. 
 
 ## Proposed power architecture
 
-See [ASV_Power_System_Architecture.svg](ASV_Power_System_Architecture.svg) for the architecture diagram and napkin math.
+See [USV_Power_System_Architecture.svg](USV_Power_System_Architecture.svg) for the architecture diagram and napkin math.
 
 - Main battery: 6S high-discharge pack, nominal 22.2 V.
 - Propulsion: main battery → appropriately sized main/branch fuse and disconnect → existing APISQUEEN 2–6S 100 A waterproof bidirectional ESC → U10.
