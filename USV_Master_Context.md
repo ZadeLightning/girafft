@@ -49,7 +49,14 @@ The initial control MVP has two operator inputs:
 1. **Throttle:** power/speed command for the propulsion system.
 2. **Steering:** left/right command for the boat's steering mechanism.
 
-The steering mechanism is **not yet committed to a dedicated rudder**. A steerable propulsion unit, including an electric trolling motor, is now an explicit architecture candidate.
+The current manual MVP uses the PA-14P actuator through the SyRen 10 to steer the boat. Dedicated-rudder and trolling-motor steering concepts below are earlier architecture investigations, not the selected boat configuration.
+
+### Confirmed manual MVP hardware path
+
+- **Throttle:** T8L right joystick Y → ER8 CH2 → Arduino → APISQUEEN ESC → U10 thruster.
+- **Steering:** T8L left joystick X → ER8 CH4 → Arduino → SyRen 10 → PA-14P actuator, using potentiometer feedback for position control.
+- The HiTec D646WP steering servo was used for an earlier bench POC only. **No steering servo is installed or used in the boat.** The Sepp continuous-rotation servos are also not part of the boat MVP.
+- The Arduino 5 V rail powers only the ER8 and the PA-14P actuator's position-feedback potentiometer. The actuator motor is powered through the separate SyRen/actuator power path, not from Arduino 5 V.
 
 Preferred operator interface:
 
@@ -152,6 +159,8 @@ Do not assume these batteries are for the Arduino or boat power system. The curr
 
 ### 3.3 Servos
 
+**Boat-use note:** No servo is used in the boat MVP. The D646WP below is bench POC hardware only; boat steering is done by the PA-14P actuator through the SyRen 10. The Sepp servos are not assigned to the boat.
+
 #### High-torque waterproof servo
 
 **HiTec D646WP**
@@ -181,6 +190,8 @@ Do not assume these batteries are for the Arduino or boat power system. The curr
 ### 3.4 Actuator
 
 **Progressive Automations PA-14p-6-35**
+
+- Selected boat steering actuator; driven by the SyRen 10. Arduino uses its potentiometer feedback for position control.
 
 - Voltage: **12 V DC**
 - Stroke: **6 in**
@@ -272,6 +283,14 @@ These are legacy/inventory batteries and are **not currently the planned power s
 
 ### 3.8 Bench power / electrical tools
 
+#### XL6019 adjustable boost-converter module
+
+- Quantity: **1 ordered**; not yet received or bench-checked.
+- Listing: **XL6019 5 A adjustable boost converter module**.
+- Listing ratings: **3–35 V DC input**, **5–40 V adjustable output**, and **5 A maximum input current**. These are the seller's module claims; inspect the received board and confirm its markings/specification.
+- Intended use: boost the APISQUEEN ESC BEC's **5.5 V** to approximately **8.0 V** for Arduino Uno VIN. The Arduino 5 V rail then powers only the ER8 and PA-14P position-feedback potentiometer.
+- XLSEMI's IC datasheet specifies **5 V minimum operating input** and a **5 A switch-current limit**, which is not a guarantee of 5 A output. The BEC is rated 3 A, so verify its voltage under load. Adjust the module to 8.0 V with a multimeter before connecting it to the Uno.
+
 #### Bench power supply
 
 **NANKADF GC3010H**
@@ -279,7 +298,7 @@ These are legacy/inventory batteries and are **not currently the planned power s
 - Variable DC bench power supply
 - Output: **0–30 V DC**
 - Maximum current: **0–10 A**
-- Intended use: Arduino/receiver/servo and other early electronics prototyping.
+- Intended use: Arduino, receiver, and control-electronics prototyping; any D646WP servo use is bench-only and not part of the boat.
 - Has adjustable voltage/current and output enable/disable functionality.
 - Model identification/specification should be treated as the current inventory baseline; verify against the physical label/manual if a future wiring decision depends on a detail not recorded here.
 
@@ -331,12 +350,15 @@ Do not conflate the transmitter battery system with the boat's eventual propulsi
 
 **T8L transmitter → ER8 ELRS PWM receiver → Arduino Uno → control output**
 
-The current manual-control prototype uses:
+POC 5 used CH1 and CH3 with a D646WP servo on the bench. That arrangement is historical and is **not the boat wiring or boat steering hardware**.
 
-- **ER8 CH1 → Arduino D2:** steering signal
-- **Arduino D9 → HiTec D646WP:** steering servo test output
-- **ER8 CH3 → Arduino D3:** planned throttle signal for POC 5; exact T8L channel assignment will be verified experimentally
-- Throttle is initially displayed over Serial only; it does not control propulsion hardware yet.
+The confirmed boat MVP controls use:
+
+- **ER8 CH4:** steering input from the T8L left joystick X axis.
+- **ER8 CH2:** throttle input from the T8L right joystick Y axis.
+- **Arduino → SyRen 10 → PA-14P:** closed-loop actuator steering, with feedback to Arduino A0.
+- **Arduino → APISQUEEN ESC → U10:** propulsion command.
+- **Arduino 5 V rail loads:** ER8 and PA-14P potentiometer only. No steering servo is connected to the boat's Arduino 5 V rail.
 
 ### Step 1 — Candidate propulsion/steering architecture
 
@@ -347,6 +369,8 @@ The current design investigation includes three broad architectures:
 Arduino → ESC → propulsion motor → propeller
 Arduino → steering servo → rudder
 ```
+
+This was an architecture candidate, not the selected MVP. No steering servo is used in the boat.
 
 **B — Steerable propulsion unit**
 ```
@@ -485,7 +509,7 @@ Repository sketch:
 
 **Status: COMPLETE**
 
-### POC 5 — T8L + ER8 + Arduino + servo
+### POC 5 — T8L + ER8 + Arduino + servo (bench POC only)
 
 Goal: integrate the wireless steering signal with the D646WP while also observing throttle.
 
@@ -500,9 +524,9 @@ Goal: integrate the wireless steering signal with the D646WP while also observin
 Repository sketch:
 `sketches/01_basics/05_t8l_er8_servo/05_t8l_er8_servo.ino`
 
-**Status: COMPLETE**
+**Status: COMPLETE — bench POC only; D646WP servo is not used in the boat.**
 
-User successfully completed POC 5 Stage 2. T8L steering controls the HiTec D646WP through ER8 CH1 → Arduino D2 → Arduino D9, while ER8 CH3 simultaneously provides the throttle signal to Arduino D3 for Serial monitoring. The complete wireless control → receiver → Arduino → servo chain is working.
+User successfully completed POC 5 Stage 2. T8L CH1 controlled the HiTec D646WP on the bench while CH3 was monitored over Serial. This proved the earlier receiver/Arduino/servo signal concept only. **The D646WP is not used in the boat; boat steering uses the PA-14P actuator and SyRen 10.**
 
 ### POC 6 — Arduino-controlled U10 propulsion
 
@@ -530,7 +554,7 @@ The initial POC should verify, in order:
 
 The U10 is an underwater thruster and should not be treated as a conventional motor for unrestricted dry running; propulsion tests should provide the required water environment/cooling and a secure mechanical restraint. A future full-power test will require a suitable ~24 V source capable of approximately 35–40 A continuous, with appropriate fusing and wiring.
 
-**Status:** Planned; U10 and waterproof 100 A Feather ESC selected for purchase by the user. No propulsion hardware has yet been installed in the hull.
+**Status:** Functional bench POC. The user reports the U10/ESC has been successfully tested. Observed ESC behavior: approximately 1500 µs neutral, reverse begins near 1450 µs, forward begins near 1550 µs. Retain those measured transition points as the starting throttle calibration; do not treat them as full-range endpoint measurements.
 
 ### POC 6 — Control-output hardware
 
@@ -616,6 +640,8 @@ T8L
       Serial monitor
 ```
 
+**Bench POC only:** the D646WP and its steering output are not part of the boat.
+
 Confirmed hardware/software behavior:
 - T8L successfully communicates with ER8 over ExpressLRS.
 - ER8 CH1–CH8 channel mapping has been experimentally documented.
@@ -624,13 +650,13 @@ Confirmed hardware/software behavior:
 - Arduino Uno **D2 and D3** are used as interrupt-capable PWM inputs.
 - Sequential `pulseIn()` was replaced with interrupt-based edge timing for reliable simultaneous channel capture.
 - CH1 uses a **±30 µs steering dead zone** around a nominal 1493 µs center.
-- HiTec D646WP steering servo is successfully commanded from the T8L right joystick X axis.
-- Initial servo output is conservatively limited to **60°–120°**.
-- Arduino is USB-powered; ER8 and servo are bench-powered; grounds are common.
+- POC 5 successfully commanded the HiTec D646WP from the T8L right joystick X axis; this servo is not used in the boat.
+- Initial POC servo output was conservatively limited to **60°–120°**.
+- Arduino was USB-powered; ER8 and test servo were bench-powered; grounds were common.
 - ER8 `RX/TX` and `EXT-V` remain unused for the current POC architecture.
 - ER8 `BATT` is understood as the dedicated receiver power connection and is preferred for future receiver power wiring.
 
-**Current overall status:** POCs 1–5 complete. The project is now in **Step 1 — Design** of the hardware-focused development process. Electric trolling-motor propulsion/steering (Option C) is an explicit architecture candidate and should be investigated before committing to a dedicated rudder/propulsion system.
+**Current overall status:** Receiver/Arduino signal capture, U10 propulsion, and PA-14P/SyRen steering POCs are functional. The selected manual MVP uses the U10/ESC and PA-14P/SyRen paths described above. Remaining work is the integrated sketch, onboard power validation, hull installation, and a manual water test. A steering servo is not part of the boat.
 
 ## 7. Final RC Boat Development Process
 
@@ -805,6 +831,10 @@ This overstated what we knew and risked ruling out a possible low-voltage POC ar
 
 The current Option C investigation is looking for a trolling-motor solution that can plausibly become final-boat hardware while remaining compatible with the project's simple T8L → ER8 → Arduino architecture.
 
+### Historical trolling-motor research (not the selected boat configuration)
+
+The servo-actuated tiller/control ideas in this section were investigation candidates only. They are not used in the boat. The selected MVP uses the PA-14P actuator through the SyRen 10 for steering and the U10/ESC for propulsion.
+
 ### Current requirements
 
 1. **Saltwater friendly** — suitable for the intended marine environment and specifically rated/documented for saltwater use.
@@ -867,7 +897,9 @@ A parallel propulsion path is now under investigation alongside the conventional
 
 The user is explicitly open to designing and fabricating the propulsion mounting as part of the hands-on project, provided the mechanical solution is realistic for this hull. A dedicated rudder is acceptable and may be preferable if the thruster itself is fixed.
 
-The most important finding so far is that this architecture can preserve the desired control chain without proprietary motor reverse engineering:
+This was a historical candidate architecture. Its servo-to-rudder branch was not selected and is not used in the boat. The current selected architecture is the PA-14P/SyRen steering path described above.
+
+The candidate concept was:
 
 ```text
 T8L → ER8 → Arduino
@@ -936,7 +968,7 @@ The **APISQUEEN U10** documentation confirms a direct Arduino-compatible control
 
 This is a major architecture advantage: the Arduino can generate the throttle command using the same general Servo-library/pulse-width technique already proven in the project, without reverse engineering a proprietary protocol. The U10 ESC's published interface is directly compatible in concept with the project's T8L → ER8 → Arduino chain.
 
-Important caveat: the U10's **5 V / 1 A BEC should not be assumed adequate to power the HiTec D646WP steering servo**. The D646WP's documented stall current is 2.2 A at 7.4 V. Servo power architecture therefore remains a separate design item.
+Historical power caveat from the initial generic ESC listing: the D646WP's documented 2.2 A stall current was above that listing's 1 A BEC rating. This was relevant only to an abandoned servo-steering candidate. **No servo is used in the boat.** The actual purchased APISQUEEN ESC is specified at 5.5 V / 3 A BEC.
 
 The user provided a new hull baseline: **approximately 20 lb for the empty hull shell alone**. This excludes fin, rudder, thruster, battery, electronics, enclosure, wiring, mounts, and other additions. Use 20 lb as the baseline for rough propulsion and stability calculations until a more complete all-up displacement is measured.
 
@@ -1149,7 +1181,7 @@ User supplied an APISQUEEN U10 specification table. Preserve these values as the
 | Stated thrust | **10 kg at 24 V** |
 | Color | **Black** |
 | Included ESC rating | **100 A continuous** |
-| Included ESC BEC | **5 V / 1 A** |
+| Included ESC BEC in this older generic U10 reference | **5 V / 1 A** |
 | Wire diameter | **9 mm** |
 | Mounting hole specification | **M3** |
 | Mounting-hole spacing shown | **20 × 16 mm** |
@@ -1177,7 +1209,16 @@ The classical displacement-hull speed estimate using 5 ft 8 in as waterline leng
 
 ### BEC terminology / power architecture
 
-**BEC = Battery Eliminator Circuit.** It is a regulated low-voltage power supply built into an ESC. In the U10 ESC, the published BEC output is **5 V / 1 A**. It can potentially power low-current receiver/electronics loads, but it should **not** be assumed adequate for the HiTec D646WP steering servo because the D646WP's documented stall current is 2.2 A at 7.4 V. A separate appropriate servo/electronics regulator remains a design item.
+**BEC = Battery Eliminator Circuit.** It is a regulated low-voltage power supply built into an ESC. The project's purchased APISQUEEN ESC BEC is specified at **5.5 V / 3 A**. The 5.5 V output feeds the Uno's 8 V boost-converter input; the Uno 5 V rail powers only the ER8 and PA-14P feedback potentiometer. The actuator motor has its separate SyRen power path. The D646WP servo is bench POC hardware only and is not used in the boat.
+
+#### Candidate Arduino power conversion: XL6019 module
+
+- Proposed path: **ESC BEC 5.5 V → XL6019 boost module set to 8.0 V → Uno VIN**. The Uno's 5 V rail then feeds only the ER8 and PA-14P feedback potentiometer.
+- The XL6019 product listing claims 3–35 V input and 5–40 V adjustable output. The XLSEMI XL6019 datasheet specifies a 5 V minimum operating input and a **5 A switch-current limit**, which is not a guarantee of 5 A regulated output. At this setup's 5.5 V input there is only 0.5 V margin above the chip's datasheet minimum; verify that the BEC remains above 5 V with the receiver and converter operating.
+- The BEC is the upstream limit at 5.5 V / 3 A. A module's 5 A headline rating does not mean the BEC can provide 5 A, nor does the Uno/ER8/potentiometer load require 5 A. Treat the XL6019 board as a candidate pending bench voltage and temperature checks; set its output with a multimeter before connecting VIN.
+- The PA-14P motor is not powered from this rail. It remains on the separate SyRen/actuator power path.
+
+XL6019 reference: [XLSEMI datasheet](https://www.xlsemi.com/datasheet/XL6019-CN.pdf).
 
 ### Current Path #1 architecture
 
@@ -1210,7 +1251,7 @@ The following propulsion hardware is now confirmed **on hand / purchased for the
 - Published electrical range: **2–6S**
 - Published continuous current: **100 A**
 - Published BEC: **5.5 V / 3 A**
-- Physical status: **purchased; currently in transit / not yet received**
+- Physical status: **on hand; U10/ESC propulsion test completed successfully**
 - Intended POC 6 purpose: drive the U10 from the NANKADF GC3010H bench power supply and accept a PWM command from the Arduino/control chain.
 - This is distinct from the older U10 page's generic/legacy references to a 100 A ESC with a 5 V / 1 A BEC. For the project's actual POC 6 hardware, use the **purchased waterproof bi-directional ESC's published 5.5 V / 3 A BEC specification**.
 
@@ -1329,23 +1370,25 @@ A visual diagram and its calculation notes are in:
 - `docs/power-system/USV_Power_System_Architecture.svg`
 - Shopping list: `docs/power-system/USV_Power_System_Shopping_List.md`
 
-Working architecture:
+Current working architecture (detailed diagram update is being handled by the user):
 
 - **Main battery:** 6S high-discharge pack; main DC-rated disconnect, fuse, and distribution.
 - **Propulsion branch:** main battery → branch fuse/wiring → existing APISQUEEN 2–6S waterproof 100 A bidirectional ESC → U10.
-- **Actuator branch:** battery bus → branch fuse → regulated 12 V DC-DC converter → reversible brushed-DC motor controller → PA-14P motor leads.
-- **Control branch:** battery bus → regulated 5 V converter → Arduino Uno and ER8, subject to their input specifications and the final grounding/power-path design.
-- **Control signals:** Arduino output → actuator motor controller; PA-14P potentiometer feedback → Arduino.
+- **Actuator branch:** separate 12 V actuator supply → SyRen 10 → PA-14P motor leads. The existing PCG 12 V battery has been bench-tested with this actuator/controller combination; final onboard battery installation and protection details remain part of the diagram update.
+- **Control branch:** APISQUEEN ESC BEC 5.5 V / 3 A → XL6019 boost module (ordered, not yet received; intended output 8.0 V) → Arduino Uno VIN. Arduino 5 V rail → ER8 and PA-14P feedback potentiometer only.
+- **Control signals:** Arduino PWM output → U10 ESC; Arduino serial output → SyRen 10; PA-14P potentiometer feedback → Arduino A0.
 - Establish common signal ground where required by the chosen controller/converter topology. Do not tie isolated power negatives together without checking device documentation.
 - Do not use an ESC BEC and a separate 5 V converter in parallel without an intentional, verified power-path design.
 
-### Initial actuator-controller shortlist
+### Earlier actuator-controller screening (superseded)
+
+The Mtroniks and Cytron options below were screened before the SyRen 10 was selected. **The SyRen 10 is the active actuator controller and its POC 7 configuration is functional.**
 
 - **Mtroniks Viper Marine25 HV2** is the current waterproof marine brushed-controller candidate for the PA-14P. It remains a **shortlist item, not approved for purchase** until its exact input voltage range, LiPo/low-voltage behavior, current protection, startup/stall suitability for a linear actuator, failsafe/neutral behavior, and actual connector/lead types are verified.
 - **Cytron MD20A** remains an alternative for a dry/sealed-enclosure installation, with enclosure and cable-entry work required.
 - The smaller MicroViper Marine10 is not the preferred candidate for the planned 6S-battery architecture because it is a 12 V maximum controller and specifies “LiPo safe: No.”
 - The 12 V actuator supply converter must tolerate the full 6S battery range (up to 25.2 V for LiPo) and be sized for actuator startup/stall behavior. **Victron Orion IP67 24/12-20** is a candidate to evaluate, not a finalized purchase.
-- Select a separate regulated 5 V converter for Arduino + ER8 after checking input range, current capacity, ripple, enclosure/IP rating, and power-path arrangement.
+- Bench-check the ordered XL6019 module and loaded ESC BEC voltage before using it to power the Arduino through VIN.
 
 ### Connector and no-solder requirements
 
@@ -1502,60 +1545,14 @@ Manufacturer product/docs: https://www.dimensionengineering.com/products/syren10
 
 ### POC 7 — Control linear actuator position with T8L
 
-**Goal:** Use the Radiomaster T8L left joystick X axis to control the PA-14P-6-35 linear actuator through the SyRen 10 and Arduino Uno. This POC tests the full manual steering command path.
+**Goal:** Control PA-14P steering position from the T8L left joystick X axis through ER8 CH4, Arduino, and SyRen 10.
 
-**Status:** Planning / hardware received; wiring and powered actuator test not yet confirmed.
+**Status: FUNCTIONAL.** Use [`07_actuator_position.ino`](./sketches/01_basics/07_actuator_position/07_actuator_position.ino) as the working reference for the SyRen configuration, serial settings, commands, feedback wiring, and position-control behavior. Do not reopen those settings as unresolved. The actuator centerline may be adjusted during MVP tuning.
 
-#### Intended signal path
-
-```
-T8L LEFT joystick X
-  right = extend; left = retract; center = stop
-             ↓ wireless ELRS
-           ER8 receiver
-             ↓ PWM channel (exact channel to verify)
-          Arduino Uno
-             ↓ serial command (SyRen mode/configuration to verify)
-           SyRen 10
-             ↓ M1 / M2
-      PA-14P-6-35 actuator
-```
-
-#### Required behavior
-
-- T8L **left joystick X axis** is the steering input for this POC.
-- Joystick moved **right**: extend actuator.
-- Joystick moved **left**: retract actuator.
-- Joystick centered: stop actuator.
-- At startup, the desired behavior is to move the actuator to **half extension** once the system can safely establish actuator position.
-- The Arduino must command stop until receiver input is valid, stop on receiver signal loss, and use conservative initial movement commands.
-- Do not assume the actuator can be centered by elapsed motor runtime alone. Automatic half-extension requires usable position feedback and a known/referenceable position. Verify the PA-14P potentiometer feedback wiring/range and define a safe homing/reference method before implementing this feature.
-
-#### Planned power arrangement (bench POC)
-
-- Arduino Uno: powered by Mac over USB.
-- SyRen 10: NANKADF GC3010H bench supply connected to B+ and B−, only after confirming a safe supply arrangement for regenerative operation.
-- PA-14P motor leads: SyRen M1/M2 to the correct actuator motor wires through the factory 6-position connector/pigtail; the user reports five of six positions are occupied. Confirm exact connector pinout before connection and preserve the factory cable.
-- ER8 receiver: power source not yet finalized. The SyRen 5 V terminal has a 10 mA external-current allowance; this does not prove ER8 consumption exceeds 10 mA. Evaluate Arduino USB-powered 5 V rail only after checking current budget and receiver draw, or use an appropriately rated regulated supply.
-- Establish the required common signal ground among Arduino, ER8, and SyRen control interface. Do not parallel separate 5 V supplies.
-
-#### Known SyRen configuration facts / open checks
-
-- User-observed terminal labels: control side **0V, 5V, S1, S2**; power/motor side **M1, B−, B+, M2** in the user's described orientation.
-- All six DIP switches were observed by the user as flipped toward the ON marking. Prior guidance indicates all-ON corresponds to Analog Independent mode; verify against the official manual before changing switches.
-- Arduino serial mode, switch settings, baud rate, and command protocol must be confirmed from the manufacturer's documentation before connecting/control testing.
-- The SyRen is regenerative; do not assume the NANKADF bench supply can absorb returned energy. Resolve this before powered actuator testing.
-- Do not make a pre-test startup/stall-current measurement a prerequisite. The user's plan is to connect the actuator through the SyRen and monitor current during a controlled first test.
-
-#### POC 7 acceptance criteria
-
-1. Verify receiver channel and joystick calibration from Serial Monitor.
-2. Verify SyRen serial mode/configuration and safe power arrangement.
-3. Confirm motor leads and potentiometer feedback pinout.
-4. With actuator mechanically clear and setup secured, confirm right = extend, left = retract, center = stop using brief, conservative commands.
-5. Confirm receiver loss/invalid input commands stop.
-6. Establish position feedback/reference strategy; only then implement and verify startup half-extension behavior.
-7. Record observed voltage/current and actual actuator response after testing.
+- Joystick position maps to actuator target position; center commands the configured centerline.
+- The Arduino uses PA-14P potentiometer feedback on A0 and sends motor commands to the SyRen.
+- On invalid or lost receiver signal, stop actuator movement and leave the actuator at its current position; do not command it back to center.
+- The POC's actuator supply path is separate from the Arduino 5 V rail. In the boat, the 5 V rail powers only the ER8 and PA-14P feedback potentiometer; the PA-14P motor is driven by the SyRen from its actuator power source.
 
 ### 2026-10-20 — POC 7 control behavior clarified: joystick commands target position
 

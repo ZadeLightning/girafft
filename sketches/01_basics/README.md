@@ -26,4 +26,4 @@ These are intentionally incremental. Each sketch should prove one concept before
 ### Current milestones
 
 - **POC 4:** ER8 CH1 → Arduino D2 → Serial signal visibility. Complete.
-- **POC 5:** T8L + ER8 + Arduino + D646WP steering integration, with throttle observed over Serial. Ready to test.
+- **POC 5:** Bench-only proof of T8L + ER8 + Arduino receiver capture using the D646WP servo. The D646WP is not used in the boat; boat steering uses the PA-14P actuator through the SyRen 10.

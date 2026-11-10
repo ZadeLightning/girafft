@@ -1,5 +1,23 @@
 # USV Project Changelog
 
+## 2026-11-06 — XL6019 boost-converter module ordered
+
+- Added one XL6019 adjustable boost-converter module to the project inventory as **ordered, not yet received**.
+- Intended power path: APISQUEEN ESC BEC 5.5 V → XL6019 adjusted to 8.0 V → Arduino Uno VIN; Uno 5 V rail powers the ER8 and PA-14P feedback potentiometer.
+- Recorded the listing ratings and the datasheet distinction: the XL6019's 5 A figure is switch-current limit, not guaranteed 5 A output. Bench-check BEC input voltage and adjust converter output before connecting it to the Uno.
+- The user will update the electrical diagram; it was not modified.
+
+## 2026-11-06 — Boat control architecture clarified; servo POC marked bench-only
+
+- Confirmed boat inputs: T8L right joystick Y / ER8 CH2 for throttle, and T8L left joystick X / ER8 CH4 for steering.
+- Boat propulsion is Arduino → APISQUEEN ESC → U10. Boat steering is Arduino → SyRen 10 → PA-14P actuator with potentiometer feedback.
+- Confirmed successful U10/ESC test behavior: approximately 1500 µs neutral, reverse begins near 1450 µs, and forward begins near 1550 µs.
+- POC 7 actuator steering is functional; retain its SyRen settings and behavior as the integrated-sketch baseline. Steering centerline may be adjusted later. On receiver loss, stop actuator motion and leave it at its current position.
+- The HiTec D646WP appeared in earlier steering POCs and candidate architecture notes, but **no steering servo is used in the boat**. The D646WP is bench POC hardware only; the Sepp continuous-rotation servos are not part of the boat MVP.
+- The Arduino 5 V rail powers only the ER8 and the PA-14P feedback potentiometer. PA-14P motor power is on the separate SyRen/actuator power path.
+- Reviewed the candidate XL6019 boost module: 5.5 V ESC BEC → module adjusted to 8.0 V → Uno VIN; Uno 5 V rail to ER8 and actuator potentiometer. The 5 A module rating is not 5 A of guaranteed output; confirm its output setting and BEC voltage under load before connection.
+- Updated the living master context and sketch/power-system summaries to label the servo references as bench-only or historical.
+
 ## 2026-11-04 — Project terminology updated
 
 - Standardized the project term to **USV (Unmanned Surface Vehicle)** because Girraft is currently manually controlled, not autonomous.

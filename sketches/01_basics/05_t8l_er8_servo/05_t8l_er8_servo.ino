@@ -1,4 +1,6 @@
 // POC 5 — T8L + ER8 + Arduino + servo
+// Bench POC only. The HiTec D646WP servo is not used in the boat; boat steering
+// uses the PA-14P actuator through the SyRen 10.
 // Stage 2 goal:
 //   - Read ER8 CH1 and CH3 simultaneously
 //   - Use CH1 (steering) to command the HiTec D646WP on Arduino D9

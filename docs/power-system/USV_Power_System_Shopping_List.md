@@ -1,8 +1,8 @@
 # USV Power-System Shopping List
 
 **Status:** Working shortlist — not a purchase authorization.  
-**Last updated:** 2026-10-09  
-**Scope:** Manual RC boat MVP; D646WP servo excluded from the final build. PA-14P-6-35 actuator retained as the planned steering actuator.  
+**Last updated:** 2026-11-06
+**Scope:** Manual RC boat MVP; no steering servo is used in the boat. The D646WP was bench POC hardware only. The PA-14P-6-35 actuator through the SyRen 10 provides boat steering.
 **Hull packaging:** central compartment approximately 16 × 16 × 6 in; a similar aft compartment is available. These are planning envelopes, not hard limits. Keep mass low and balance fore/aft.
 
 ## Design target and battery napkin math
@@ -24,10 +24,10 @@ See [USV_Power_System_Architecture.svg](USV_Power_System_Architecture.svg) for t
 - Main battery: 6S high-discharge pack, nominal 22.2 V.
 - Propulsion: main battery → appropriately sized main/branch fuse and disconnect → existing APISQUEEN 2–6S 100 A waterproof bidirectional ESC → U10.
 - Actuator: battery bus → branch fuse → regulated 12 V DC-DC converter → reversible brushed-DC motor controller → PA-14P motor wires.
-- Controls: battery bus → regulated 5 V converter → Arduino Uno and ER8 (subject to the devices' input specifications and grounding design).
+- Controls: APISQUEEN ESC BEC 5.5 V / 3 A → ordered XL6019 boost module adjusted to 8.0 V → Arduino VIN; Arduino 5 V rail → ER8 and PA-14P position-feedback potentiometer. Bench-verify the boost output and loaded BEC voltage. PA-14P motor remains on the separate SyRen/actuator power path.
 - Signals: Arduino control output → actuator controller input; PA-14P potentiometer feedback → Arduino.
 - Grounds: establish a deliberate common signal-ground reference as required by the chosen controller and converter topology. Do not assume every power negative must be tied together without checking isolation and manufacturer instructions.
-- D646WP servo is **excluded from the final build**; it was used for POC testing only.
+- D646WP servo is **not used in the boat**; it was used for POC testing only. The Arduino 5 V rail powers only the ER8 and the PA-14P potentiometer; the actuator motor has a separate SyRen power path.
 
 ## Shopping list / candidate BOM
 
@@ -39,12 +39,12 @@ Statuses:
 
 | Priority | Item | Target / candidate | Status and verification required |
 |---|---|---|---|
-| 1 | Reversible brushed-motor driver for PA-14P | **Dimension Engineering SyRen 10**, purchased from RobotShop on 2026-10-13 | **PURCHASED — awaiting delivery.** 10 A continuous-class regenerative brushed-DC driver with Arduino-compatible control options and overcurrent/thermal protection. Verify exact manual/revision, supplied signal lead/connector, terminal setup and no-solder integration when received. Exact actuator startup/stall current remains unknown; protection is not a guarantee against prolonged stall. Driver does not read PA-14P potentiometer directly; Arduino will implement position control. Regenerative behavior means a typical bench supply alone may not be suitable for braking/reversal; follow manufacturer power-source guidance for testing. |
+| 1 | Reversible brushed-motor driver for PA-14P | **Dimension Engineering SyRen 10**, purchased from RobotShop on 2026-10-13 | **ON HAND; POC 7 configuration and actuator control are functional.** 10 A continuous-class regenerative brushed-DC driver. Arduino reads PA-14P feedback and implements position control. Retain the SyRen settings/commands from the working POC 7 sketch. |
 | 1 | PA-14P mating connector / breakout | Manufacturer PA-14P documentation has identified Molex Mini-Fit Jr. 6-position housing **39013063** as a mating-housing reference | **REQUIRED.** The new PA-14P being used has the Molex-style 6-position connector; use the manufacturer-identified Molex Mini-Fit Jr. mating housing (39013063) or, preferably, a verified pre-crimped mating pigtail/breakout. Preserve the actuator's factory connector. After this Molex mating pigtail, default to existing Deutsch DT connectors for detachable harness interfaces where the contact family, wire gauge, current rating, and cavity/pinout are verified. Prefer pre-crimped/pigtail breakout; no cable cutting. |
 | 1 | Controller-to-actuator motor leads | Two conductors from controller motor outputs to actuator motor pair | **REQUIRED.** Terminations must match the selected controller output and actuator breakout. Confirm motor wire colors/pinout from the exact actuator datasheet; do not infer polarity from color alone. |
-| 1 | Arduino-to-controller signal lead | Arduino digital output to controller's receiver-style signal input; signal ground/reference as specified by controller | **REQUIRED.** Determine controller's exact connector (likely a 3-wire RC servo-style lead, but verify). Prefer a premade servo extension/breakout plus compatible female jumper or screw-terminal adapter. Avoid assuming the existing BOJACK kit has female-ended leads. |
+| 1 | Arduino-to-SyRen control lead | Arduino SoftwareSerial TX on D8 and signal ground/reference to SyRen S1 and 0V | **REQUIRED.** Use the verified POC 7 serial interface and a connector/breakout that matches the SyRen terminals. This is not a steering-servo connection. |
 | 1 | 12 V actuator DC-DC converter | Input must tolerate full 6S range (up to 25.2 V); regulated 12 V output; waterproof/potted marine unit preferred; preliminary 10–20 A class pending actuator stall-current verification | **SHORTLIST.** Victron Orion IP67 24/12-20 is a candidate to evaluate, not yet approved. Confirm actual input range includes 25.2 V, output rating and transient response, lead/connector types, and whether the controller/actuator startup or stall load is within limits. |
-| 2 | 5 V control DC-DC converter | Input tolerates full 6S range; regulated 5 V output; sized for Arduino + ER8 and any additional logic loads | **REQUIRED / SELECT.** Prefer sealed/potted module with factory leads. Confirm output current, ripple, input range, ingress rating, and how it will feed Arduino/ER8. Do not parallel its output with USB or an ESC BEC without a documented power-path plan. |
+| 2 | Arduino boost regulator | XL6019 module; 5.5 V BEC input and adjustable 8.0 V output to Uno VIN | **ORDERED; not yet received or bench-checked.** The chip datasheet's 5 V minimum leaves only 0.5 V input margin from the BEC. Verify BEC voltage under load and adjust the module to 8.0 V with a multimeter before connecting it to VIN. The 5 A label is not 5 A of guaranteed output current. |
 | 1 | Actuator branch fuse + holder | Fuse near battery distribution; final fuse based on converter input current, cable ampacity, and inrush | **REQUIRED / SIZE LATER.** Do not select a fuse solely from actuator's 5 A full-load current; consider startup/stall and DC-DC converter input current. |
 | 1 | Main battery fuse and disconnect | DC-rated fuse, holder, and accessible disconnect sized for propulsion wiring and prospective current | **REQUIRED / SIZE LATER.** Coordinate with ESC, battery, cable ampacity, and fault-current capability. |
 | 2 | 5 V control branch fuse | Small DC-rated fuse sized for converter and control wiring | **REQUIRED / SIZE LATER.** |
@@ -53,7 +53,7 @@ Statuses:
 | 1 | Main power distribution | DC-rated distribution block/bus with protected terminals, suitable for battery current | **REQUIRED / SELECT.** Prefer covered screw terminals or preterminated high-current leads; avoid loose uninsulated connections. |
 | 1 | Wiring: battery/ESC branch | Marine-suitable flexible stranded copper cable sized from current, length, voltage drop, insulation temperature, and installation | **REQUIRED / GAUGE LATER.** Do not use existing 18 AWG wire for the U10 high-current path. |
 | 1 | Wiring: 12 V actuator branch | Flexible stranded copper wire sized after measuring/confirming actuator stall current and cable length; marine-grade insulation preferred | **REQUIRED / GAUGE LATER.** Existing 18 AWG may be suitable for some short, low-current control circuits, but do not assume it is suitable for motor supply. |
-| 1 | Control signal wiring | Premade servo extension/breakout and/or female Dupont leads that match the Arduino header | **REQUIRED / VERIFY.** Keep signal lead separate from high-current motor wiring where practical. |
+| 1 | Control signal wiring | ESC PWM lead/breakout and female Dupont leads for Arduino connections | **REQUIRED / VERIFY.** Keep signal wiring separate from high-current motor wiring where practical. No steering servo is used in the boat. |
 | 1 | Sealed cable glands / strain relief | Cable glands matched to cable diameters and enclosure wall thickness | **REQUIRED for final installation.** |
 | 1 | Enclosure / mounting | Splash-resistant or sealed enclosure, internal mounting plate, strain relief, drip loops and ventilation/thermal strategy where required | **REQUIRED.** Central compartment is approximately 16 × 16 × 6 in; similar aft compartment is available. Layout should preserve service access and balance. |
 | 1 | Battery monitoring | Low-voltage alarm/monitor suitable for selected pack; cell-level monitoring for lithium pack where appropriate | **REQUIRED / SELECT.** ESC cutoff alone should not be the only battery-health strategy. |
