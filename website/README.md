@@ -1,6 +1,6 @@
-# Girraft project site
+# Girafft project site
 
-A responsive one-page portfolio and build log for Girraft. The main experience follows the project timeline with real boat photos and video clips tied to each milestone.
+A responsive one-page portfolio and build log for Girafft. The main experience follows the project timeline with real boat photos and video clips tied to each milestone.
 
 ## Run locally
 

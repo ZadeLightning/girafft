@@ -8,6 +8,11 @@ const headerPhoto = Object.values(import.meta.glob('../images/header_photo/*.{jp
   query: '?url',
   import: 'default',
 }))[0]
+const headerVideo = Object.values(import.meta.glob('../images/header_video/*.{mp4,webm,mov,m4v}', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}))[0]
 
 const chapters = [
   {
@@ -41,7 +46,7 @@ const chapters = [
     mediaFolder: '03 propeller',
     label: 'Propeller',
     title: 'Build a mount. Make it move.',
-    copy: 'I shaped and drilled an aluminum mount for the U10 thruster, attached it at the stern, and completed a successful bench test.',
+    copy: 'Shaped and drilled an aluminum mount for the U10 thruster, attached it at the stern, and completed a successful bench test.',
     tag: 'U10 propulsion · ESC · Bench test',
     status: 'Installed',
   },
@@ -50,9 +55,8 @@ const chapters = [
     id: 'steering',
     mediaFolder: '04 steering',
     label: 'Steering',
-    title: 'A mechanical link to the rudder.',
-    copy: 'A linear actuator moves the steering linkage. The job is to turn a small control input into a useful change in heading.',
-    note: 'Steering installed. The actuator, linkage geometry, and rudder are being brought together as one system.',
+    title: 'Steer the ship.',
+    copy: 'The actuator, linkage geometry, and rudder are integrated to enable steering.',
     tag: 'PA-14P actuator · Rudder linkage',
     status: 'Installed',
   },
@@ -61,22 +65,20 @@ const chapters = [
     id: 'mvp-final-assembly',
     mediaFolder: '05 mvp final assembly',
     label: 'MVP final assembly',
-    title: 'Bring the systems together.',
-    copy: 'The final MVP step is one Arduino sketch that combines throttle and steering, with the wiring finished for onboard manual control.',
-    note: 'Wiring is in its final stage. The combined propulsion-and-steering sketch is still to be completed.',
+    title: 'Finalize the MVP.',
+    copy: 'Replace test setups with final wiring. Solder connectors, and encase electronics in water-safe housing. Write final MVP Arduino sketch combining throttle and steering, in addition to failsafes in the case of controller connection loss. Test full system disconnected from the computer and connected to final onboard power supply.',
     tag: 'Electrical · Arduino · Integration',
-    status: 'In progress',
+    status: 'Completed',
   },
   {
     number: '06',
     id: 'mvp-sea-trial',
     mediaFolder: '06 mvp sea trial',
     label: 'MVP sea trial',
-    title: 'Take the manual MVP to the water.',
-    copy: 'The first sea trial will show how the assembled boat handles and what needs to change next.',
-    note: 'Planned, not yet completed. No water-test results are claimed.',
-    tag: 'First on-water test · Planned',
-    status: 'Planned',
+    title: <>Sail the <em>high seas</em>.</>,
+    copy: "The first sea trial took place at the San Diego Yacht Club on November 8th, 2026. The USV's performance exceeded expectations, and it remains to be seen whether it was the giraffe head or the vessel itself that caught the eye of the fellow club members that stuck around to watch it cruise between the docks.",
+    tag: 'First on-water test · Successful',
+    status: 'Success',
   },
 ]
 
@@ -196,9 +198,9 @@ function TimelineCarousel({ chapter, isActive }) {
 function Header() {
   return (
     <header className="site-header">
-      <a className="wordmark" href="#top" aria-label="Girraft, back to top">
+      <a className="wordmark" href="#top" aria-label="Girafft, back to top">
         <span className="wordmark-mark"><span /></span>
-        <span>GIRRAFT<small>FIELD NOTES / 01</small></span>
+        <span>GIRAFFT<small>FIELD NOTES / 01</small></span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#build">The Build</a>
@@ -211,13 +213,32 @@ function Header() {
   )
 }
 
+function IntroVideo() {
+  return (
+    <section className="intro-video" id="top" aria-label="Girafft on the water">
+      {headerVideo && <video className="intro-video-media" autoPlay muted loop playsInline preload="metadata" aria-hidden="true">
+        <source src={headerVideo} type="video/mp4" />
+      </video>}
+      <div className="intro-video-shade" />
+      <div className="intro-video-title">
+        <h1>GIRAFFT</h1>
+        <p>a passion project by Justin Bartell</p>
+      </div>
+      <div className="intro-video-coordinate">32° 43′ 05″ N<br />117° 13′ 43″ W</div>
+      <a className="intro-video-cue" href="#overview" aria-label="Continue to the project introduction">
+        <span aria-hidden="true" />
+      </a>
+    </section>
+  )
+}
+
 function Hero() {
   return (
-    <section className="hero" id="top">
+    <section className="hero" id="overview">
       <div className="hero-copy">
         <p className="eyebrow"><span className="eyebrow-line" /> PERSONAL USV BUILD · SAN DIEGO, CALIFORNIA</p>
         <h1>A little boat.<br /><em>A lot of</em> figuring it out.</h1>
-        <p className="hero-lede">Girraft is a USV passion project, outfitting a bare hull with propulsion, steering, electronics, and code to create a remotely controlled unmanned surface vessel.</p>
+        <p className="hero-lede">Girafft is a USV passion project, outfitting a bare hull with propulsion, steering, electronics, and code to create a remotely controlled unmanned surface vessel.</p>
         <div className="hero-actions">
           <a className="button button--dark" href="#build">Follow the build <span>↓</span></a>
         </div>
@@ -228,11 +249,9 @@ function Hero() {
       </div>
       <div className="hero-art">
         <div className="hero-image-wrap">
-          <img src={headerPhoto} alt="Justin standing with the Girraft hull" />
-          <div className="render-tag"><span className="render-spark">✳</span><span><b>THE BUILDER &amp; THE BOAT</b><small>Justin with the Girraft hull</small></span></div>
-          <div className="image-coordinate">32° 43′ 05″ N<br />117° 13′ 43″ W</div>
+          <img src={headerPhoto} alt="Justin standing with the Girafft hull" />
+          <div className="render-tag"><span className="render-spark">✳</span><span><b>THE BUILDER &amp; THE BOAT</b><small>Justin with the Girafft hull</small></span></div>
         </div>
-        <div className="hero-image-note">A long way from a giraffe head.<br /><span>But the pole is already there.</span></div>
       </div>
     </section>
   )
@@ -282,11 +301,11 @@ function BuildTimeline({ active, setActive }) {
   return (
     <section className="build-section" id="build">
       <div className="section-heading">
-        <p className="eyebrow"><span className="eyebrow-line" /> THE BUILD, IN MOTION</p>
+        <p className="eyebrow"><span className="eyebrow-line" /> THE BUILD, BROKEN DOWN</p>
         <div className="heading-row"><h2>From floating shell<br />to <em>something that moves.</em></h2><p>Each chapter has its own carousel. Swipe, scroll, or use the arrows to browse the photos and videos.</p></div>
       </div>
       <div className="build-layout">
-        <div className="timeline" aria-label="Girraft build timeline">
+        <div className="timeline" aria-label="Girafft build timeline">
           <div className="timeline-rail" aria-hidden="true"><span style={{ height: `${((active + 1) / chapters.length) * 100}%` }} /></div>
           {chapters.map((chapter, index) => (
             <article
@@ -321,16 +340,16 @@ function StatusCard() {
     <section className="status-section" id="next">
       <div className="status-main">
         <p className="eyebrow eyebrow--light"><span className="eyebrow-line" /> RIGHT NOW</p>
-        <h2>Almost ready<br />to meet the water.</h2>
-        <p>The wiring is in its final stage. Next up: one Arduino sketch that brings throttle and steering together, then the first MVP sea trial.</p>
-        <div className="status-callout"><span className="status-orbit"><span /></span><span><b>First sea trial</b><small>Planned · not yet completed</small></span><span className="callout-arrow">↗</span></div>
+        <h2>MVP successful,<br />iterating.</h2>
+        <p>Girafft succeeded in propulsion and steerage testing on the water. Immediate next steps include better waterproofing through hulls and increasing control range.</p>
+        <div className="status-callout"><span className="status-orbit"><span /></span><span><b>First sea trial</b><small>Successful · November 8, 2026</small></span><span className="callout-arrow">↗</span></div>
       </div>
       <div className="status-side">
         <div className="side-topline"><span>THE NORTH STAR</span><span>01 / MVP</span></div>
         <div className="north-star-icon" aria-hidden="true"><span className="star-cross" /><span className="star-ring" /><span className="star-core" /></div>
         <h3>Reliable manual<br />RC control.</h3>
-        <p>Autonomy is a future direction. First, the boat needs to reliably do what the person at the transmitter asks.</p>
-        <div className="side-bottom"><span>THROTTLE</span><i /> <span>STEERING</span><i /> <span>BOAT</span></div>
+        <p>Autonomy is a future direction. First, the boat needs to reliably do what the person at the transmitter asks, from range, and without taking on water :D</p>
+        <div className="side-bottom"><span>THROTTLE</span><i /> <span>STEERING</span><i /> <span>RANGE</span></div>
       </div>
     </section>
   )
@@ -346,7 +365,7 @@ function Roadmap() {
   ]
   return (
     <section className="roadmap-section" id="future">
-      <div className="roadmap-intro"><p className="eyebrow"><span className="eyebrow-line" /> AFTER THE FIRST SPLASH</p><h2>Plenty of runway<br />left.</h2><p>The current target is an RC boat that works. These are ideas for the next laps around the bay.</p><div className="giraffe-note"><span>✳</span><p><b>And yes, the giraffe.</b><br />Paint, spots, and a head on that center pole—personality is part of the payload.</p></div><img className="giraffe-photo" src={`${base}images/hull/IMG_3751.jpeg`} alt="Girraft with a giraffe head mounted on the center pole" loading="lazy" /></div>
+      <div className="roadmap-intro"><p className="eyebrow"><span className="eyebrow-line" /> AFTER THE FIRST SPLASH</p><h2>Plenty of runway<br />left.</h2><p>The current target is an RC boat that works. These are ideas for the next laps around the bay.</p><div className="giraffe-note"><span>✳</span><p><b>And yes, the giraffe.</b><br />Paint, spots, and a head on that center pole—personality is part of the payload.</p></div><img className="giraffe-photo" src={`${base}images/hull/IMG_3751.jpeg`} alt="Girafft with a giraffe head mounted on the center pole" loading="lazy" /></div>
       <div className="roadmap-list">
         {items.map(([number, title, copy]) => <div className="roadmap-item" key={number}><span className="roadmap-number">{number}</span><div><h3>{title}</h3><p>{copy}</p></div><span className="roadmap-arrow">↗</span></div>)}
         <div className="autonomy-note"><span className="autonomy-mark">⌁</span><p><b>Long-term horizon</b><br />Sensors, telemetry, and eventually autonomy—after the manual boat is dependable.</p></div>
@@ -432,7 +451,7 @@ function Builder() {
       <div className="builder-heading">
         <p className="eyebrow"><span className="eyebrow-line" /> THE BUILDER</p>
         <h2>Field-ready.<br /><em>Systems-minded.</em></h2>
-        <p className="builder-intro">I’m a native San Diegan, program manager, and SQL engineer by trade. Girraft brings together years of technical delivery with the boating, diving, and safety experience I’ve built on the water.</p>
+        <p className="builder-intro">I’m a native San Diegan, program manager, and SQL engineer by trade. Girafft brings together years of technical delivery with the boating, diving, and safety experience I’ve built on the water.</p>
         <a className="button button--dark builder-resume" href={`${base}Justin-Bartell-Resume.pdf`} target="_blank" rel="noreferrer">Download resume <span>↓</span></a>
       </div>
       {builderMedia.length ? <BuilderCarousel items={builderMedia} /> : (
@@ -460,7 +479,7 @@ function Builder() {
         <article className="builder-card">
           <p className="eyebrow">TECHNICAL SYSTEMS</p>
           <ul>
-            <li>7.5+ years delivering software and data products, progressing from software and data engineering into program management</li>
+            <li>8+ years delivering software and data products, progressing from software and data engineering into program management</li>
             <li>Hands-on with SQL, PostgreSQL, Python, JavaScript, APIs, and data integrations</li>
             <li>Leads cross-functional work across engineering, vendors, QA, and customer teams; turns needs into technical plans, working systems, and training</li>
           </ul>
@@ -473,7 +492,7 @@ function Builder() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="footer-top"><a className="wordmark wordmark--footer" href="#top"><span className="wordmark-mark"><span /></span><span>GIRRAFT<small>BUILT BY JUSTIN BARTELL</small></span></a><p>Girraft<br /><em>Learning through electrocution</em></p><div className="footer-links"><a href="https://www.linkedin.com/in/justin-bartell-000/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="mailto:justin@bartell.com">Email <span>↗</span></a></div></div>
+      <div className="footer-top"><a className="wordmark wordmark--footer" href="#top"><span className="wordmark-mark"><span /></span><span>GIRAFFT<small>BUILT BY JUSTIN BARTELL</small></span></a><p>Girafft<br /><em>Learning through electrocution</em></p><div className="footer-links"><a href="https://www.linkedin.com/in/justin-bartell-000/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="mailto:justin@bartell.com">Email <span>↗</span></a></div></div>
       <div className="footer-bottom"><span>© 2026 JUSTIN BARTELL · A WORK IN PROGRESS, LIKE THE BOAT</span><a href="#top">BACK TO TOP ↑</a></div>
     </footer>
   )
@@ -481,7 +500,7 @@ function Footer() {
 
 function App() {
   const [active, setActive] = useState(0)
-  return <><Header /><main><Hero /><BuildTimeline active={active} setActive={setActive} /><StatusCard /><Roadmap /><Builder /></main><Footer /></>
+  return <><Header /><main><IntroVideo /><Hero /><BuildTimeline active={active} setActive={setActive} /><StatusCard /><Roadmap /><Builder /></main><Footer /></>
 }
 
 createRoot(document.getElementById('root')).render(<App />)
