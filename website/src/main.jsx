@@ -8,6 +8,11 @@ const headerPhoto = Object.values(import.meta.glob('../images/header_photo/*.{jp
   query: '?url',
   import: 'default',
 }))[0]
+const giraffePhoto = Object.values(import.meta.glob('../images/hull/IMG_3751.jpeg', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+}))[0]
 const headerVideo = Object.values(import.meta.glob('../images/header_video/*.{mp4,webm,mov,m4v}', {
   eager: true,
   query: '?url',
@@ -365,7 +370,7 @@ function Roadmap() {
   ]
   return (
     <section className="roadmap-section" id="future">
-      <div className="roadmap-intro"><p className="eyebrow"><span className="eyebrow-line" /> AFTER THE FIRST SPLASH</p><h2>Plenty of runway<br />left.</h2><p>The current target is an RC boat that works. These are ideas for the next laps around the bay.</p><div className="giraffe-note"><span>✳</span><p><b>And yes, the giraffe.</b><br />Paint, spots, and a head on that center pole—personality is part of the payload.</p></div><img className="giraffe-photo" src={`${base}images/hull/IMG_3751.jpeg`} alt="Girafft with a giraffe head mounted on the center pole" loading="lazy" /></div>
+      <div className="roadmap-intro"><p className="eyebrow"><span className="eyebrow-line" /> AFTER THE FIRST SPLASH</p><h2>Plenty of runway<br />left.</h2><p>The current target is an RC boat that works. These are ideas for the next laps around the bay.</p><div className="giraffe-note"><span>✳</span><p><b>And yes, the giraffe.</b><br />Paint, spots, and a head on that center pole—personality is part of the payload.</p></div><img className="giraffe-photo" src={giraffePhoto} alt="Girafft with a giraffe head mounted on the center pole" loading="lazy" /></div>
       <div className="roadmap-list">
         {items.map(([number, title, copy]) => <div className="roadmap-item" key={number}><span className="roadmap-number">{number}</span><div><h3>{title}</h3><p>{copy}</p></div><span className="roadmap-arrow">↗</span></div>)}
         <div className="autonomy-note"><span className="autonomy-mark">⌁</span><p><b>Long-term horizon</b><br />Sensors, telemetry, and eventually autonomy—after the manual boat is dependable.</p></div>
