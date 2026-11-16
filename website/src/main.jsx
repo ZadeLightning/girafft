@@ -81,7 +81,7 @@ const chapters = [
     mediaFolder: '06 mvp sea trial',
     label: 'MVP sea trial',
     title: <>Sail the <em>high seas</em>.</>,
-    copy: "The first sea trial took place at the San Diego Yacht Club on November 8th, 2026. The USV's performance exceeded expectations, and it remains to be seen whether it was the giraffe head or the vessel itself that caught the eye of the fellow club members that stuck around to watch it cruise between the docks.",
+    copy: "The first sea trial took place at the San Diego Yacht Club on November 8th, 2026. The USV's performance exceeded expectations. It's unclear whether it was the giraffe head or the vessel itself that caught the eye of the fellow club members who stuck around to watch it cruise between the docks.",
     tag: 'First on-water test · Successful',
     status: 'Success',
   },
