@@ -497,7 +497,7 @@ function Builder() {
 function Footer() {
   return (
     <footer className="site-footer">
-      <div className="footer-top"><a className="wordmark wordmark--footer" href="#top"><span className="wordmark-mark"><span /></span><span>GIRAFFT<small>BUILT BY JUSTIN BARTELL</small></span></a><p>Girafft<br /><em>Learning through electrocution</em></p><div className="footer-links"><a href="https://www.linkedin.com/in/justin-bartell-000/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="mailto:justin@bartell.com">Email <span>↗</span></a></div></div>
+      <div className="footer-top"><a className="wordmark wordmark--footer" href="#top"><span className="wordmark-mark"><span /></span><span>GIRAFFT<small>BUILT BY <span>JUSTIN BARTELL</span></small></span></a><p>Girafft<br /><em>Learning through electrocution</em></p><div className="footer-links"><a href="https://www.linkedin.com/in/justin-bartell-000/" target="_blank" rel="noreferrer">LinkedIn <span>↗</span></a><a href="mailto:justin@bartell.com">Email <span>↗</span></a></div></div>
       <div className="footer-bottom"><span>© 2026 JUSTIN BARTELL · A WORK IN PROGRESS, LIKE THE BOAT</span><a href="#top">BACK TO TOP ↑</a></div>
     </footer>
   )

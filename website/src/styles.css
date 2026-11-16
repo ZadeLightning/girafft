@@ -269,6 +269,7 @@ h1 em, h2 em { color: var(--sea); font-style: normal; }
   .builder-section h2 { font-size: 42px; }
   .builder-credentials { grid-column: 1; grid-template-columns: 1fr; gap: 26px; }
   .footer-top { grid-template-columns: 1fr 1fr; gap: 24px; padding: 22px 0 28px; }
+  .wordmark--footer small > span { display: block; white-space: nowrap; }
   .footer-top > p { justify-self: center; font-size: 15px; }
   .footer-links { grid-column: 1 / -1; justify-self: start; gap: 22px; }
   .footer-bottom { gap: 12px; font-size: 7px; }
