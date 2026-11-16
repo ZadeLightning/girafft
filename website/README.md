@@ -11,7 +11,7 @@ npm run build
 npm run preview
 ```
 
-The Vite base path is `/girraft/` for the expected GitHub Pages project URL. Pages deployment is not configured or verified yet.
+The Vite base path is relative so the site works as a GitHub Pages project site even if the repository is renamed. GitHub Pages deployment runs through the workflow in `.github/workflows/deploy-pages.yml` after Pages is enabled with GitHub Actions in repository settings.
 
 ## Content and imagery
 
@@ -21,7 +21,7 @@ The Vite base path is `/girraft/` for the expected GitHub Pages project URL. Pag
 - The carousel reads selected files automatically from `images/timeline/<chapter>/*`; it ignores `images/timeline/<chapter>/all/*`. Chapters without selected media show a “Photos & video coming soon” card.
 - Photos in the hero/gallery continue to use optimized copies in `public/images/`; original photos stay in `images/`.
 - `boat-mockup.png` remains in the hero as a concept rendering and is labeled as such; the timeline now focuses on real project media.
-- Keep actual progress separate from the roadmap. The combined throttle-and-steering sketch and first MVP sea trial are still ahead; do not claim water-tested or autonomous operation without an update from the user.
+- Keep completed milestones separate from the roadmap. The first MVP sea trial succeeded on November 8, 2026. Girraft remains manually controlled; do not describe it as autonomous.
 
 ## Project context
 
