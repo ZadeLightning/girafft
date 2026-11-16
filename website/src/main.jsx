@@ -200,7 +200,7 @@ function Header() {
     <header className="site-header">
       <a className="wordmark" href="#top" aria-label="Girafft, back to top">
         <span className="wordmark-mark"><span /></span>
-        <span>GIRAFFT<small>FIELD NOTES / 01</small></span>
+        <span>GIRAFFT</span>
       </a>
       <nav aria-label="Main navigation">
         <a href="#build">The Build</a>
